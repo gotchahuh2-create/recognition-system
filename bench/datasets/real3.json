@@ -1,0 +1,66 @@
+{
+ "name": "real3",
+ "kind": "real",
+ "version": 1,
+ "note": "The three regression photos (README 0.4.1 / 0.8).",
+ "items": [
+  {
+   "file": "uni-ds-v8_pic32mz2048efh144_1.jpg",
+   "sha256": "254f34eb643597b6ac37327fa684b8821ffbe9d2cb831b0dae4732a5bd54f925",
+   "truth": {
+    "board": "uni-ds-v8",
+    "mcu": "PIC32MZ2048EFH144",
+    "mcu_card": "mcu-card-3-for-pic32-pic32mz2048efh144",
+    "mcu_card_layout": "mcu-card-3-for-pic32",
+    "sockets": {
+     "mikroBUS 1": "occupied",
+     "mikroBUS 2": "occupied",
+     "mikroBUS 3": "occupied",
+     "mikroBUS 4": "occupied",
+     "mikroBUS 5": "occupied"
+    }
+   },
+   "verified": true,
+   "note": "960x1280 messenger copy: the chip marking is ~3 px, so abstaining on mcu / mcu_card is the expected answer"
+  },
+  {
+   "file": "uni-ds-v8_stm32f429zi_1.jpg",
+   "sha256": "a65c47025f396b61abc997fb220e9bdf43866647e23c79a5b86f5061c8fd1361",
+   "truth": {
+    "board": "uni-ds-v8",
+    "mcu": "STM32F429ZI",
+    "mcu_card": "mcu-card-for-stm32-stm32f429zi",
+    "mcu_card_layout": "mcu-card-for-stm32",
+    "sockets": {
+     "mikroBUS 1": "empty",
+     "mikroBUS 2": "empty",
+     "mikroBUS 3": "empty",
+     "mikroBUS 4": "empty",
+     "mikroBUS 5": "empty"
+    }
+   },
+   "verified": true,
+   "note": "960x1280 messenger copy: the chip marking is ~3 px, so abstaining on mcu / mcu_card is the expected answer"
+  },
+  {
+   "file": "uni-ds-v8_stm32f429zi_2.jpg",
+   "sha256": "c7cc1a6fbaddda9d75576d97e2d31d6c02a204ccc5a847e8188061ed8123ee71",
+   "truth": {
+    "board": "uni-ds-v8",
+    "mcu": "STM32F429ZI",
+    "mcu_card": "mcu-card-for-stm32-stm32f429zi",
+    "mcu_card_layout": "mcu-card-for-stm32",
+    "sockets": {
+     "mikroBUS 1": "empty",
+     "mikroBUS 2": "empty",
+     "mikroBUS 3": "empty",
+     "mikroBUS 4": "empty",
+     "mikroBUS 5": "empty"
+    }
+   },
+   "verified": true,
+   "note": "960x1280 messenger copy: the chip marking is ~3 px, so abstaining on mcu / mcu_card is the expected answer"
+  }
+ ],
+ "root": "tests/real"
+}

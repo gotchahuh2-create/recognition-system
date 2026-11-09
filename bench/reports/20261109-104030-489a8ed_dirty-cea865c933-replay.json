@@ -1,0 +1,3053 @@
+{
+ "run_id": "20261109-104030-489a8ed_dirty-cea865c933-replay",
+ "git": "1fbbb0d",
+ "config": {
+  "name": "E-004-guard_on",
+  "hash": "cea865c933",
+  "stages": {
+   "ocr_backend": "auto",
+   "board_read": "name_ocr",
+   "layout": "on",
+   "card_localise": "frame_first",
+   "chip_read": "classic",
+   "upscaler": "bicubic",
+   "marking_verifier": "off",
+   "refine": "auto",
+   "socket_occupancy": "off",
+   "text_match": "exact",
+   "consistency_guard": "on",
+   "guided_scan": "two_step"
+  },
+  "params": {}
+ },
+ "backend": "tesseract",
+ "datasets": {
+  "syn_ocr": {
+   "n": 16,
+   "fields": {
+    "board": {
+     "n": 6,
+     "correct": 6,
+     "wrong": 0,
+     "abstain": 0,
+     "precision": 1.0,
+     "coverage": 1.0,
+     "top3": "5/5"
+    },
+    "mcu": {
+     "n": 10,
+     "correct": 8,
+     "wrong": 0,
+     "abstain": 2,
+     "precision": 1.0,
+     "coverage": 0.8,
+     "top3": "9/10"
+    }
+   },
+   "latency_ms": {
+    "p50": 2635,
+    "p95": 17229,
+    "max": 19556,
+    "mean": 4927
+   },
+   "stage_mean_ms": {
+    "preprocess": 109,
+    "board": 1949,
+    "layout": 0,
+    "card_locate": 25,
+    "mcu": 2824,
+    "clicks": 0
+   }
+  },
+  "syn_cards": {
+   "n": 36,
+   "fields": {
+    "mcu": {
+     "n": 36,
+     "correct": 25,
+     "wrong": 0,
+     "abstain": 11,
+     "precision": 1.0,
+     "coverage": 0.694,
+     "top3": "29/36"
+    },
+    "mcu_card": {
+     "n": 36,
+     "correct": 24,
+     "wrong": 0,
+     "abstain": 12,
+     "precision": 1.0,
+     "coverage": 0.667,
+     "top3": "31/36"
+    },
+    "mcu_card_layout": {
+     "n": 36,
+     "correct": 36,
+     "wrong": 0,
+     "abstain": 0,
+     "precision": 1.0,
+     "coverage": 1.0,
+     "top3": null
+    }
+   },
+   "latency_ms": {
+    "p50": 13012,
+    "p95": 17863,
+    "max": 30141,
+    "mean": 14371
+   },
+   "stage_mean_ms": {
+    "preprocess": 298,
+    "board": 4497,
+    "layout": 49,
+    "card_locate": 78,
+    "mcu": 9428,
+    "clicks": 0
+   }
+  },
+  "real3": {
+   "n": 3,
+   "fields": {
+    "board": {
+     "n": 3,
+     "correct": 3,
+     "wrong": 0,
+     "abstain": 0,
+     "precision": 1.0,
+     "coverage": 1.0,
+     "top3": "3/3"
+    },
+    "mcu": {
+     "n": 3,
+     "correct": 0,
+     "wrong": 0,
+     "abstain": 3,
+     "precision": null,
+     "coverage": 0.0,
+     "top3": "0/3"
+    },
+    "mcu_card": {
+     "n": 3,
+     "correct": 0,
+     "wrong": 0,
+     "abstain": 3,
+     "precision": null,
+     "coverage": 0.0,
+     "top3": "0/3"
+    },
+    "mcu_card_layout": {
+     "n": 3,
+     "correct": 0,
+     "wrong": 1,
+     "abstain": 2,
+     "precision": 0.0,
+     "coverage": 0.333,
+     "top3": null
+    }
+   },
+   "latency_ms": {
+    "p50": 30898,
+    "p95": 36754,
+    "max": 37405,
+    "mean": 32279
+   },
+   "stage_mean_ms": {
+    "preprocess": 344,
+    "board": 15956,
+    "layout": 21,
+    "card_locate": 29,
+    "mcu": 15905,
+    "clicks": 0
+   }
+  },
+  "captures": {
+   "n": 10,
+   "fields": {
+    "board": {
+     "n": 0,
+     "correct": 0,
+     "wrong": 0,
+     "abstain": 0,
+     "precision": null,
+     "coverage": null,
+     "top3": null,
+     "unverified": 10,
+     "agree_provisional": 10
+    },
+    "mcu": {
+     "n": 0,
+     "correct": 0,
+     "wrong": 0,
+     "abstain": 0,
+     "precision": null,
+     "coverage": null,
+     "top3": null,
+     "unverified": 5,
+     "agree_provisional": 0
+    },
+    "mcu_card": {
+     "n": 0,
+     "correct": 0,
+     "wrong": 0,
+     "abstain": 0,
+     "precision": null,
+     "coverage": null,
+     "top3": null,
+     "unverified": 4,
+     "agree_provisional": 0
+    },
+    "mcu_card_layout": {
+     "n": 0,
+     "correct": 0,
+     "wrong": 0,
+     "abstain": 0,
+     "precision": null,
+     "coverage": null,
+     "top3": null,
+     "unverified": 5,
+     "agree_provisional": 0
+    }
+   },
+   "latency_ms": {
+    "p50": 25859,
+    "p95": 88450,
+    "max": 117120,
+    "mean": 38455
+   },
+   "stage_mean_ms": {
+    "preprocess": 219,
+    "board": 6729,
+    "layout": 329,
+    "card_locate": 61,
+    "mcu": 31094,
+    "clicks": 0
+   }
+  }
+ },
+ "items": {
+  "syn_ocr/fusion_arm_flat.jpg": {
+   "decisions": {
+    "board": "fusion-arm-v8",
+    "mcu": "STM32F407ZG",
+    "mcu_card": "mcu-card-for-stm32-stm32f407zg",
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "correct",
+     "truth": "fusion-arm-v8",
+     "pred": "fusion-arm-v8",
+     "top3": true
+    }
+   },
+   "wall_ms": 1952,
+   "reasons": {
+    "board": "Fusion for ARM v8 matched 1.00 (margin 0.47)",
+    "mcu": "STM32F407ZG matched 1.00 (margin 0.09)",
+    "mcu_card": "SiBRAIN for STM32F407ZG: only card carrying STM32F407ZG (card title not read)"
+   },
+   "mcu_source": "photo",
+   "card": null,
+   "sockets": []
+  },
+  "syn_ocr/fusion_arm_tilt.jpg": {
+   "decisions": {
+    "board": "fusion-arm-v8",
+    "mcu": "STM32F407ZG",
+    "mcu_card": "mcu-card-for-stm32-stm32f407zg",
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "correct",
+     "truth": "fusion-arm-v8",
+     "pred": "fusion-arm-v8",
+     "top3": true
+    }
+   },
+   "wall_ms": 2062,
+   "reasons": {
+    "board": "Fusion for ARM v8 matched 1.00 (margin 0.47)",
+    "mcu": "STM32F407ZG matched 1.00 (margin 0.09)",
+    "mcu_card": "SiBRAIN for STM32F407ZG: only card carrying STM32F407ZG (card title not read)"
+   },
+   "mcu_source": "photo",
+   "card": null,
+   "sockets": []
+  },
+  "syn_ocr/easypic_v8_rot90.jpg": {
+   "decisions": {
+    "board": "easypic-v8",
+    "mcu": "PIC18F45K22",
+    "mcu_card": "lv18f-v6-44-pin-tqfp-empty",
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "correct",
+     "truth": "easypic-v8",
+     "pred": "easypic-v8",
+     "top3": true
+    }
+   },
+   "wall_ms": 1807,
+   "reasons": {
+    "board": "EasyPIC v8 matched 0.97 (margin 0.43)",
+    "mcu": "PIC18F45K22 matched 1.00 (margin 0.09)",
+    "mcu_card": "LV18F v6 44-pin TQFP MCU Card Empty PCB: only card carrying PIC18F45K22 (card title not read)"
+   },
+   "mcu_source": "photo",
+   "card": null,
+   "sockets": []
+  },
+  "syn_ocr/easypic_v7_upside.jpg": {
+   "decisions": {
+    "board": "easypic-v7",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "correct",
+     "truth": "easypic-v7",
+     "pred": "easypic-v7",
+     "top3": true
+    }
+   },
+   "wall_ms": 9058,
+   "reasons": {
+    "board": "EasyPIC v7 matched 1.00 (margin 0.34)",
+    "mcu": "no MCU part number text found",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "photo",
+   "card": null,
+   "sockets": []
+  },
+  "syn_ocr/clicker4_glare.jpg": {
+   "decisions": {
+    "board": "clicker-4-stm32",
+    "mcu": "STM32F407VG",
+    "mcu_card": "easymx-pro-v7-stm32-stm32f407vgt6",
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "correct",
+     "truth": "clicker-4-stm32",
+     "pred": "clicker-4-stm32",
+     "top3": true
+    }
+   },
+   "wall_ms": 1742,
+   "reasons": {
+    "board": "Clicker 4 for STM32 matched 1.00 (margin 0.09)",
+    "mcu": "STM32F407VG matched 1.00 (margin 0.08)",
+    "mcu_card": "EasyMx PRO v7 for STM32 MCUcard with STM32F407VGT6: only card carrying STM32F407VG (card title not read)"
+   },
+   "mcu_source": "photo",
+   "card": null,
+   "sockets": []
+  },
+  "syn_ocr/chip_stm32_closeup.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "STM32F407ZG",
+    "mcu_card": "mcu-card-for-stm32-stm32f407zg",
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "STM32F407ZG",
+     "pred": "STM32F407ZG",
+     "top3": true
+    }
+   },
+   "wall_ms": 2150,
+   "reasons": {
+    "board": "best board name match 0.30 < 0.72",
+    "mcu": "STM32F407ZG matched 1.00 (margin 0.09)",
+    "mcu_card": "SiBRAIN for STM32F407ZG: only card carrying STM32F407ZG (card title not read)"
+   },
+   "mcu_source": "photo",
+   "card": null,
+   "sockets": []
+  },
+  "syn_ocr/chip_tm4c_closeup.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "TM4C129XNCZAD",
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "TM4C129XNCZAD",
+     "pred": "TM4C129XNCZAD",
+     "top3": true
+    }
+   },
+   "wall_ms": 1443,
+   "reasons": {
+    "board": "no board name text found",
+    "mcu": "TM4C129XNCZAD matched 1.00 (margin 0.08)",
+    "mcu_card": "2 cards carry TM4C129XNCZAD; card title not read"
+   },
+   "mcu_source": "photo",
+   "card": null,
+   "sockets": []
+  },
+  "syn_ocr/card10_closeup.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "PIC18F65K40",
+    "mcu_card": "mcu-card-10-for-pic-pic18f65k40",
+    "mcu_card_layout": "mcu-card-10-for-pic"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "PIC18F65K40",
+     "pred": "PIC18F65K40",
+     "top3": true
+    }
+   },
+   "wall_ms": 4164,
+   "reasons": {
+    "board": "best board name match 0.39 < 0.72",
+    "mcu": "PIC18F65K40 matched 0.91 (margin 0.09) (among the 3 cards of layout 'MCU CARD 10 for PIC')",
+    "mcu_card": "MCU CARD 10 for PIC + chip PIC18F65K40 -> MCU CARD 10 for PIC PIC18F65K40"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "text",
+    "score": 0.45,
+    "size": [
+     2400,
+     2400
+    ],
+    "native_size": [
+     2400,
+     2400
+    ],
+    "zoom": 1.0,
+    "chip_found": false
+   },
+   "sockets": []
+  },
+  "syn_ocr/unknown_board.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "correct",
+     "truth": "none",
+     "pred": null,
+     "top3": null
+    }
+   },
+   "wall_ms": 16454,
+   "reasons": {
+    "board": "best board name match 0.24 < 0.72",
+    "mcu": "no MCU part number text found",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "photo",
+   "card": null,
+   "sockets": []
+  },
+  "syn_ocr/hard_defocus5.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "STM32F429ZI",
+    "mcu_card": "mcu-card-for-stm32-stm32f429zi",
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "STM32F429ZI",
+     "pred": "STM32F429ZI",
+     "top3": true
+    }
+   },
+   "wall_ms": 1558,
+   "reasons": {
+    "board": "best board name match 0.30 < 0.72",
+    "mcu": "STM32F429ZI matched 0.97 (margin 0.08)",
+    "mcu_card": "SiBRAIN for STM32F429ZI: only card carrying STM32F429ZI (card title not read)"
+   },
+   "mcu_source": "photo",
+   "card": null,
+   "sockets": []
+  },
+  "syn_ocr/hard_lowlight.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "STM32F429ZI",
+    "mcu_card": "mcu-card-for-stm32-stm32f429zi",
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "STM32F429ZI",
+     "pred": "STM32F429ZI",
+     "top3": true
+    }
+   },
+   "wall_ms": 19556,
+   "reasons": {
+    "board": "best board name match 0.35 < 0.72",
+    "mcu": "STM32F429ZI matched 0.97 (margin 0.08)",
+    "mcu_card": "SiBRAIN for STM32F429ZI: only card carrying STM32F429ZI (card title not read)"
+   },
+   "mcu_source": "photo",
+   "card": null,
+   "sockets": []
+  },
+  "syn_ocr/hard_defocus_pic.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "PIC18F45K22",
+    "mcu_card": "lv18f-v6-44-pin-tqfp-empty",
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "PIC18F45K22",
+     "pred": "PIC18F45K22",
+     "top3": true
+    }
+   },
+   "wall_ms": 4450,
+   "reasons": {
+    "board": "no board name text found",
+    "mcu": "PIC18F45K22 matched 0.97 (margin 0.09)",
+    "mcu_card": "LV18F v6 44-pin TQFP MCU Card Empty PCB: only card carrying PIC18F45K22 (card title not read)"
+   },
+   "mcu_source": "photo",
+   "card": null,
+   "sockets": []
+  },
+  "syn_ocr/hard_lowlight_avr.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "ATMEGA2560",
+    "mcu_card": "sibrain-for-atmega2560",
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "ATMEGA2560",
+     "pred": "ATMEGA2560",
+     "top3": true
+    }
+   },
+   "wall_ms": 1444,
+   "reasons": {
+    "board": "no board name text found",
+    "mcu": "ATMEGA2560 matched 1.00 (margin 0.20)",
+    "mcu_card": "SiBRAIN for ATmega2560: only card carrying ATMEGA2560 (card title not read)"
+   },
+   "mcu_source": "photo",
+   "card": null,
+   "sockets": []
+  },
+  "syn_ocr/hard_far_small_chip.jpg": {
+   "decisions": {
+    "board": "fusion-arm-v8",
+    "mcu": "STM32F407ZG",
+    "mcu_card": "mcu-card-for-stm32-stm32f407zg",
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "STM32F407ZG",
+     "pred": "STM32F407ZG",
+     "top3": true
+    }
+   },
+   "wall_ms": 3946,
+   "reasons": {
+    "board": "Fusion for ARM v8 matched 1.00 (margin 0.47)",
+    "mcu": "STM32F407ZG matched 1.00 (margin 0.09)",
+    "mcu_card": "SiBRAIN for STM32F407ZG: only card carrying STM32F407ZG (card title not read)"
+   },
+   "mcu_source": "photo",
+   "card": null,
+   "sockets": []
+  },
+  "syn_ocr/hard_motion15.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "abstain",
+     "truth": "STM32F429ZI",
+     "pred": null,
+     "top3": true
+    }
+   },
+   "wall_ms": 3934,
+   "reasons": {
+    "board": "no board name text found",
+    "mcu": "best MCU part number match 0.70 < 0.90",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "photo",
+   "card": null,
+   "sockets": []
+  },
+  "syn_ocr/hard_defocus7.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "abstain",
+     "truth": "STM32F429ZI",
+     "pred": null,
+     "top3": false
+    }
+   },
+   "wall_ms": 3120,
+   "reasons": {
+    "board": "no board name text found",
+    "mcu": "best MCU part number match 0.75 < 0.90",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "photo",
+   "card": null,
+   "sockets": []
+  },
+  "syn_cards/card_close_mcu-card-3-for-kinetis-mkv58f1m0vlq24.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": "MKV58F1M0VLQ24",
+    "mcu_card": "mcu-card-3-for-kinetis-mkv58f1m0vlq24",
+    "mcu_card_layout": "mcu-card-3-for-kinetis"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "MKV58F1M0VLQ24",
+     "pred": "MKV58F1M0VLQ24",
+     "top3": true
+    },
+    "mcu_card": {
+     "outcome": "correct",
+     "truth": "mcu-card-3-for-kinetis-mkv58f1m0vlq24",
+     "pred": "mcu-card-3-for-kinetis-mkv58f1m0vlq24",
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-3-for-kinetis",
+     "pred": "mcu-card-3-for-kinetis",
+     "top3": null
+    }
+   },
+   "wall_ms": 12762,
+   "reasons": {
+    "board": "UNI-DS v8 matched 0.75 (margin 0.47)",
+    "mcu": "MKV58F1M0VLQ24 matched 0.97 (margin 0.97)",
+    "mcu_card": "MCU CARD 3 for Kinetis: only card with this layout"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1757,
+     1800
+    ],
+    "native_size": [
+     1514,
+     1551
+    ],
+    "zoom": 1.16,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "syn_cards/card_mid_mcu-card-3-for-kinetis-mkv58f1m0vlq24.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "MKV58F1M0VLQ24",
+    "mcu_card": "mcu-card-3-for-kinetis-mkv58f1m0vlq24",
+    "mcu_card_layout": "mcu-card-3-for-kinetis"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "MKV58F1M0VLQ24",
+     "pred": "MKV58F1M0VLQ24",
+     "top3": true
+    },
+    "mcu_card": {
+     "outcome": "correct",
+     "truth": "mcu-card-3-for-kinetis-mkv58f1m0vlq24",
+     "pred": "mcu-card-3-for-kinetis-mkv58f1m0vlq24",
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-3-for-kinetis",
+     "pred": "mcu-card-3-for-kinetis",
+     "top3": null
+    }
+   },
+   "wall_ms": 15336,
+   "reasons": {
+    "board": "best board name match 0.47 < 0.72",
+    "mcu": "MKV58F1M0VLQ24 matched 0.97 (margin 0.97)",
+    "mcu_card": "MCU CARD 3 for Kinetis: only card with this layout"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1750,
+     1800
+    ],
+    "native_size": [
+     948,
+     975
+    ],
+    "zoom": 1.85,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "syn_cards/card_far_mcu-card-3-for-kinetis-mkv58f1m0vlq24.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "MKV58F1M0VLQ24",
+    "mcu_card": "mcu-card-3-for-kinetis-mkv58f1m0vlq24",
+    "mcu_card_layout": "mcu-card-3-for-kinetis"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "MKV58F1M0VLQ24",
+     "pred": "MKV58F1M0VLQ24",
+     "top3": true
+    },
+    "mcu_card": {
+     "outcome": "correct",
+     "truth": "mcu-card-3-for-kinetis-mkv58f1m0vlq24",
+     "pred": "mcu-card-3-for-kinetis-mkv58f1m0vlq24",
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-3-for-kinetis",
+     "pred": "mcu-card-3-for-kinetis",
+     "top3": null
+    }
+   },
+   "wall_ms": 17884,
+   "reasons": {
+    "board": "best board name match 0.42 < 0.72",
+    "mcu": "MKV58F1M0VLQ24 from the card: MCU CARD 3 for Kinetis: only card with this layout",
+    "mcu_card": "MCU CARD 3 for Kinetis: only card with this layout"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame",
+    "score": 1.0,
+    "size": [
+     1738,
+     1800
+    ],
+    "native_size": [
+     475,
+     492
+    ],
+    "zoom": 3.66,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "syn_cards/card_close_mcu-card-for-kinetis-mk64fn1m0vdc12.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "MK64FN1M0VDC12",
+    "mcu_card": "mcu-card-for-kinetis-mk64fn1m0vdc12",
+    "mcu_card_layout": "mcu-card-for-kinetis"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "MK64FN1M0VDC12",
+     "pred": "MK64FN1M0VDC12",
+     "top3": true
+    },
+    "mcu_card": {
+     "outcome": "correct",
+     "truth": "mcu-card-for-kinetis-mk64fn1m0vdc12",
+     "pred": "mcu-card-for-kinetis-mk64fn1m0vdc12",
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-for-kinetis",
+     "pred": "mcu-card-for-kinetis",
+     "top3": null
+    }
+   },
+   "wall_ms": 13040,
+   "reasons": {
+    "board": "best board name match 0.42 < 0.72",
+    "mcu": "MK64FN1M0VDC12 matched 0.97 (margin 0.08) (among the 4 cards of layout 'MCU CARD for Kinetis')",
+    "mcu_card": "MCU CARD for Kinetis + chip MK64FN1M0VDC12 -> MCU CARD for Kinetis MK64FN1M0VDC12"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1676,
+     1800
+    ],
+    "native_size": [
+     1325,
+     1423
+    ],
+    "zoom": 1.26,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "syn_cards/card_mid_mcu-card-for-kinetis-mk64fn1m0vdc12.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "MK64FN1M0VDC12",
+    "mcu_card": "mcu-card-for-kinetis-mk64fn1m0vdc12",
+    "mcu_card_layout": "mcu-card-for-kinetis"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "MK64FN1M0VDC12",
+     "pred": "MK64FN1M0VDC12",
+     "top3": true
+    },
+    "mcu_card": {
+     "outcome": "correct",
+     "truth": "mcu-card-for-kinetis-mk64fn1m0vdc12",
+     "pred": "mcu-card-for-kinetis-mk64fn1m0vdc12",
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-for-kinetis",
+     "pred": "mcu-card-for-kinetis",
+     "top3": null
+    }
+   },
+   "wall_ms": 12984,
+   "reasons": {
+    "board": "best board name match 0.47 < 0.72",
+    "mcu": "MK64FN1M0VDC12 matched 0.97 (margin 0.08) (among the 4 cards of layout 'MCU CARD for Kinetis')",
+    "mcu_card": "MCU CARD for Kinetis + chip MK64FN1M0VDC12 -> MCU CARD for Kinetis MK64FN1M0VDC12"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1686,
+     1800
+    ],
+    "native_size": [
+     840,
+     897
+    ],
+    "zoom": 2.01,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "syn_cards/card_far_mcu-card-for-kinetis-mk64fn1m0vdc12.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": "mcu-card-for-kinetis"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "abstain",
+     "truth": "MK64FN1M0VDC12",
+     "pred": null,
+     "top3": false
+    },
+    "mcu_card": {
+     "outcome": "abstain",
+     "truth": "mcu-card-for-kinetis-mk64fn1m0vdc12",
+     "pred": null,
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-for-kinetis",
+     "pred": "mcu-card-for-kinetis",
+     "top3": null
+    }
+   },
+   "wall_ms": 17068,
+   "reasons": {
+    "board": "best board name match 0.42 < 0.72",
+    "mcu": "no MCU part number text found; the MCU card is only 481 px in this photo, the chip marking needs ~800 px: send the original photo as a file (messengers shrink photos to ~1280 px) or take a close-up of the card",
+    "mcu_card": "title 'MCU CARD for Kinetis' is printed on 4 cards; the chip marking decides which one (not read)"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1800,
+     1789
+    ],
+    "native_size": [
+     481,
+     478
+    ],
+    "zoom": 3.74,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "syn_cards/card_close_mcu-card-29-for-stm32-stm32f215re.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "STM32F215RE",
+    "mcu_card": "mcu-card-29-for-stm32-stm32f215re",
+    "mcu_card_layout": "mcu-card-29-for-stm32"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "STM32F215RE",
+     "pred": "STM32F215RE",
+     "top3": true
+    },
+    "mcu_card": {
+     "outcome": "correct",
+     "truth": "mcu-card-29-for-stm32-stm32f215re",
+     "pred": "mcu-card-29-for-stm32-stm32f215re",
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-29-for-stm32",
+     "pred": "mcu-card-29-for-stm32",
+     "top3": null
+    }
+   },
+   "wall_ms": 14166,
+   "reasons": {
+    "board": "best board name match 0.35 < 0.72",
+    "mcu": "STM32F215RE matched 1.00 (margin 0.15) (among the 10 cards of layout 'MCU CARD 29 for STM32')",
+    "mcu_card": "MCU CARD 29 for STM32 + chip STM32F215RE -> MCU CARD 29 for STM32 STM32F215RE"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame",
+    "score": 1.0,
+    "size": [
+     1800,
+     1798
+    ],
+    "native_size": [
+     1462,
+     1460
+    ],
+    "zoom": 1.23,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "syn_cards/card_mid_mcu-card-29-for-stm32-stm32f215re.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "STM32F215RE",
+    "mcu_card": "mcu-card-29-for-stm32-stm32f215re",
+    "mcu_card_layout": "mcu-card-29-for-stm32"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "STM32F215RE",
+     "pred": "STM32F215RE",
+     "top3": true
+    },
+    "mcu_card": {
+     "outcome": "correct",
+     "truth": "mcu-card-29-for-stm32-stm32f215re",
+     "pred": "mcu-card-29-for-stm32-stm32f215re",
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-29-for-stm32",
+     "pred": "mcu-card-29-for-stm32",
+     "top3": null
+    }
+   },
+   "wall_ms": 11758,
+   "reasons": {
+    "board": "best board name match 0.47 < 0.72",
+    "mcu": "STM32F215RE matched 1.00 (margin 0.15) (among the 10 cards of layout 'MCU CARD 29 for STM32')",
+    "mcu_card": "MCU CARD 29 for STM32 + chip STM32F215RE -> MCU CARD 29 for STM32 STM32F215RE"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1792,
+     1800
+    ],
+    "native_size": [
+     911,
+     915
+    ],
+    "zoom": 1.97,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "syn_cards/card_far_mcu-card-29-for-stm32-stm32f215re.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": "mcu-card-29-for-stm32"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "abstain",
+     "truth": "STM32F215RE",
+     "pred": null,
+     "top3": false
+    },
+    "mcu_card": {
+     "outcome": "abstain",
+     "truth": "mcu-card-29-for-stm32-stm32f215re",
+     "pred": null,
+     "top3": false
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-29-for-stm32",
+     "pred": "mcu-card-29-for-stm32",
+     "top3": null
+    }
+   },
+   "wall_ms": 17607,
+   "reasons": {
+    "board": "best board name match 0.35 < 0.72",
+    "mcu": "best MCU part number match 0.13 < 0.90; the MCU card is only 487 px in this photo, the chip marking needs ~800 px: send the original photo as a file (messengers shrink photos to ~1280 px) or take a close-up of the card",
+    "mcu_card": "title 'MCU CARD 29 for STM32' is printed on 10 cards; the chip marking decides which one (unclear)"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1789,
+     1800
+    ],
+    "native_size": [
+     484,
+     487
+    ],
+    "zoom": 3.7,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "syn_cards/card_close_mcu-card-2-for-kinetis-mk20dx128vfm5.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "MK20DX128VFM5",
+    "mcu_card": "mcu-card-2-for-kinetis-mk20dx128vfm5",
+    "mcu_card_layout": "mcu-card-2-for-kinetis"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "MK20DX128VFM5",
+     "pred": "MK20DX128VFM5",
+     "top3": true
+    },
+    "mcu_card": {
+     "outcome": "correct",
+     "truth": "mcu-card-2-for-kinetis-mk20dx128vfm5",
+     "pred": "mcu-card-2-for-kinetis-mk20dx128vfm5",
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-2-for-kinetis",
+     "pred": "mcu-card-2-for-kinetis",
+     "top3": null
+    }
+   },
+   "wall_ms": 11769,
+   "reasons": {
+    "board": "best board name match 0.42 < 0.72",
+    "mcu": "MK20DX128VFM5 matched 1.00 (margin 1.00) (among the 2 cards of layout 'MCU CARD 2 for Kinetis')",
+    "mcu_card": "MCU CARD 2 for Kinetis + chip MK20DX128VFM5 -> MCU CARD 2 for Kinetis MK20DX128VFM5"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1800,
+     1799
+    ],
+    "native_size": [
+     1502,
+     1501
+    ],
+    "zoom": 1.2,
+    "chip_found": false
+   },
+   "sockets": []
+  },
+  "syn_cards/card_mid_mcu-card-2-for-kinetis-mk20dx128vfm5.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "MK20DX128VFM5",
+    "mcu_card": "mcu-card-2-for-kinetis-mk20dx128vfm5",
+    "mcu_card_layout": "mcu-card-2-for-kinetis"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "MK20DX128VFM5",
+     "pred": "MK20DX128VFM5",
+     "top3": true
+    },
+    "mcu_card": {
+     "outcome": "correct",
+     "truth": "mcu-card-2-for-kinetis-mk20dx128vfm5",
+     "pred": "mcu-card-2-for-kinetis-mk20dx128vfm5",
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-2-for-kinetis",
+     "pred": "mcu-card-2-for-kinetis",
+     "top3": null
+    }
+   },
+   "wall_ms": 11419,
+   "reasons": {
+    "board": "best board name match 0.47 < 0.72",
+    "mcu": "MK20DX128VFM5 matched 1.00 (margin 1.00) (among the 2 cards of layout 'MCU CARD 2 for Kinetis')",
+    "mcu_card": "MCU CARD 2 for Kinetis + chip MK20DX128VFM5 -> MCU CARD 2 for Kinetis MK20DX128VFM5"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1787,
+     1800
+    ],
+    "native_size": [
+     954,
+     961
+    ],
+    "zoom": 1.87,
+    "chip_found": false
+   },
+   "sockets": []
+  },
+  "syn_cards/card_far_mcu-card-2-for-kinetis-mk20dx128vfm5.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "MK20DX128VFM5",
+    "mcu_card": "mcu-card-2-for-kinetis-mk20dx128vfm5",
+    "mcu_card_layout": "mcu-card-2-for-kinetis"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "MK20DX128VFM5",
+     "pred": "MK20DX128VFM5",
+     "top3": true
+    },
+    "mcu_card": {
+     "outcome": "correct",
+     "truth": "mcu-card-2-for-kinetis-mk20dx128vfm5",
+     "pred": "mcu-card-2-for-kinetis-mk20dx128vfm5",
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-2-for-kinetis",
+     "pred": "mcu-card-2-for-kinetis",
+     "top3": null
+    }
+   },
+   "wall_ms": 10715,
+   "reasons": {
+    "board": "best board name match 0.26 < 0.72",
+    "mcu": "MK20DX128VFM5 matched 1.00 (margin 1.00) (among the 2 cards of layout 'MCU CARD 2 for Kinetis')",
+    "mcu_card": "MCU CARD 2 for Kinetis + chip MK20DX128VFM5 -> MCU CARD 2 for Kinetis MK20DX128VFM5"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1800,
+     1786
+    ],
+    "native_size": [
+     497,
+     493
+    ],
+    "zoom": 3.62,
+    "chip_found": false
+   },
+   "sockets": []
+  },
+  "syn_cards/card_close_mcu-card-3-for-stm32-stm32f303rc.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "STM32F303RC",
+    "mcu_card": "mcu-card-3-for-stm32-stm32f303rc",
+    "mcu_card_layout": "mcu-card-3-for-stm32"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "STM32F303RC",
+     "pred": "STM32F303RC",
+     "top3": true
+    },
+    "mcu_card": {
+     "outcome": "correct",
+     "truth": "mcu-card-3-for-stm32-stm32f303rc",
+     "pred": "mcu-card-3-for-stm32-stm32f303rc",
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-3-for-stm32",
+     "pred": "mcu-card-3-for-stm32",
+     "top3": null
+    }
+   },
+   "wall_ms": 12850,
+   "reasons": {
+    "board": "best board name match 0.35 < 0.72",
+    "mcu": "STM32F303RC matched 1.00 (margin 0.27) (among the 5 cards of layout 'MCU CARD 3 for STM32')",
+    "mcu_card": "MCU CARD 3 for STM32 + chip STM32F303RC -> SiBRAIN for STM32F303RC"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame",
+    "score": 1.0,
+    "size": [
+     1800,
+     1788
+    ],
+    "native_size": [
+     1514,
+     1504
+    ],
+    "zoom": 1.19,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "syn_cards/card_mid_mcu-card-3-for-stm32-stm32f303rc.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "STM32F303RC",
+    "mcu_card": null,
+    "mcu_card_layout": "mcu-card-3-for-stm32"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "STM32F303RC",
+     "pred": "STM32F303RC",
+     "top3": true
+    },
+    "mcu_card": {
+     "outcome": "abstain",
+     "truth": "mcu-card-3-for-stm32-stm32f303rc",
+     "pred": null,
+     "top3": false
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-3-for-stm32",
+     "pred": "mcu-card-3-for-stm32",
+     "top3": null
+    }
+   },
+   "wall_ms": 11400,
+   "reasons": {
+    "board": "best board name match 0.47 < 0.72",
+    "mcu": "STM32F303RC matched 1.00 (margin 0.09)",
+    "mcu_card": "MCU CARD 3 for STM32 (+2 look-alike layouts): only card with this layout; chip body 0.30 of the card side fits 144-pin QFP: dropped 19 card(s) with 100/48/64 pins"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1800,
+     1792
+    ],
+    "native_size": [
+     954,
+     950
+    ],
+    "zoom": 1.89,
+    "chip_found": true
+   },
+   "sockets": [],
+   "guards": [
+    "guard: card easymx-pro-v7-stellaris-144-pin-tqfp-lm4f-series-empty cannot carry the decided MCU STM32F303RC (empty card, no compatible MCU listed) - card left to the user"
+   ]
+  },
+  "syn_cards/card_far_mcu-card-3-for-stm32-stm32f303rc.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": "mcu-card-3-for-stm32"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "abstain",
+     "truth": "STM32F303RC",
+     "pred": null,
+     "top3": true
+    },
+    "mcu_card": {
+     "outcome": "abstain",
+     "truth": "mcu-card-3-for-stm32-stm32f303rc",
+     "pred": null,
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-3-for-stm32",
+     "pred": "mcu-card-3-for-stm32",
+     "top3": null
+    }
+   },
+   "wall_ms": 17082,
+   "reasons": {
+    "board": "best board name match 0.35 < 0.72",
+    "mcu": "best MCU part number match 0.73 < 0.90; the MCU card is only 630 px in this photo, the chip marking needs ~800 px: send the original photo as a file (messengers shrink photos to ~1280 px) or take a close-up of the card",
+    "mcu_card": "title 'MCU CARD 3 for STM32' is printed on 5 cards; the chip marking decides which one (unclear)"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1800,
+     1466
+    ],
+    "native_size": [
+     630,
+     513
+    ],
+    "zoom": 2.86,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "syn_cards/card_close_mcu-card-16-for-stm32-stm32l442kc.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "STM32L442KC",
+    "mcu_card": "mcu-card-16-for-stm32-stm32l442kc",
+    "mcu_card_layout": "mcu-card-16-for-stm32"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "STM32L442KC",
+     "pred": "STM32L442KC",
+     "top3": true
+    },
+    "mcu_card": {
+     "outcome": "correct",
+     "truth": "mcu-card-16-for-stm32-stm32l442kc",
+     "pred": "mcu-card-16-for-stm32-stm32l442kc",
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-16-for-stm32",
+     "pred": "mcu-card-16-for-stm32",
+     "top3": null
+    }
+   },
+   "wall_ms": 12763,
+   "reasons": {
+    "board": "best board name match 0.47 < 0.72",
+    "mcu": "STM32L442KC matched 1.00 (margin 0.09) (among the 2 cards of layout 'MCU CARD 16 for STM32')",
+    "mcu_card": "MCU CARD 16 for STM32 + chip STM32L442KC -> MCU CARD 16 for STM32 STM32L442KC"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1764,
+     1800
+    ],
+    "native_size": [
+     1464,
+     1494
+    ],
+    "zoom": 1.2,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "syn_cards/card_mid_mcu-card-16-for-stm32-stm32l442kc.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "STM32L442KC",
+    "mcu_card": "mcu-card-16-for-stm32-stm32l442kc",
+    "mcu_card_layout": "mcu-card-16-for-stm32"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "STM32L442KC",
+     "pred": "STM32L442KC",
+     "top3": true
+    },
+    "mcu_card": {
+     "outcome": "correct",
+     "truth": "mcu-card-16-for-stm32-stm32l442kc",
+     "pred": "mcu-card-16-for-stm32-stm32l442kc",
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-16-for-stm32",
+     "pred": "mcu-card-16-for-stm32",
+     "top3": null
+    }
+   },
+   "wall_ms": 12950,
+   "reasons": {
+    "board": "best board name match 0.47 < 0.72",
+    "mcu": "STM32L442KC matched 1.00 (margin 0.09) (among the 2 cards of layout 'MCU CARD 16 for STM32')",
+    "mcu_card": "MCU CARD 16 for STM32 + chip STM32L442KC -> MCU CARD 16 for STM32 STM32L442KC"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1751,
+     1800
+    ],
+    "native_size": [
+     920,
+     946
+    ],
+    "zoom": 1.9,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "syn_cards/card_far_mcu-card-16-for-stm32-stm32l442kc.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": "mcu-card-16-for-stm32"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "abstain",
+     "truth": "STM32L442KC",
+     "pred": null,
+     "top3": true
+    },
+    "mcu_card": {
+     "outcome": "abstain",
+     "truth": "mcu-card-16-for-stm32-stm32l442kc",
+     "pred": null,
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-16-for-stm32",
+     "pred": "mcu-card-16-for-stm32",
+     "top3": null
+    }
+   },
+   "wall_ms": 16048,
+   "reasons": {
+    "board": "best board name match 0.35 < 0.72",
+    "mcu": "best MCU part number match 0.13 < 0.90; the MCU card is only 575 px in this photo, the chip marking needs ~800 px: send the original photo as a file (messengers shrink photos to ~1280 px) or take a close-up of the card",
+    "mcu_card": "title 'MCU CARD 16 for STM32' is printed on 2 cards; the chip marking decides which one (unclear)"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1543,
+     1800
+    ],
+    "native_size": [
+     493,
+     575
+    ],
+    "zoom": 3.13,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "syn_cards/card_close_mcu-card-for-kinetis-mk24fn256vdc12.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "MK24FN256VDC12",
+    "mcu_card": "mcu-card-for-kinetis-mk24fn256vdc12",
+    "mcu_card_layout": "mcu-card-for-kinetis"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "MK24FN256VDC12",
+     "pred": "MK24FN256VDC12",
+     "top3": true
+    },
+    "mcu_card": {
+     "outcome": "correct",
+     "truth": "mcu-card-for-kinetis-mk24fn256vdc12",
+     "pred": "mcu-card-for-kinetis-mk24fn256vdc12",
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-for-kinetis",
+     "pred": "mcu-card-for-kinetis",
+     "top3": null
+    }
+   },
+   "wall_ms": 13795,
+   "reasons": {
+    "board": "best board name match 0.36 < 0.72",
+    "mcu": "MK24FN256VDC12 matched 1.00 (margin 0.43) (among the 4 cards of layout 'MCU CARD for Kinetis')",
+    "mcu_card": "MCU CARD for Kinetis + chip MK24FN256VDC12 -> MCU CARD for Kinetis MK24FN256VDC12"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1800,
+     1779
+    ],
+    "native_size": [
+     1509,
+     1491
+    ],
+    "zoom": 1.19,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "syn_cards/card_mid_mcu-card-for-kinetis-mk24fn256vdc12.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "MK24FN256VDC12",
+    "mcu_card": "mcu-card-for-kinetis-mk24fn256vdc12",
+    "mcu_card_layout": "mcu-card-for-kinetis"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "MK24FN256VDC12",
+     "pred": "MK24FN256VDC12",
+     "top3": true
+    },
+    "mcu_card": {
+     "outcome": "correct",
+     "truth": "mcu-card-for-kinetis-mk24fn256vdc12",
+     "pred": "mcu-card-for-kinetis-mk24fn256vdc12",
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-for-kinetis",
+     "pred": "mcu-card-for-kinetis",
+     "top3": null
+    }
+   },
+   "wall_ms": 12836,
+   "reasons": {
+    "board": "best board name match 0.47 < 0.72",
+    "mcu": "MK24FN256VDC12 matched 1.00 (margin 0.43) (among the 4 cards of layout 'MCU CARD for Kinetis')",
+    "mcu_card": "MCU CARD for Kinetis + chip MK24FN256VDC12 -> MCU CARD for Kinetis MK24FN256VDC12"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1800,
+     1785
+    ],
+    "native_size": [
+     948,
+     940
+    ],
+    "zoom": 1.9,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "syn_cards/card_far_mcu-card-for-kinetis-mk24fn256vdc12.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": "mcu-card-for-kinetis"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "abstain",
+     "truth": "MK24FN256VDC12",
+     "pred": null,
+     "top3": false
+    },
+    "mcu_card": {
+     "outcome": "abstain",
+     "truth": "mcu-card-for-kinetis-mk24fn256vdc12",
+     "pred": null,
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-for-kinetis",
+     "pred": "mcu-card-for-kinetis",
+     "top3": null
+    }
+   },
+   "wall_ms": 16487,
+   "reasons": {
+    "board": "best board name match 0.42 < 0.72",
+    "mcu": "no MCU part number text found; the MCU card is only 484 px in this photo, the chip marking needs ~800 px: send the original photo as a file (messengers shrink photos to ~1280 px) or take a close-up of the card",
+    "mcu_card": "title 'MCU CARD for Kinetis' is printed on 4 cards; the chip marking decides which one (not read)"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1800,
+     1796
+    ],
+    "native_size": [
+     484,
+     483
+    ],
+    "zoom": 3.72,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "syn_cards/card_close_mcu-card-3-for-stm32-stm32l4a6rg.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "STM32L4A6RG",
+    "mcu_card": "mcu-card-3-for-stm32-stm32l4a6rg",
+    "mcu_card_layout": "mcu-card-3-for-stm32"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "STM32L4A6RG",
+     "pred": "STM32L4A6RG",
+     "top3": true
+    },
+    "mcu_card": {
+     "outcome": "correct",
+     "truth": "mcu-card-3-for-stm32-stm32l4a6rg",
+     "pred": "mcu-card-3-for-stm32-stm32l4a6rg",
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-3-for-stm32",
+     "pred": "mcu-card-3-for-stm32",
+     "top3": null
+    }
+   },
+   "wall_ms": 12550,
+   "reasons": {
+    "board": "best board name match 0.47 < 0.72",
+    "mcu": "STM32L4A6RG matched 1.00 (margin 0.36) (among the 5 cards of layout 'MCU CARD 3 for STM32')",
+    "mcu_card": "MCU CARD 3 for STM32 + chip STM32L4A6RG -> SiBRAIN for STM32L4A6RG"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1651,
+     1800
+    ],
+    "native_size": [
+     1344,
+     1465
+    ],
+    "zoom": 1.23,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "syn_cards/card_mid_mcu-card-3-for-stm32-stm32l4a6rg.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "STM32L4A6RG",
+    "mcu_card": "mcu-card-3-for-stm32-stm32l4a6rg",
+    "mcu_card_layout": "mcu-card-3-for-stm32"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "STM32L4A6RG",
+     "pred": "STM32L4A6RG",
+     "top3": true
+    },
+    "mcu_card": {
+     "outcome": "correct",
+     "truth": "mcu-card-3-for-stm32-stm32l4a6rg",
+     "pred": "mcu-card-3-for-stm32-stm32l4a6rg",
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-3-for-stm32",
+     "pred": "mcu-card-3-for-stm32",
+     "top3": null
+    }
+   },
+   "wall_ms": 11695,
+   "reasons": {
+    "board": "best board name match 0.47 < 0.72",
+    "mcu": "STM32L4A6RG matched 1.00 (margin 0.36) (among the 5 cards of layout 'MCU CARD 3 for STM32')",
+    "mcu_card": "MCU CARD 3 for STM32 + chip STM32L4A6RG -> SiBRAIN for STM32L4A6RG"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1651,
+     1800
+    ],
+    "native_size": [
+     840,
+     916
+    ],
+    "zoom": 1.97,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "syn_cards/card_far_mcu-card-3-for-stm32-stm32l4a6rg.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": "mcu-card-3-for-stm32"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "abstain",
+     "truth": "STM32L4A6RG",
+     "pred": null,
+     "top3": true
+    },
+    "mcu_card": {
+     "outcome": "abstain",
+     "truth": "mcu-card-3-for-stm32-stm32l4a6rg",
+     "pred": null,
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-3-for-stm32",
+     "pred": "mcu-card-3-for-stm32",
+     "top3": null
+    }
+   },
+   "wall_ms": 16067,
+   "reasons": {
+    "board": "best board name match 0.35 < 0.72",
+    "mcu": "best MCU part number match 0.67 < 0.90; the MCU card is only 735 px in this photo, the chip marking needs ~800 px: send the original photo as a file (messengers shrink photos to ~1280 px) or take a close-up of the card",
+    "mcu_card": "title 'MCU CARD 3 for STM32' is printed on 5 cards; the chip marking decides which one (unclear)"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1242,
+     1800
+    ],
+    "native_size": [
+     507,
+     735
+    ],
+    "zoom": 2.45,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "syn_cards/card_close_mcu-card-22-for-stm32-stm32f373vc.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "STM32F373VC",
+    "mcu_card": "mcu-card-22-for-stm32-stm32f373vc",
+    "mcu_card_layout": "mcu-card-22-for-stm32"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "STM32F373VC",
+     "pred": "STM32F373VC",
+     "top3": true
+    },
+    "mcu_card": {
+     "outcome": "correct",
+     "truth": "mcu-card-22-for-stm32-stm32f373vc",
+     "pred": "mcu-card-22-for-stm32-stm32f373vc",
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-22-for-stm32",
+     "pred": "mcu-card-22-for-stm32",
+     "top3": null
+    }
+   },
+   "wall_ms": 14191,
+   "reasons": {
+    "board": "best board name match 0.35 < 0.72",
+    "mcu": "STM32F373VC matched 1.00 (margin 1.00)",
+    "mcu_card": "MCU CARD 22 for STM32: only card with this layout"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1800,
+     1754
+    ],
+    "native_size": [
+     1462,
+     1425
+    ],
+    "zoom": 1.23,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "syn_cards/card_mid_mcu-card-22-for-stm32-stm32f373vc.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "STM32F373VC",
+    "mcu_card": "mcu-card-22-for-stm32-stm32f373vc",
+    "mcu_card_layout": "mcu-card-22-for-stm32"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "STM32F373VC",
+     "pred": "STM32F373VC",
+     "top3": true
+    },
+    "mcu_card": {
+     "outcome": "correct",
+     "truth": "mcu-card-22-for-stm32-stm32f373vc",
+     "pred": "mcu-card-22-for-stm32-stm32f373vc",
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-22-for-stm32",
+     "pred": "mcu-card-22-for-stm32",
+     "top3": null
+    }
+   },
+   "wall_ms": 12328,
+   "reasons": {
+    "board": "best board name match 0.47 < 0.72",
+    "mcu": "STM32F373VC matched 1.00 (margin 1.00)",
+    "mcu_card": "MCU CARD 22 for STM32: only card with this layout"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1800,
+     1753
+    ],
+    "native_size": [
+     915,
+     891
+    ],
+    "zoom": 1.97,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "syn_cards/card_far_mcu-card-22-for-stm32-stm32f373vc.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "STM32F373VC",
+    "mcu_card": "mcu-card-22-for-stm32-stm32f373vc",
+    "mcu_card_layout": "mcu-card-22-for-stm32"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "STM32F373VC",
+     "pred": "STM32F373VC",
+     "top3": true
+    },
+    "mcu_card": {
+     "outcome": "correct",
+     "truth": "mcu-card-22-for-stm32-stm32f373vc",
+     "pred": "mcu-card-22-for-stm32-stm32f373vc",
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-22-for-stm32",
+     "pred": "mcu-card-22-for-stm32",
+     "top3": null
+    }
+   },
+   "wall_ms": 10821,
+   "reasons": {
+    "board": "best board name match 0.35 < 0.72",
+    "mcu": "STM32F373VC matched 1.00 (margin 1.00)",
+    "mcu_card": "MCU CARD 22 for STM32: only card with this layout"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1367,
+     1800
+    ],
+    "native_size": [
+     505,
+     665
+    ],
+    "zoom": 2.71,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "syn_cards/card_close_mcu-card-for-tiva-tm4c1299nczad.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": "mcu-card-for-tiva"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "abstain",
+     "truth": "TM4C1299NCZAD",
+     "pred": null,
+     "top3": false
+    },
+    "mcu_card": {
+     "outcome": "abstain",
+     "truth": "mcu-card-for-tiva-tm4c1299nczad",
+     "pred": null,
+     "top3": false
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-for-tiva",
+     "pred": "mcu-card-for-tiva",
+     "top3": null
+    }
+   },
+   "wall_ms": 17856,
+   "reasons": {
+    "board": "best board name match 0.28 < 0.72",
+    "mcu": "best MCU part number match 0.32 < 0.90",
+    "mcu_card": "title 'MCU CARD for Tiva' is printed on 21 cards; the chip marking decides which one (unclear)"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame",
+    "score": 1.0,
+    "size": [
+     1754,
+     1800
+    ],
+    "native_size": [
+     1513,
+     1553
+    ],
+    "zoom": 1.16,
+    "chip_found": false
+   },
+   "sockets": []
+  },
+  "syn_cards/card_mid_mcu-card-for-tiva-tm4c1299nczad.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": "mcu-card-for-tiva"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "abstain",
+     "truth": "TM4C1299NCZAD",
+     "pred": null,
+     "top3": false
+    },
+    "mcu_card": {
+     "outcome": "abstain",
+     "truth": "mcu-card-for-tiva-tm4c1299nczad",
+     "pred": null,
+     "top3": false
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-for-tiva",
+     "pred": "mcu-card-for-tiva",
+     "top3": null
+    }
+   },
+   "wall_ms": 16916,
+   "reasons": {
+    "board": "best board name match 0.47 < 0.72",
+    "mcu": "best MCU part number match 0.29 < 0.90",
+    "mcu_card": "title 'MCU CARD for Tiva' is printed on 7 cards; the chip marking decides which one (unclear)"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1756,
+     1800
+    ],
+    "native_size": [
+     963,
+     987
+    ],
+    "zoom": 1.82,
+    "chip_found": false
+   },
+   "sockets": []
+  },
+  "syn_cards/card_far_mcu-card-for-tiva-tm4c1299nczad.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": "mcu-card-for-tiva"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "abstain",
+     "truth": "TM4C1299NCZAD",
+     "pred": null,
+     "top3": false
+    },
+    "mcu_card": {
+     "outcome": "abstain",
+     "truth": "mcu-card-for-tiva-tm4c1299nczad",
+     "pred": null,
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-for-tiva",
+     "pred": "mcu-card-for-tiva",
+     "top3": null
+    }
+   },
+   "wall_ms": 14796,
+   "reasons": {
+    "board": "best board name match 0.42 < 0.72",
+    "mcu": "no MCU part number text found; the MCU card is only 534 px in this photo, the chip marking needs ~800 px: send the original photo as a file (messengers shrink photos to ~1280 px) or take a close-up of the card",
+    "mcu_card": "title 'MCU CARD for Tiva' is printed on 7 cards; the chip marking decides which one (not read)"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame",
+    "score": 0.937,
+    "size": [
+     1763,
+     1800
+    ],
+    "native_size": [
+     523,
+     534
+    ],
+    "zoom": 3.37,
+    "chip_found": false
+   },
+   "sockets": []
+  },
+  "syn_cards/card_close_mcu-card-for-tiva-tm4c1294nczad.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "TM4C1294NCZAD",
+    "mcu_card": "mcu-card-for-tiva-tm4c1294nczad",
+    "mcu_card_layout": "mcu-card-for-tiva"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "TM4C1294NCZAD",
+     "pred": "TM4C1294NCZAD",
+     "top3": true
+    },
+    "mcu_card": {
+     "outcome": "correct",
+     "truth": "mcu-card-for-tiva-tm4c1294nczad",
+     "pred": "mcu-card-for-tiva-tm4c1294nczad",
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-for-tiva",
+     "pred": "mcu-card-for-tiva",
+     "top3": null
+    }
+   },
+   "wall_ms": 13272,
+   "reasons": {
+    "board": "best board name match 0.28 < 0.72",
+    "mcu": "TM4C1294NCZAD matched 1.00 (margin 0.07) (among the 7 cards of layout 'MCU CARD for Tiva')",
+    "mcu_card": "MCU CARD for Tiva + chip TM4C1294NCZAD -> MCU CARD for Tiva TM4C1294NCZAD"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame",
+    "score": 1.0,
+    "size": [
+     1742,
+     1800
+    ],
+    "native_size": [
+     1506,
+     1556
+    ],
+    "zoom": 1.16,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "syn_cards/card_mid_mcu-card-for-tiva-tm4c1294nczad.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "TM4C1294NCZAD",
+    "mcu_card": "mcu-card-for-tiva-tm4c1294nczad",
+    "mcu_card_layout": "mcu-card-for-tiva"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "TM4C1294NCZAD",
+     "pred": "TM4C1294NCZAD",
+     "top3": true
+    },
+    "mcu_card": {
+     "outcome": "correct",
+     "truth": "mcu-card-for-tiva-tm4c1294nczad",
+     "pred": "mcu-card-for-tiva-tm4c1294nczad",
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-for-tiva",
+     "pred": "mcu-card-for-tiva",
+     "top3": null
+    }
+   },
+   "wall_ms": 12439,
+   "reasons": {
+    "board": "best board name match 0.47 < 0.72",
+    "mcu": "TM4C1294NCZAD matched 1.00 (margin 0.07) (among the 7 cards of layout 'MCU CARD for Tiva')",
+    "mcu_card": "MCU CARD for Tiva + chip TM4C1294NCZAD -> MCU CARD for Tiva TM4C1294NCZAD"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1749,
+     1800
+    ],
+    "native_size": [
+     959,
+     987
+    ],
+    "zoom": 1.82,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "syn_cards/card_far_mcu-card-for-tiva-tm4c1294nczad.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": "mcu-card-for-tiva"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "abstain",
+     "truth": "TM4C1294NCZAD",
+     "pred": null,
+     "top3": false
+    },
+    "mcu_card": {
+     "outcome": "abstain",
+     "truth": "mcu-card-for-tiva-tm4c1294nczad",
+     "pred": null,
+     "top3": false
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-for-tiva",
+     "pred": "mcu-card-for-tiva",
+     "top3": null
+    }
+   },
+   "wall_ms": 16848,
+   "reasons": {
+    "board": "UNI-DS v8 matched 0.88 (margin 0.67)",
+    "mcu": "best MCU part number match 0.29 < 0.90; the MCU card is only 499 px in this photo, the chip marking needs ~800 px: send the original photo as a file (messengers shrink photos to ~1280 px) or take a close-up of the card",
+    "mcu_card": "title 'MCU CARD for Tiva' is printed on 7 cards; the chip marking decides which one (unclear)"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame",
+    "score": 1.0,
+    "size": [
+     1782,
+     1800
+    ],
+    "native_size": [
+     494,
+     499
+    ],
+    "zoom": 3.61,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "syn_cards/card_close_mcu-card-3-for-stm32-stm32f091rc.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "STM32F091RC",
+    "mcu_card": "mcu-card-3-for-stm32-stm32f091rc",
+    "mcu_card_layout": "mcu-card-3-for-stm32"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "STM32F091RC",
+     "pred": "STM32F091RC",
+     "top3": true
+    },
+    "mcu_card": {
+     "outcome": "correct",
+     "truth": "mcu-card-3-for-stm32-stm32f091rc",
+     "pred": "mcu-card-3-for-stm32-stm32f091rc",
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-3-for-stm32",
+     "pred": "mcu-card-3-for-stm32",
+     "top3": null
+    }
+   },
+   "wall_ms": 12543,
+   "reasons": {
+    "board": "best board name match 0.35 < 0.72",
+    "mcu": "STM32F091RC matched 1.00 (margin 0.27) (among the 5 cards of layout 'MCU CARD 3 for STM32')",
+    "mcu_card": "MCU CARD 3 for STM32 + chip STM32F091RC -> SiBRAIN for STM32F091RC"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame",
+    "score": 1.0,
+    "size": [
+     1778,
+     1800
+    ],
+    "native_size": [
+     1474,
+     1492
+    ],
+    "zoom": 1.21,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "syn_cards/card_mid_mcu-card-3-for-stm32-stm32f091rc.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": "STM32F091RC",
+    "mcu_card": "mcu-card-3-for-stm32-stm32f091rc",
+    "mcu_card_layout": "mcu-card-3-for-stm32"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "correct",
+     "truth": "STM32F091RC",
+     "pred": "STM32F091RC",
+     "top3": true
+    },
+    "mcu_card": {
+     "outcome": "correct",
+     "truth": "mcu-card-3-for-stm32-stm32f091rc",
+     "pred": "mcu-card-3-for-stm32-stm32f091rc",
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-3-for-stm32",
+     "pred": "mcu-card-3-for-stm32",
+     "top3": null
+    }
+   },
+   "wall_ms": 12171,
+   "reasons": {
+    "board": "best board name match 0.47 < 0.72",
+    "mcu": "STM32F091RC matched 0.93 (margin 0.18) (among the 5 cards of layout 'MCU CARD 3 for STM32')",
+    "mcu_card": "MCU CARD 3 for STM32 + chip STM32F091RC -> SiBRAIN for STM32F091RC"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1758,
+     1800
+    ],
+    "native_size": [
+     926,
+     948
+    ],
+    "zoom": 1.9,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "syn_cards/card_far_mcu-card-3-for-stm32-stm32f091rc.jpg": {
+   "decisions": {
+    "board": null,
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": "mcu-card-3-for-stm32"
+   },
+   "scores": {
+    "mcu": {
+     "outcome": "abstain",
+     "truth": "STM32F091RC",
+     "pred": null,
+     "top3": true
+    },
+    "mcu_card": {
+     "outcome": "abstain",
+     "truth": "mcu-card-3-for-stm32-stm32f091rc",
+     "pred": null,
+     "top3": true
+    },
+    "mcu_card_layout": {
+     "outcome": "correct",
+     "truth": "mcu-card-3-for-stm32",
+     "pred": "mcu-card-3-for-stm32",
+     "top3": null
+    }
+   },
+   "wall_ms": 30141,
+   "reasons": {
+    "board": "best board name match 0.35 < 0.72",
+    "mcu": "best MCU part number match 0.82 < 0.90",
+    "mcu_card": "title 'MCU CARD 3 for STM32' is printed on 5 cards; the chip marking decides which one (unclear)"
+   },
+   "mcu_source": "photo (card crop gave nothing)",
+   "card": {
+    "method": "text",
+    "score": 0.45,
+    "size": [
+     1800,
+     1800
+    ],
+    "native_size": [
+     986,
+     986
+    ],
+    "zoom": 1.83,
+    "chip_found": false
+   },
+   "sockets": []
+  },
+  "real3/uni-ds-v8_pic32mz2048efh144_1.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": "mcu-card-3-for-pic"
+   },
+   "scores": {
+    "board": {
+     "outcome": "correct",
+     "truth": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "top3": true
+    },
+    "mcu": {
+     "outcome": "abstain",
+     "truth": "PIC32MZ2048EFH144",
+     "pred": null,
+     "top3": false
+    },
+    "mcu_card": {
+     "outcome": "abstain",
+     "truth": "mcu-card-3-for-pic32-pic32mz2048efh144",
+     "pred": null,
+     "top3": false
+    },
+    "mcu_card_layout": {
+     "outcome": "wrong",
+     "truth": "mcu-card-3-for-pic32",
+     "pred": "mcu-card-3-for-pic",
+     "top3": null
+    }
+   },
+   "wall_ms": 28536,
+   "reasons": {
+    "board": "UNI-DS v8 matched 1.00 (margin 0.65)",
+    "mcu": "no MCU part number text found; the MCU card is only 246 px in this photo, the chip marking needs ~800 px: send the original photo as a file (messengers shrink photos to ~1280 px) or take a close-up of the card",
+    "mcu_card": "title 'MCU CARD 3 for PIC' is printed on 27 cards; the chip marking decides which one (not read)"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     984,
+     948
+    ],
+    "native_size": [
+     246,
+     237
+    ],
+    "zoom": 4.0,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "real3/uni-ds-v8_stm32f429zi_1.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "correct",
+     "truth": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "top3": true
+    },
+    "mcu": {
+     "outcome": "abstain",
+     "truth": "STM32F429ZI",
+     "pred": null,
+     "top3": false
+    },
+    "mcu_card": {
+     "outcome": "abstain",
+     "truth": "mcu-card-for-stm32-stm32f429zi",
+     "pred": null,
+     "top3": false
+    },
+    "mcu_card_layout": {
+     "outcome": "abstain",
+     "truth": "mcu-card-for-stm32",
+     "pred": null,
+     "top3": null
+    }
+   },
+   "wall_ms": 30898,
+   "reasons": {
+    "board": "UNI-DS v8 matched 1.00 (margin 0.65)",
+    "mcu": "no MCU part number text found; the MCU card is only 242 px in this photo, the chip marking needs ~800 px: send the original photo as a file (messengers shrink photos to ~1280 px) or take a close-up of the card",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text+layout",
+    "score": 1.0,
+    "size": [
+     968,
+     952
+    ],
+    "native_size": [
+     242,
+     238
+    ],
+    "zoom": 4.0,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "real3/uni-ds-v8_stm32f429zi_2.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "correct",
+     "truth": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "top3": true
+    },
+    "mcu": {
+     "outcome": "abstain",
+     "truth": "STM32F429ZI",
+     "pred": null,
+     "top3": false
+    },
+    "mcu_card": {
+     "outcome": "abstain",
+     "truth": "mcu-card-for-stm32-stm32f429zi",
+     "pred": null,
+     "top3": false
+    },
+    "mcu_card_layout": {
+     "outcome": "abstain",
+     "truth": "mcu-card-for-stm32",
+     "pred": null,
+     "top3": null
+    }
+   },
+   "wall_ms": 37405,
+   "reasons": {
+    "board": "UNI-DS v8 matched 1.00 (margin 0.65)",
+    "mcu": "best MCU part number match 0.60 < 0.90",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "photo (card crop gave nothing)",
+   "card": {
+    "method": "frame",
+    "score": 0.76,
+    "size": [
+     1068,
+     1052
+    ],
+    "native_size": [
+     267,
+     263
+    ],
+    "zoom": 4.0,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "captures/20261105_124116_board_01.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "unverified",
+     "provisional": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "agree": true
+    }
+   },
+   "wall_ms": 53409,
+   "reasons": {
+    "board": "UNI-DS v8 matched 1.00 (margin 0.80)",
+    "mcu": "best MCU part number match 0.60 < 0.90",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "photo",
+   "card": null,
+   "sockets": []
+  },
+  "captures/20261105_144642_board_01.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "unverified",
+     "provisional": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "agree": true
+    }
+   },
+   "wall_ms": 117120,
+   "reasons": {
+    "board": "UNI-DS v8 matched 0.83 (margin 0.55)",
+    "mcu": "no MCU part number text found",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "photo",
+   "card": null,
+   "sockets": []
+  },
+  "captures/20261105_144827_board_01.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": "easymx-pro-v7-stm32"
+   },
+   "scores": {
+    "board": {
+     "outcome": "unverified",
+     "provisional": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "agree": true
+    },
+    "mcu": {
+     "outcome": "unverified",
+     "provisional": "STM32F373VC",
+     "pred": null,
+     "agree": false
+    },
+    "mcu_card": {
+     "outcome": "unverified",
+     "provisional": "mcu-card-22-for-stm32-stm32f373vc",
+     "pred": null,
+     "agree": false
+    },
+    "mcu_card_layout": {
+     "outcome": "unverified",
+     "provisional": "mcu-card-22-for-stm32",
+     "pred": "easymx-pro-v7-stm32",
+     "agree": false
+    }
+   },
+   "wall_ms": 23833,
+   "reasons": {
+    "board": "UNI-DS v8 matched 1.00 (margin 0.65)",
+    "mcu": "no MCU part number text found; the MCU card is only 504 px in this photo, the chip marking needs ~800 px: send the original photo as a file (messengers shrink photos to ~1280 px) or take a close-up of the card",
+    "mcu_card": "title 'EasyMx PRO v7' is printed on 2 cards; the chip marking decides which one (not read); chip body 0.32 of the card side fits 144/176-pin QFP: dropped 12 card(s) with 100/64 pins"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame",
+    "score": 0.86,
+    "size": [
+     1800,
+     1761
+    ],
+    "native_size": [
+     504,
+     493
+    ],
+    "zoom": 3.57,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "captures/20261105_150507_board_01.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "unverified",
+     "provisional": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "agree": true
+    }
+   },
+   "wall_ms": 23853,
+   "reasons": {
+    "board": "UNI-DS v8 matched 1.00 (margin 0.65)",
+    "mcu": "no MCU part number text found; the MCU card is only 454 px in this photo, the chip marking needs ~800 px: send the original photo as a file (messengers shrink photos to ~1280 px) or take a close-up of the card",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame",
+    "score": 0.86,
+    "size": [
+     1800,
+     1788
+    ],
+    "native_size": [
+     454,
+     451
+    ],
+    "zoom": 3.96,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "captures/20261105_150516_mcu_02.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": "easymx-pro-v7-stm32"
+   },
+   "scores": {
+    "board": {
+     "outcome": "unverified",
+     "provisional": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "agree": true
+    },
+    "mcu": {
+     "outcome": "unverified",
+     "provisional": "STM32F373VC",
+     "pred": null,
+     "agree": false
+    },
+    "mcu_card": {
+     "outcome": "unverified",
+     "provisional": "mcu-card-22-for-stm32-stm32f373vc",
+     "pred": null,
+     "agree": false
+    },
+    "mcu_card_layout": {
+     "outcome": "unverified",
+     "provisional": "mcu-card-22-for-stm32",
+     "pred": "easymx-pro-v7-stm32",
+     "agree": false
+    }
+   },
+   "wall_ms": 35855,
+   "reasons": {
+    "board": "UNI-DS v8 matched 1.00 (margin 0.65)",
+    "mcu": "no MCU part number text found",
+    "mcu_card": "title 'EasyMx PRO v7' is printed on 3 cards; the chip marking decides which one (not read); chip body 0.31 of the card side fits 144-pin QFP: dropped 18 card(s) with 100/48/64 pins"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1790,
+     1800
+    ],
+    "native_size": [
+     1303,
+     1310
+    ],
+    "zoom": 1.37,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "captures/20261105_150652_mcu_03.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "unverified",
+     "provisional": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "agree": true
+    },
+    "mcu": {
+     "outcome": "unverified",
+     "provisional": "STM32F373VC",
+     "pred": null,
+     "agree": false
+    },
+    "mcu_card": {
+     "outcome": "unverified",
+     "provisional": "mcu-card-22-for-stm32-stm32f373vc",
+     "pred": null,
+     "agree": false
+    },
+    "mcu_card_layout": {
+     "outcome": "unverified",
+     "provisional": "mcu-card-22-for-stm32",
+     "pred": null,
+     "agree": false
+    }
+   },
+   "wall_ms": 26355,
+   "reasons": {
+    "board": "UNI-DS v8 matched 1.00 (margin 0.65)",
+    "mcu": "no MCU part number text found",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1788,
+     1800
+    ],
+    "native_size": [
+     1443,
+     1453
+    ],
+    "zoom": 1.24,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "captures/20261105_151336_board_01.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "unverified",
+     "provisional": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "agree": true
+    }
+   },
+   "wall_ms": 22187,
+   "reasons": {
+    "board": "UNI-DS v8 matched 1.00 (margin 0.65)",
+    "mcu": "best MCU part number match 0.20 < 0.90; the MCU card is only 488 px in this photo, the chip marking needs ~800 px: send the original photo as a file (messengers shrink photos to ~1280 px) or take a close-up of the card",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1800,
+     1770
+    ],
+    "native_size": [
+     488,
+     480
+    ],
+    "zoom": 3.69,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "captures/20261105_151343_mcu_02.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "unverified",
+     "provisional": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "agree": true
+    },
+    "mcu": {
+     "outcome": "unverified",
+     "provisional": "STM32F429ZI",
+     "pred": null,
+     "agree": false
+    },
+    "mcu_card_layout": {
+     "outcome": "unverified",
+     "provisional": "easymx-pro-v7-stm32",
+     "pred": null,
+     "agree": false
+    }
+   },
+   "wall_ms": 31222,
+   "reasons": {
+    "board": "UNI-DS v8 matched 1.00 (margin 0.65)",
+    "mcu": "no MCU part number text found",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1769,
+     1800
+    ],
+    "native_size": [
+     1420,
+     1445
+    ],
+    "zoom": 1.25,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "captures/20261105_153735_board_01.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "unverified",
+     "provisional": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "agree": true
+    },
+    "mcu": {
+     "outcome": "unverified",
+     "provisional": "STM32F373VC",
+     "pred": null,
+     "agree": false
+    },
+    "mcu_card": {
+     "outcome": "unverified",
+     "provisional": "mcu-card-22-for-stm32-stm32f373vc",
+     "pred": null,
+     "agree": false
+    },
+    "mcu_card_layout": {
+     "outcome": "unverified",
+     "provisional": "mcu-card-22-for-stm32",
+     "pred": null,
+     "agree": false
+    }
+   },
+   "wall_ms": 25354,
+   "reasons": {
+    "board": "UNI-DS v8 matched 0.92 (margin 0.57)",
+    "mcu": "no MCU part number text found; the MCU card is only 469 px in this photo, the chip marking needs ~800 px: send the original photo as a file (messengers shrink photos to ~1280 px) or take a close-up of the card",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1800,
+     1781
+    ],
+    "native_size": [
+     469,
+     464
+    ],
+    "zoom": 3.84,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "captures/20261105_153743_mcu_02.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": "mcu-card-for-stm32"
+   },
+   "scores": {
+    "board": {
+     "outcome": "unverified",
+     "provisional": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "agree": true
+    }
+   },
+   "wall_ms": 25364,
+   "reasons": {
+    "board": "UNI-DS v8 matched 0.83 (margin 0.48)",
+    "mcu": "no MCU part number text found",
+    "mcu_card": "title 'MCU CARD for STM32' is printed on 19 cards; the chip marking decides which one (not read)"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1797,
+     1800
+    ],
+    "native_size": [
+     1545,
+     1548
+    ],
+    "zoom": 1.16,
+    "chip_found": true
+   },
+   "sockets": []
+  }
+ },
+ "total_s": 1081.1,
+ "replayed_from": "20261109-102028-1fbbb0d-dda4621290"
+}

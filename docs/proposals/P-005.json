@@ -1,0 +1,73 @@
+{
+ "id": "P-005",
+ "status": "pending",
+ "created": "2026-11-09 11:44",
+ "experiment": "E-006",
+ "hypothesis": "H-004",
+ "change": {
+  "stages": {
+   "layout": "v2",
+   "card_localise": "geometry_first",
+   "socket_occupancy": "heuristic_v1"
+  },
+  "params": {}
+ },
+ "from_version": "v1",
+ "evidence": {
+  "baseline_report": "20261109-111841-6ba4790-46b0dba7c0",
+  "variant_report": "20261109-113712-6ba4790_dirty-efa4f7e683",
+  "gates": {
+   "no_new_wrong": true,
+   "no_lost_correct": true,
+   "latency_within_budget": true,
+   "identical_decisions": true
+  },
+  "new_correct": [
+   "captures/20261105_144642_board_01.jpg:socket:mikroBUS 1",
+   "captures/20261105_144642_board_01.jpg:socket:mikroBUS 2",
+   "captures/20261105_144642_board_01.jpg:socket:mikroBUS 3",
+   "captures/20261105_144642_board_01.jpg:socket:mikroBUS 4",
+   "captures/20261105_144642_board_01.jpg:socket:mikroBUS 5",
+   "captures/20261105_144827_board_01.jpg:socket:mikroBUS 1",
+   "captures/20261105_144827_board_01.jpg:socket:mikroBUS 2",
+   "captures/20261105_144827_board_01.jpg:socket:mikroBUS 3",
+   "captures/20261105_144827_board_01.jpg:socket:mikroBUS 4",
+   "captures/20261105_144827_board_01.jpg:socket:mikroBUS 5",
+   "real3/uni-ds-v8_stm32f429zi_1.jpg:socket:mikroBUS 1",
+   "real3/uni-ds-v8_stm32f429zi_1.jpg:socket:mikroBUS 2",
+   "real3/uni-ds-v8_stm32f429zi_1.jpg:socket:mikroBUS 3",
+   "real3/uni-ds-v8_stm32f429zi_1.jpg:socket:mikroBUS 4",
+   "real3/uni-ds-v8_stm32f429zi_1.jpg:socket:mikroBUS 5",
+   "real3/uni-ds-v8_stm32f429zi_2.jpg:socket:mikroBUS 1",
+   "real3/uni-ds-v8_stm32f429zi_2.jpg:socket:mikroBUS 2",
+   "real3/uni-ds-v8_stm32f429zi_2.jpg:socket:mikroBUS 3"
+  ],
+  "lost_correct": [],
+  "new_wrong": [],
+  "fixed_wrong": [],
+  "identical_decisions": true,
+  "latency": {
+   "captures": {
+    "base_p95": 45669,
+    "cand_p95": 45356,
+    "ratio": 0.993
+   },
+   "real3": {
+    "base_p95": 29632,
+    "cand_p95": 30391,
+    "ratio": 1.026
+   }
+  }
+ },
+ "risks": [
+  "layout=v2 is experimental: promotion also changes its status to stable",
+  "replaces protected default layout=on as the DEFAULT (the protected code stays in place and selectable)",
+  "card_localise=geometry_first is experimental: promotion also changes its status to stable",
+  "replaces protected default card_localise=frame_first as the DEFAULT (the protected code stays in place and selectable)",
+  "socket_occupancy=heuristic_v1 is experimental: promotion also changes its status to stable",
+  "Evidence is relative to E-005's variant (layout v2 + geometry-first + sockets v0); the change of card/MCU decisions against v1 is P-004's evidence (6 layout decisions changed, 1 wrong fixed, 0 new wrong).",
+  "Socket thresholds were fitted on 30 of the 35 labelled sockets (one board, green Clicks only). A dark-PCB Click has never been seen: collect such photos before relying on 'empty'."
+ ],
+ "approved_by": null,
+ "decided": null
+}

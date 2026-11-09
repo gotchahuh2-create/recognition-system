@@ -1,0 +1,753 @@
+{
+ "run_id": "20261109-105430-8978102-00a4bedeb7",
+ "git": "8978102",
+ "config": {
+  "name": "E-001-geometry_first",
+  "hash": "00a4bedeb7",
+  "stages": {
+   "ocr_backend": "auto",
+   "board_read": "name_ocr",
+   "layout": "on",
+   "card_localise": "geometry_first",
+   "chip_read": "classic",
+   "upscaler": "bicubic",
+   "marking_verifier": "off",
+   "refine": "auto",
+   "socket_occupancy": "off",
+   "text_match": "exact",
+   "consistency_guard": "off",
+   "guided_scan": "two_step"
+  },
+  "params": {}
+ },
+ "backend": "tesseract",
+ "datasets": {
+  "real3": {
+   "n": 3,
+   "fields": {
+    "board": {
+     "n": 3,
+     "correct": 3,
+     "wrong": 0,
+     "abstain": 0,
+     "precision": 1.0,
+     "coverage": 1.0,
+     "top3": "3/3"
+    },
+    "mcu": {
+     "n": 3,
+     "correct": 0,
+     "wrong": 0,
+     "abstain": 3,
+     "precision": null,
+     "coverage": 0.0,
+     "top3": "0/3"
+    },
+    "mcu_card": {
+     "n": 3,
+     "correct": 0,
+     "wrong": 0,
+     "abstain": 3,
+     "precision": null,
+     "coverage": 0.0,
+     "top3": "0/3"
+    },
+    "mcu_card_layout": {
+     "n": 3,
+     "correct": 0,
+     "wrong": 1,
+     "abstain": 2,
+     "precision": 0.0,
+     "coverage": 0.333,
+     "top3": null
+    }
+   },
+   "latency_ms": {
+    "p50": 32028,
+    "p95": 38555,
+    "max": 39280,
+    "mean": 34006
+   },
+   "stage_mean_ms": {
+    "preprocess": 447,
+    "board": 16781,
+    "layout": 22,
+    "card_locate": 23,
+    "mcu": 16708,
+    "clicks": 0
+   }
+  },
+  "captures": {
+   "n": 10,
+   "fields": {
+    "board": {
+     "n": 0,
+     "correct": 0,
+     "wrong": 0,
+     "abstain": 0,
+     "precision": null,
+     "coverage": null,
+     "top3": null,
+     "unverified": 10,
+     "agree_provisional": 10
+    },
+    "mcu": {
+     "n": 0,
+     "correct": 0,
+     "wrong": 0,
+     "abstain": 0,
+     "precision": null,
+     "coverage": null,
+     "top3": null,
+     "unverified": 5,
+     "agree_provisional": 0
+    },
+    "mcu_card": {
+     "n": 0,
+     "correct": 0,
+     "wrong": 0,
+     "abstain": 0,
+     "precision": null,
+     "coverage": null,
+     "top3": null,
+     "unverified": 4,
+     "agree_provisional": 0
+    },
+    "mcu_card_layout": {
+     "n": 0,
+     "correct": 0,
+     "wrong": 0,
+     "abstain": 0,
+     "precision": null,
+     "coverage": null,
+     "top3": null,
+     "unverified": 5,
+     "agree_provisional": 0
+    }
+   },
+   "latency_ms": {
+    "p50": 26686,
+    "p95": 90469,
+    "max": 121268,
+    "mean": 39591
+   },
+   "stage_mean_ms": {
+    "preprocess": 229,
+    "board": 6904,
+    "layout": 334,
+    "card_locate": 62,
+    "mcu": 32038,
+    "clicks": 0
+   }
+  }
+ },
+ "items": {
+  "real3/uni-ds-v8_pic32mz2048efh144_1.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": "mcu-card-3-for-pic"
+   },
+   "scores": {
+    "board": {
+     "outcome": "correct",
+     "truth": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "top3": true
+    },
+    "mcu": {
+     "outcome": "abstain",
+     "truth": "PIC32MZ2048EFH144",
+     "pred": null,
+     "top3": false
+    },
+    "mcu_card": {
+     "outcome": "abstain",
+     "truth": "mcu-card-3-for-pic32-pic32mz2048efh144",
+     "pred": null,
+     "top3": false
+    },
+    "mcu_card_layout": {
+     "outcome": "wrong",
+     "truth": "mcu-card-3-for-pic32",
+     "pred": "mcu-card-3-for-pic",
+     "top3": null
+    }
+   },
+   "wall_ms": 30711,
+   "reasons": {
+    "board": "UNI-DS v8 matched 1.00 (margin 0.65)",
+    "mcu": "no MCU part number text found; the MCU card is only 246 px in this photo, the chip marking needs ~800 px: send the original photo as a file (messengers shrink photos to ~1280 px) or take a close-up of the card",
+    "mcu_card": "title 'MCU CARD 3 for PIC' is printed on 27 cards; the chip marking decides which one (not read)"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     984,
+     948
+    ],
+    "native_size": [
+     246,
+     237
+    ],
+    "zoom": 4.0,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "real3/uni-ds-v8_stm32f429zi_1.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "correct",
+     "truth": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "top3": true
+    },
+    "mcu": {
+     "outcome": "abstain",
+     "truth": "STM32F429ZI",
+     "pred": null,
+     "top3": false
+    },
+    "mcu_card": {
+     "outcome": "abstain",
+     "truth": "mcu-card-for-stm32-stm32f429zi",
+     "pred": null,
+     "top3": false
+    },
+    "mcu_card_layout": {
+     "outcome": "abstain",
+     "truth": "mcu-card-for-stm32",
+     "pred": null,
+     "top3": null
+    }
+   },
+   "wall_ms": 32028,
+   "reasons": {
+    "board": "UNI-DS v8 matched 1.00 (margin 0.65)",
+    "mcu": "no MCU part number text found; the MCU card is only 242 px in this photo, the chip marking needs ~800 px: send the original photo as a file (messengers shrink photos to ~1280 px) or take a close-up of the card",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "layout+frame",
+    "score": 1.0,
+    "size": [
+     968,
+     952
+    ],
+    "native_size": [
+     242,
+     238
+    ],
+    "zoom": 4.0,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "real3/uni-ds-v8_stm32f429zi_2.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "correct",
+     "truth": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "top3": true
+    },
+    "mcu": {
+     "outcome": "abstain",
+     "truth": "STM32F429ZI",
+     "pred": null,
+     "top3": false
+    },
+    "mcu_card": {
+     "outcome": "abstain",
+     "truth": "mcu-card-for-stm32-stm32f429zi",
+     "pred": null,
+     "top3": false
+    },
+    "mcu_card_layout": {
+     "outcome": "abstain",
+     "truth": "mcu-card-for-stm32",
+     "pred": null,
+     "top3": null
+    }
+   },
+   "wall_ms": 39280,
+   "reasons": {
+    "board": "UNI-DS v8 matched 1.00 (margin 0.65)",
+    "mcu": "best MCU part number match 0.60 < 0.90",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "photo (card crop gave nothing)",
+   "card": {
+    "method": "frame",
+    "score": 0.76,
+    "size": [
+     1068,
+     1052
+    ],
+    "native_size": [
+     267,
+     263
+    ],
+    "zoom": 4.0,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "captures/20261105_124116_board_01.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "unverified",
+     "provisional": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "agree": true
+    }
+   },
+   "wall_ms": 52825,
+   "reasons": {
+    "board": "UNI-DS v8 matched 1.00 (margin 0.80)",
+    "mcu": "best MCU part number match 0.60 < 0.90",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "photo",
+   "card": null,
+   "sockets": []
+  },
+  "captures/20261105_144642_board_01.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "unverified",
+     "provisional": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "agree": true
+    }
+   },
+   "wall_ms": 121268,
+   "reasons": {
+    "board": "UNI-DS v8 matched 0.83 (margin 0.55)",
+    "mcu": "no MCU part number text found",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "photo",
+   "card": null,
+   "sockets": []
+  },
+  "captures/20261105_144827_board_01.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": "easymx-pro-v7-stm32"
+   },
+   "scores": {
+    "board": {
+     "outcome": "unverified",
+     "provisional": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "agree": true
+    },
+    "mcu": {
+     "outcome": "unverified",
+     "provisional": "STM32F373VC",
+     "pred": null,
+     "agree": false
+    },
+    "mcu_card": {
+     "outcome": "unverified",
+     "provisional": "mcu-card-22-for-stm32-stm32f373vc",
+     "pred": null,
+     "agree": false
+    },
+    "mcu_card_layout": {
+     "outcome": "unverified",
+     "provisional": "mcu-card-22-for-stm32",
+     "pred": "easymx-pro-v7-stm32",
+     "agree": false
+    }
+   },
+   "wall_ms": 25991,
+   "reasons": {
+    "board": "UNI-DS v8 matched 1.00 (margin 0.65)",
+    "mcu": "no MCU part number text found; the MCU card is only 504 px in this photo, the chip marking needs ~800 px: send the original photo as a file (messengers shrink photos to ~1280 px) or take a close-up of the card",
+    "mcu_card": "title 'EasyMx PRO v7' is printed on 2 cards; the chip marking decides which one (not read); chip body 0.32 of the card side fits 144/176-pin QFP: dropped 12 card(s) with 100/64 pins"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame",
+    "score": 0.86,
+    "size": [
+     1800,
+     1761
+    ],
+    "native_size": [
+     504,
+     493
+    ],
+    "zoom": 3.57,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "captures/20261105_150507_board_01.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "unverified",
+     "provisional": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "agree": true
+    }
+   },
+   "wall_ms": 24793,
+   "reasons": {
+    "board": "UNI-DS v8 matched 1.00 (margin 0.65)",
+    "mcu": "no MCU part number text found; the MCU card is only 454 px in this photo, the chip marking needs ~800 px: send the original photo as a file (messengers shrink photos to ~1280 px) or take a close-up of the card",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame",
+    "score": 0.86,
+    "size": [
+     1800,
+     1788
+    ],
+    "native_size": [
+     454,
+     451
+    ],
+    "zoom": 3.96,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "captures/20261105_150516_mcu_02.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": "easymx-pro-v7-stm32"
+   },
+   "scores": {
+    "board": {
+     "outcome": "unverified",
+     "provisional": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "agree": true
+    },
+    "mcu": {
+     "outcome": "unverified",
+     "provisional": "STM32F373VC",
+     "pred": null,
+     "agree": false
+    },
+    "mcu_card": {
+     "outcome": "unverified",
+     "provisional": "mcu-card-22-for-stm32-stm32f373vc",
+     "pred": null,
+     "agree": false
+    },
+    "mcu_card_layout": {
+     "outcome": "unverified",
+     "provisional": "mcu-card-22-for-stm32",
+     "pred": "easymx-pro-v7-stm32",
+     "agree": false
+    }
+   },
+   "wall_ms": 37221,
+   "reasons": {
+    "board": "UNI-DS v8 matched 1.00 (margin 0.65)",
+    "mcu": "no MCU part number text found",
+    "mcu_card": "title 'EasyMx PRO v7' is printed on 3 cards; the chip marking decides which one (not read); chip body 0.31 of the card side fits 144-pin QFP: dropped 18 card(s) with 100/48/64 pins"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1790,
+     1800
+    ],
+    "native_size": [
+     1303,
+     1310
+    ],
+    "zoom": 1.37,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "captures/20261105_150652_mcu_03.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "unverified",
+     "provisional": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "agree": true
+    },
+    "mcu": {
+     "outcome": "unverified",
+     "provisional": "STM32F373VC",
+     "pred": null,
+     "agree": false
+    },
+    "mcu_card": {
+     "outcome": "unverified",
+     "provisional": "mcu-card-22-for-stm32-stm32f373vc",
+     "pred": null,
+     "agree": false
+    },
+    "mcu_card_layout": {
+     "outcome": "unverified",
+     "provisional": "mcu-card-22-for-stm32",
+     "pred": null,
+     "agree": false
+    }
+   },
+   "wall_ms": 27150,
+   "reasons": {
+    "board": "UNI-DS v8 matched 1.00 (margin 0.65)",
+    "mcu": "no MCU part number text found",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1788,
+     1800
+    ],
+    "native_size": [
+     1443,
+     1453
+    ],
+    "zoom": 1.24,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "captures/20261105_151336_board_01.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "unverified",
+     "provisional": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "agree": true
+    }
+   },
+   "wall_ms": 22959,
+   "reasons": {
+    "board": "UNI-DS v8 matched 1.00 (margin 0.65)",
+    "mcu": "best MCU part number match 0.20 < 0.90; the MCU card is only 488 px in this photo, the chip marking needs ~800 px: send the original photo as a file (messengers shrink photos to ~1280 px) or take a close-up of the card",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1800,
+     1770
+    ],
+    "native_size": [
+     488,
+     480
+    ],
+    "zoom": 3.69,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "captures/20261105_151343_mcu_02.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "unverified",
+     "provisional": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "agree": true
+    },
+    "mcu": {
+     "outcome": "unverified",
+     "provisional": "STM32F429ZI",
+     "pred": null,
+     "agree": false
+    },
+    "mcu_card_layout": {
+     "outcome": "unverified",
+     "provisional": "easymx-pro-v7-stm32",
+     "pred": null,
+     "agree": false
+    }
+   },
+   "wall_ms": 32017,
+   "reasons": {
+    "board": "UNI-DS v8 matched 1.00 (margin 0.65)",
+    "mcu": "no MCU part number text found",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1769,
+     1800
+    ],
+    "native_size": [
+     1420,
+     1445
+    ],
+    "zoom": 1.25,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "captures/20261105_153735_board_01.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "unverified",
+     "provisional": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "agree": true
+    },
+    "mcu": {
+     "outcome": "unverified",
+     "provisional": "STM32F373VC",
+     "pred": null,
+     "agree": false
+    },
+    "mcu_card": {
+     "outcome": "unverified",
+     "provisional": "mcu-card-22-for-stm32-stm32f373vc",
+     "pred": null,
+     "agree": false
+    },
+    "mcu_card_layout": {
+     "outcome": "unverified",
+     "provisional": "mcu-card-22-for-stm32",
+     "pred": null,
+     "agree": false
+    }
+   },
+   "wall_ms": 26223,
+   "reasons": {
+    "board": "UNI-DS v8 matched 0.92 (margin 0.57)",
+    "mcu": "no MCU part number text found; the MCU card is only 469 px in this photo, the chip marking needs ~800 px: send the original photo as a file (messengers shrink photos to ~1280 px) or take a close-up of the card",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1800,
+     1781
+    ],
+    "native_size": [
+     469,
+     464
+    ],
+    "zoom": 3.84,
+    "chip_found": true
+   },
+   "sockets": []
+  },
+  "captures/20261105_153743_mcu_02.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": "mcu-card-for-stm32"
+   },
+   "scores": {
+    "board": {
+     "outcome": "unverified",
+     "provisional": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "agree": true
+    }
+   },
+   "wall_ms": 25460,
+   "reasons": {
+    "board": "UNI-DS v8 matched 0.83 (margin 0.48)",
+    "mcu": "no MCU part number text found",
+    "mcu_card": "title 'MCU CARD for STM32' is printed on 19 cards; the chip marking decides which one (not read)"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame+text",
+    "score": 1.0,
+    "size": [
+     1797,
+     1800
+    ],
+    "native_size": [
+     1545,
+     1548
+    ],
+    "zoom": 1.16,
+    "chip_found": true
+   },
+   "sockets": []
+  }
+ },
+ "total_s": 499.0
+}

@@ -1,0 +1,1481 @@
+{
+ "run_id": "20261109-111841-6ba4790-46b0dba7c0",
+ "git": "6ba4790",
+ "config": {
+  "name": "E-005-layout_v2_geometry_sockets",
+  "hash": "46b0dba7c0",
+  "stages": {
+   "ocr_backend": "auto",
+   "board_read": "name_ocr",
+   "layout": "v2",
+   "card_localise": "geometry_first",
+   "chip_read": "classic",
+   "upscaler": "bicubic",
+   "marking_verifier": "off",
+   "refine": "auto",
+   "socket_occupancy": "heuristic_v0",
+   "text_match": "exact",
+   "consistency_guard": "off",
+   "guided_scan": "two_step"
+  },
+  "params": {}
+ },
+ "backend": "tesseract",
+ "datasets": {
+  "real3": {
+   "n": 3,
+   "fields": {
+    "board": {
+     "n": 3,
+     "correct": 3,
+     "wrong": 0,
+     "abstain": 0,
+     "precision": 1.0,
+     "coverage": 1.0,
+     "top3": "3/3"
+    },
+    "mcu": {
+     "n": 3,
+     "correct": 0,
+     "wrong": 0,
+     "abstain": 3,
+     "precision": null,
+     "coverage": 0.0,
+     "top3": "0/3"
+    },
+    "mcu_card": {
+     "n": 3,
+     "correct": 0,
+     "wrong": 0,
+     "abstain": 3,
+     "precision": null,
+     "coverage": 0.0,
+     "top3": "0/3"
+    },
+    "mcu_card_layout": {
+     "n": 3,
+     "correct": 0,
+     "wrong": 0,
+     "abstain": 3,
+     "precision": null,
+     "coverage": 0.0,
+     "top3": null
+    },
+    "sockets": {
+     "n": 15,
+     "correct": 5,
+     "wrong": 0,
+     "abstain": 10,
+     "precision": 1.0,
+     "coverage": 0.333,
+     "top3": null
+    }
+   },
+   "latency_ms": {
+    "p50": 28291,
+    "p95": 29632,
+    "max": 29781,
+    "mean": 28657
+   },
+   "stage_mean_ms": {
+    "preprocess": 340,
+    "board": 16114,
+    "layout": 14,
+    "card_locate": 9,
+    "mcu": 12156,
+    "clicks": 0
+   }
+  },
+  "captures": {
+   "n": 10,
+   "fields": {
+    "board": {
+     "n": 0,
+     "correct": 0,
+     "wrong": 0,
+     "abstain": 0,
+     "precision": null,
+     "coverage": null,
+     "top3": null,
+     "unverified": 10,
+     "agree_provisional": 10
+    },
+    "mcu": {
+     "n": 0,
+     "correct": 0,
+     "wrong": 0,
+     "abstain": 0,
+     "precision": null,
+     "coverage": null,
+     "top3": null,
+     "unverified": 5,
+     "agree_provisional": 0
+    },
+    "mcu_card": {
+     "n": 0,
+     "correct": 0,
+     "wrong": 0,
+     "abstain": 0,
+     "precision": null,
+     "coverage": null,
+     "top3": null,
+     "unverified": 4,
+     "agree_provisional": 0
+    },
+    "mcu_card_layout": {
+     "n": 0,
+     "correct": 0,
+     "wrong": 0,
+     "abstain": 0,
+     "precision": null,
+     "coverage": null,
+     "top3": null,
+     "unverified": 5,
+     "agree_provisional": 0
+    },
+    "sockets": {
+     "n": 20,
+     "correct": 10,
+     "wrong": 0,
+     "abstain": 10,
+     "precision": 1.0,
+     "coverage": 0.5,
+     "top3": null
+    }
+   },
+   "latency_ms": {
+    "p50": 27608,
+    "p95": 45669,
+    "max": 53958,
+    "mean": 30141
+   },
+   "stage_mean_ms": {
+    "preprocess": 235,
+    "board": 6902,
+    "layout": 40,
+    "card_locate": 56,
+    "mcu": 22877,
+    "clicks": 0
+   }
+  }
+ },
+ "items": {
+  "real3/uni-ds-v8_pic32mz2048efh144_1.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "correct",
+     "truth": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "top3": true
+    },
+    "mcu": {
+     "outcome": "abstain",
+     "truth": "PIC32MZ2048EFH144",
+     "pred": null,
+     "top3": false
+    },
+    "mcu_card": {
+     "outcome": "abstain",
+     "truth": "mcu-card-3-for-pic32-pic32mz2048efh144",
+     "pred": null,
+     "top3": false
+    },
+    "mcu_card_layout": {
+     "outcome": "abstain",
+     "truth": "mcu-card-3-for-pic32",
+     "pred": null,
+     "top3": null
+    }
+   },
+   "wall_ms": 27898,
+   "reasons": {
+    "board": "UNI-DS v8 matched 1.00 (margin 0.65)",
+    "mcu": "no MCU part number text found; the MCU card is only 246 px in this photo, the chip marking needs ~800 px: send the original photo as a file (messengers shrink photos to ~1280 px) or take a close-up of the card",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "layout+frame",
+    "score": 1.0,
+    "size": [
+     984,
+     948
+    ],
+    "native_size": [
+     246,
+     237
+    ],
+    "zoom": 4.0,
+    "chip_found": true
+   },
+   "sockets": [
+    {
+     "slot": "mikroBUS 1",
+     "occupancy": "occupied",
+     "score": 0.939,
+     "reason": "64% of the area is not board",
+     "features": {
+      "board": 0.3279,
+      "yellow": 0.0329,
+      "foreign": 0.6392,
+      "edges": 0.2374,
+      "visible": 1.0
+     }
+    },
+    {
+     "slot": "mikroBUS 2",
+     "occupancy": "occupied",
+     "score": 0.762,
+     "reason": "46% of the area is not board",
+     "features": {
+      "board": 0.4924,
+      "yellow": 0.0451,
+      "foreign": 0.4625,
+      "edges": 0.2579,
+      "visible": 1.0
+     }
+    },
+    {
+     "slot": "mikroBUS 3",
+     "occupancy": "occupied",
+     "score": 0.772,
+     "reason": "47% of the area is not board",
+     "features": {
+      "board": 0.4897,
+      "yellow": 0.0381,
+      "foreign": 0.4722,
+      "edges": 0.2184,
+      "visible": 1.0
+     }
+    },
+    {
+     "slot": "mikroBUS 4",
+     "occupancy": "occupied",
+     "score": 0.716,
+     "reason": "42% of the area is not board",
+     "features": {
+      "board": 0.5474,
+      "yellow": 0.0364,
+      "foreign": 0.4163,
+      "edges": 0.2029,
+      "visible": 1.0
+     }
+    },
+    {
+     "slot": "mikroBUS 5",
+     "occupancy": "occupied",
+     "score": 0.761,
+     "reason": "46% of the area is not board",
+     "features": {
+      "board": 0.5085,
+      "yellow": 0.0307,
+      "foreign": 0.4608,
+      "edges": 0.2011,
+      "visible": 1.0
+     }
+    }
+   ],
+   "socket_scores": {
+    "mikroBUS 1": "correct",
+    "mikroBUS 2": "correct",
+    "mikroBUS 3": "correct",
+    "mikroBUS 4": "correct",
+    "mikroBUS 5": "correct"
+   }
+  },
+  "real3/uni-ds-v8_stm32f429zi_1.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "correct",
+     "truth": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "top3": true
+    },
+    "mcu": {
+     "outcome": "abstain",
+     "truth": "STM32F429ZI",
+     "pred": null,
+     "top3": false
+    },
+    "mcu_card": {
+     "outcome": "abstain",
+     "truth": "mcu-card-for-stm32-stm32f429zi",
+     "pred": null,
+     "top3": false
+    },
+    "mcu_card_layout": {
+     "outcome": "abstain",
+     "truth": "mcu-card-for-stm32",
+     "pred": null,
+     "top3": null
+    }
+   },
+   "wall_ms": 29781,
+   "reasons": {
+    "board": "UNI-DS v8 matched 1.00 (margin 0.65)",
+    "mcu": "no MCU part number text found; the MCU card is only 242 px in this photo, the chip marking needs ~800 px: send the original photo as a file (messengers shrink photos to ~1280 px) or take a close-up of the card",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "layout+frame",
+    "score": 1.0,
+    "size": [
+     968,
+     952
+    ],
+    "native_size": [
+     242,
+     238
+    ],
+    "zoom": 4.0,
+    "chip_found": true
+   },
+   "sockets": [
+    {
+     "slot": "mikroBUS 1",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "between thresholds: 13% not board, 6.4% silkscreen (a dark Click or shadow?)",
+     "features": {
+      "board": 0.8027,
+      "yellow": 0.0639,
+      "foreign": 0.1334,
+      "edges": 0.1352,
+      "visible": 1.0
+     }
+    },
+    {
+     "slot": "mikroBUS 2",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "between thresholds: 11% not board, 6.4% silkscreen (a dark Click or shadow?)",
+     "features": {
+      "board": 0.8242,
+      "yellow": 0.0636,
+      "foreign": 0.1122,
+      "edges": 0.1471,
+      "visible": 1.0
+     }
+    },
+    {
+     "slot": "mikroBUS 3",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "between thresholds: 10% not board, 6.1% silkscreen (a dark Click or shadow?)",
+     "features": {
+      "board": 0.8435,
+      "yellow": 0.0608,
+      "foreign": 0.0957,
+      "edges": 0.1353,
+      "visible": 1.0
+     }
+    },
+    {
+     "slot": "mikroBUS 4",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "between thresholds: 9% not board, 5.4% silkscreen (a dark Click or shadow?)",
+     "features": {
+      "board": 0.8522,
+      "yellow": 0.0539,
+      "foreign": 0.0939,
+      "edges": 0.133,
+      "visible": 1.0
+     }
+    },
+    {
+     "slot": "mikroBUS 5",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "between thresholds: 10% not board, 5.7% silkscreen (a dark Click or shadow?)",
+     "features": {
+      "board": 0.8433,
+      "yellow": 0.0574,
+      "foreign": 0.0993,
+      "edges": 0.1391,
+      "visible": 1.0
+     }
+    }
+   ],
+   "socket_scores": {
+    "mikroBUS 1": "abstain",
+    "mikroBUS 2": "abstain",
+    "mikroBUS 3": "abstain",
+    "mikroBUS 4": "abstain",
+    "mikroBUS 5": "abstain"
+   }
+  },
+  "real3/uni-ds-v8_stm32f429zi_2.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "correct",
+     "truth": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "top3": true
+    },
+    "mcu": {
+     "outcome": "abstain",
+     "truth": "STM32F429ZI",
+     "pred": null,
+     "top3": false
+    },
+    "mcu_card": {
+     "outcome": "abstain",
+     "truth": "mcu-card-for-stm32-stm32f429zi",
+     "pred": null,
+     "top3": false
+    },
+    "mcu_card_layout": {
+     "outcome": "abstain",
+     "truth": "mcu-card-for-stm32",
+     "pred": null,
+     "top3": null
+    }
+   },
+   "wall_ms": 28291,
+   "reasons": {
+    "board": "UNI-DS v8 matched 1.00 (margin 0.65)",
+    "mcu": "no MCU part number text found; the MCU card is only 267 px in this photo, the chip marking needs ~800 px: send the original photo as a file (messengers shrink photos to ~1280 px) or take a close-up of the card",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "layout+frame",
+    "score": 0.96,
+    "size": [
+     1068,
+     1052
+    ],
+    "native_size": [
+     267,
+     263
+    ],
+    "zoom": 4.0,
+    "chip_found": true
+   },
+   "sockets": [
+    {
+     "slot": "mikroBUS 1",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "between thresholds: 18% not board, 5.3% silkscreen (a dark Click or shadow?)",
+     "features": {
+      "board": 0.7676,
+      "yellow": 0.0527,
+      "foreign": 0.1797,
+      "edges": 0.1436,
+      "visible": 1.0
+     }
+    },
+    {
+     "slot": "mikroBUS 2",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "between thresholds: 17% not board, 6.5% silkscreen (a dark Click or shadow?)",
+     "features": {
+      "board": 0.7612,
+      "yellow": 0.065,
+      "foreign": 0.1738,
+      "edges": 0.1613,
+      "visible": 0.9879
+     }
+    },
+    {
+     "slot": "mikroBUS 3",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "between thresholds: 15% not board, 5.1% silkscreen (a dark Click or shadow?)",
+     "features": {
+      "board": 0.802,
+      "yellow": 0.0511,
+      "foreign": 0.1469,
+      "edges": 0.1431,
+      "visible": 0.957
+     }
+    },
+    {
+     "slot": "mikroBUS 4",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "between thresholds: 13% not board, 3.5% silkscreen (a dark Click or shadow?)",
+     "features": {
+      "board": 0.8352,
+      "yellow": 0.0355,
+      "foreign": 0.1293,
+      "edges": 0.1301,
+      "visible": 0.9259
+     }
+    },
+    {
+     "slot": "mikroBUS 5",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "socket area only 89% inside the photo",
+     "features": {
+      "visible": 0.8947
+     }
+    }
+   ],
+   "socket_scores": {
+    "mikroBUS 1": "abstain",
+    "mikroBUS 2": "abstain",
+    "mikroBUS 3": "abstain",
+    "mikroBUS 4": "abstain",
+    "mikroBUS 5": "abstain"
+   }
+  },
+  "captures/20261105_124116_board_01.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "unverified",
+     "provisional": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "agree": true
+    }
+   },
+   "wall_ms": 53958,
+   "reasons": {
+    "board": "UNI-DS v8 matched 1.00 (margin 0.80)",
+    "mcu": "best MCU part number match 0.60 < 0.90",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "photo",
+   "card": null,
+   "sockets": [],
+   "socket_scores": {}
+  },
+  "captures/20261105_144642_board_01.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "unverified",
+     "provisional": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "agree": true
+    }
+   },
+   "wall_ms": 21263,
+   "reasons": {
+    "board": "UNI-DS v8 matched 0.83 (margin 0.55)",
+    "mcu": "no MCU part number text found; the MCU card is only 607 px in this photo, the chip marking needs ~800 px: send the original photo as a file (messengers shrink photos to ~1280 px) or take a close-up of the card",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "layout",
+    "score": 0.8,
+    "size": [
+     1800,
+     1741
+    ],
+    "native_size": [
+     607,
+     587
+    ],
+    "zoom": 2.97,
+    "chip_found": false
+   },
+   "sockets": [
+    {
+     "slot": "mikroBUS 1",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "between thresholds: 8% not board, 3.1% silkscreen (a dark Click or shadow?)",
+     "features": {
+      "board": 0.8879,
+      "yellow": 0.0314,
+      "foreign": 0.0806,
+      "edges": 0.1043,
+      "visible": 1.0
+     }
+    },
+    {
+     "slot": "mikroBUS 2",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "between thresholds: 9% not board, 3.4% silkscreen (a dark Click or shadow?)",
+     "features": {
+      "board": 0.8719,
+      "yellow": 0.0341,
+      "foreign": 0.0939,
+      "edges": 0.1193,
+      "visible": 1.0
+     }
+    },
+    {
+     "slot": "mikroBUS 3",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "between thresholds: 10% not board, 3.3% silkscreen (a dark Click or shadow?)",
+     "features": {
+      "board": 0.8713,
+      "yellow": 0.0334,
+      "foreign": 0.0953,
+      "edges": 0.1135,
+      "visible": 1.0
+     }
+    },
+    {
+     "slot": "mikroBUS 4",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "between thresholds: 10% not board, 3.0% silkscreen (a dark Click or shadow?)",
+     "features": {
+      "board": 0.8673,
+      "yellow": 0.03,
+      "foreign": 0.1028,
+      "edges": 0.108,
+      "visible": 1.0
+     }
+    },
+    {
+     "slot": "mikroBUS 5",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "between thresholds: 10% not board, 2.8% silkscreen (a dark Click or shadow?)",
+     "features": {
+      "board": 0.873,
+      "yellow": 0.0276,
+      "foreign": 0.0994,
+      "edges": 0.1021,
+      "visible": 1.0
+     }
+    }
+   ],
+   "socket_scores": {
+    "mikroBUS 1": "abstain",
+    "mikroBUS 2": "abstain",
+    "mikroBUS 3": "abstain",
+    "mikroBUS 4": "abstain",
+    "mikroBUS 5": "abstain"
+   }
+  },
+  "captures/20261105_144827_board_01.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "unverified",
+     "provisional": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "agree": true
+    },
+    "mcu": {
+     "outcome": "unverified",
+     "provisional": "STM32F373VC",
+     "pred": null,
+     "agree": false
+    },
+    "mcu_card": {
+     "outcome": "unverified",
+     "provisional": "mcu-card-22-for-stm32-stm32f373vc",
+     "pred": null,
+     "agree": false
+    },
+    "mcu_card_layout": {
+     "outcome": "unverified",
+     "provisional": "mcu-card-22-for-stm32",
+     "pred": null,
+     "agree": false
+    }
+   },
+   "wall_ms": 23350,
+   "reasons": {
+    "board": "UNI-DS v8 matched 1.00 (margin 0.65)",
+    "mcu": "best MCU part number match 0.40 < 0.90; the MCU card is only 540 px in this photo, the chip marking needs ~800 px: send the original photo as a file (messengers shrink photos to ~1280 px) or take a close-up of the card",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "layout+frame",
+    "score": 1.0,
+    "size": [
+     1800,
+     1743
+    ],
+    "native_size": [
+     540,
+     523
+    ],
+    "zoom": 3.33,
+    "chip_found": true
+   },
+   "sockets": [
+    {
+     "slot": "mikroBUS 1",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "between thresholds: 8% not board, 2.4% silkscreen (a dark Click or shadow?)",
+     "features": {
+      "board": 0.8921,
+      "yellow": 0.0245,
+      "foreign": 0.0835,
+      "edges": 0.1016,
+      "visible": 1.0
+     }
+    },
+    {
+     "slot": "mikroBUS 2",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "between thresholds: 10% not board, 2.5% silkscreen (a dark Click or shadow?)",
+     "features": {
+      "board": 0.8756,
+      "yellow": 0.0248,
+      "foreign": 0.0996,
+      "edges": 0.1099,
+      "visible": 1.0
+     }
+    },
+    {
+     "slot": "mikroBUS 3",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "between thresholds: 10% not board, 2.2% silkscreen (a dark Click or shadow?)",
+     "features": {
+      "board": 0.8739,
+      "yellow": 0.0219,
+      "foreign": 0.1042,
+      "edges": 0.0975,
+      "visible": 1.0
+     }
+    },
+    {
+     "slot": "mikroBUS 4",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "between thresholds: 11% not board, 2.1% silkscreen (a dark Click or shadow?)",
+     "features": {
+      "board": 0.8682,
+      "yellow": 0.0206,
+      "foreign": 0.1112,
+      "edges": 0.0938,
+      "visible": 1.0
+     }
+    },
+    {
+     "slot": "mikroBUS 5",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "between thresholds: 18% not board, 1.8% silkscreen (a dark Click or shadow?)",
+     "features": {
+      "board": 0.8028,
+      "yellow": 0.0175,
+      "foreign": 0.1797,
+      "edges": 0.0887,
+      "visible": 1.0
+     }
+    }
+   ],
+   "socket_scores": {
+    "mikroBUS 1": "abstain",
+    "mikroBUS 2": "abstain",
+    "mikroBUS 3": "abstain",
+    "mikroBUS 4": "abstain",
+    "mikroBUS 5": "abstain"
+   }
+  },
+  "captures/20261105_150507_board_01.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "unverified",
+     "provisional": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "agree": true
+    }
+   },
+   "wall_ms": 23720,
+   "reasons": {
+    "board": "UNI-DS v8 matched 1.00 (margin 0.65)",
+    "mcu": "no MCU part number text found; the MCU card is only 454 px in this photo, the chip marking needs ~800 px: send the original photo as a file (messengers shrink photos to ~1280 px) or take a close-up of the card",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "frame",
+    "score": 0.86,
+    "size": [
+     1800,
+     1788
+    ],
+    "native_size": [
+     454,
+     451
+    ],
+    "zoom": 3.96,
+    "chip_found": true
+   },
+   "sockets": [],
+   "socket_scores": {}
+  },
+  "captures/20261105_150516_mcu_02.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "unverified",
+     "provisional": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "agree": true
+    },
+    "mcu": {
+     "outcome": "unverified",
+     "provisional": "STM32F373VC",
+     "pred": null,
+     "agree": false
+    },
+    "mcu_card": {
+     "outcome": "unverified",
+     "provisional": "mcu-card-22-for-stm32-stm32f373vc",
+     "pred": null,
+     "agree": false
+    },
+    "mcu_card_layout": {
+     "outcome": "unverified",
+     "provisional": "mcu-card-22-for-stm32",
+     "pred": null,
+     "agree": false
+    }
+   },
+   "wall_ms": 35538,
+   "reasons": {
+    "board": "UNI-DS v8 matched 1.00 (margin 0.65)",
+    "mcu": "no MCU part number text found",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "layout+frame",
+    "score": 1.0,
+    "size": [
+     1800,
+     1800
+    ],
+    "native_size": [
+     1305,
+     1305
+    ],
+    "zoom": 1.38,
+    "chip_found": true
+   },
+   "sockets": [
+    {
+     "slot": "mikroBUS 1",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "socket area only 0% inside the photo",
+     "features": {
+      "visible": 0.0
+     }
+    },
+    {
+     "slot": "mikroBUS 2",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "socket area only 0% inside the photo",
+     "features": {
+      "visible": 0.0
+     }
+    },
+    {
+     "slot": "mikroBUS 3",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "socket area only 0% inside the photo",
+     "features": {
+      "visible": 0.0
+     }
+    },
+    {
+     "slot": "mikroBUS 4",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "socket area only 0% inside the photo",
+     "features": {
+      "visible": 0.0
+     }
+    },
+    {
+     "slot": "mikroBUS 5",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "socket area only 0% inside the photo",
+     "features": {
+      "visible": 0.0
+     }
+    }
+   ],
+   "socket_scores": {}
+  },
+  "captures/20261105_150652_mcu_03.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": "easymx-pro-v7-stm32"
+   },
+   "scores": {
+    "board": {
+     "outcome": "unverified",
+     "provisional": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "agree": true
+    },
+    "mcu": {
+     "outcome": "unverified",
+     "provisional": "STM32F373VC",
+     "pred": null,
+     "agree": false
+    },
+    "mcu_card": {
+     "outcome": "unverified",
+     "provisional": "mcu-card-22-for-stm32-stm32f373vc",
+     "pred": null,
+     "agree": false
+    },
+    "mcu_card_layout": {
+     "outcome": "unverified",
+     "provisional": "mcu-card-22-for-stm32",
+     "pred": "easymx-pro-v7-stm32",
+     "agree": false
+    }
+   },
+   "wall_ms": 27548,
+   "reasons": {
+    "board": "UNI-DS v8 matched 1.00 (margin 0.65)",
+    "mcu": "no MCU part number text found",
+    "mcu_card": "title 'EasyMx PRO v7' is printed on 2 cards; the chip marking decides which one (not read); chip body 0.31 of the card side fits 144-pin QFP: dropped 12 card(s) with 100/64 pins"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "layout+frame",
+    "score": 1.0,
+    "size": [
+     1799,
+     1800
+    ],
+    "native_size": [
+     1442,
+     1443
+    ],
+    "zoom": 1.25,
+    "chip_found": true
+   },
+   "sockets": [
+    {
+     "slot": "mikroBUS 1",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "socket area only 0% inside the photo",
+     "features": {
+      "visible": 0.0
+     }
+    },
+    {
+     "slot": "mikroBUS 2",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "socket area only 0% inside the photo",
+     "features": {
+      "visible": 0.0
+     }
+    },
+    {
+     "slot": "mikroBUS 3",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "socket area only 0% inside the photo",
+     "features": {
+      "visible": 0.0
+     }
+    },
+    {
+     "slot": "mikroBUS 4",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "socket area only 0% inside the photo",
+     "features": {
+      "visible": 0.0
+     }
+    },
+    {
+     "slot": "mikroBUS 5",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "socket area only 0% inside the photo",
+     "features": {
+      "visible": 0.0
+     }
+    }
+   ],
+   "socket_scores": {}
+  },
+  "captures/20261105_151336_board_01.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": "mcu-card-for-stm32"
+   },
+   "scores": {
+    "board": {
+     "outcome": "unverified",
+     "provisional": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "agree": true
+    }
+   },
+   "wall_ms": 27668,
+   "reasons": {
+    "board": "UNI-DS v8 matched 1.00 (margin 0.65)",
+    "mcu": "best MCU part number match 0.42 < 0.90; the MCU card is only 523 px in this photo, the chip marking needs ~800 px: send the original photo as a file (messengers shrink photos to ~1280 px) or take a close-up of the card",
+    "mcu_card": "title 'MCU CARD for STM32' is printed on 19 cards; the chip marking decides which one (unclear)"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "layout+frame",
+    "score": 1.0,
+    "size": [
+     1800,
+     1786
+    ],
+    "native_size": [
+     523,
+     519
+    ],
+    "zoom": 3.44,
+    "chip_found": true
+   },
+   "sockets": [
+    {
+     "slot": "mikroBUS 1",
+     "occupancy": "occupied",
+     "score": 0.766,
+     "reason": "47% of the area is not board",
+     "features": {
+      "board": 0.512,
+      "yellow": 0.0224,
+      "foreign": 0.4656,
+      "edges": 0.1693,
+      "visible": 1.0
+     }
+    },
+    {
+     "slot": "mikroBUS 2",
+     "occupancy": "occupied",
+     "score": 0.895,
+     "reason": "60% of the area is not board",
+     "features": {
+      "board": 0.3823,
+      "yellow": 0.0224,
+      "foreign": 0.5953,
+      "edges": 0.2186,
+      "visible": 1.0
+     }
+    },
+    {
+     "slot": "mikroBUS 3",
+     "occupancy": "occupied",
+     "score": 0.718,
+     "reason": "42% of the area is not board",
+     "features": {
+      "board": 0.56,
+      "yellow": 0.0224,
+      "foreign": 0.4176,
+      "edges": 0.175,
+      "visible": 1.0
+     }
+    },
+    {
+     "slot": "mikroBUS 4",
+     "occupancy": "occupied",
+     "score": 0.828,
+     "reason": "53% of the area is not board",
+     "features": {
+      "board": 0.4459,
+      "yellow": 0.0258,
+      "foreign": 0.5283,
+      "edges": 0.1724,
+      "visible": 1.0
+     }
+    },
+    {
+     "slot": "mikroBUS 5",
+     "occupancy": "occupied",
+     "score": 0.767,
+     "reason": "47% of the area is not board",
+     "features": {
+      "board": 0.4965,
+      "yellow": 0.036,
+      "foreign": 0.4674,
+      "edges": 0.1792,
+      "visible": 1.0
+     }
+    }
+   ],
+   "socket_scores": {
+    "mikroBUS 1": "correct",
+    "mikroBUS 2": "correct",
+    "mikroBUS 3": "correct",
+    "mikroBUS 4": "correct",
+    "mikroBUS 5": "correct"
+   }
+  },
+  "captures/20261105_151343_mcu_02.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "unverified",
+     "provisional": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "agree": true
+    },
+    "mcu": {
+     "outcome": "unverified",
+     "provisional": "STM32F429ZI",
+     "pred": null,
+     "agree": false
+    },
+    "mcu_card_layout": {
+     "outcome": "unverified",
+     "provisional": "easymx-pro-v7-stm32",
+     "pred": null,
+     "agree": false
+    }
+   },
+   "wall_ms": 34393,
+   "reasons": {
+    "board": "UNI-DS v8 matched 1.00 (margin 0.65)",
+    "mcu": "no MCU part number text found",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "layout+frame",
+    "score": 1.0,
+    "size": [
+     1787,
+     1800
+    ],
+    "native_size": [
+     1411,
+     1421
+    ],
+    "zoom": 1.27,
+    "chip_found": true
+   },
+   "sockets": [
+    {
+     "slot": "mikroBUS 1",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "socket area only 0% inside the photo",
+     "features": {
+      "visible": 0.0
+     }
+    },
+    {
+     "slot": "mikroBUS 2",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "socket area only 0% inside the photo",
+     "features": {
+      "visible": 0.0
+     }
+    },
+    {
+     "slot": "mikroBUS 3",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "socket area only 0% inside the photo",
+     "features": {
+      "visible": 0.0
+     }
+    },
+    {
+     "slot": "mikroBUS 4",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "socket area only 0% inside the photo",
+     "features": {
+      "visible": 0.0
+     }
+    },
+    {
+     "slot": "mikroBUS 5",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "socket area only 0% inside the photo",
+     "features": {
+      "visible": 0.0
+     }
+    }
+   ],
+   "socket_scores": {}
+  },
+  "captures/20261105_153735_board_01.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "unverified",
+     "provisional": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "agree": true
+    },
+    "mcu": {
+     "outcome": "unverified",
+     "provisional": "STM32F373VC",
+     "pred": null,
+     "agree": false
+    },
+    "mcu_card": {
+     "outcome": "unverified",
+     "provisional": "mcu-card-22-for-stm32-stm32f373vc",
+     "pred": null,
+     "agree": false
+    },
+    "mcu_card_layout": {
+     "outcome": "unverified",
+     "provisional": "mcu-card-22-for-stm32",
+     "pred": null,
+     "agree": false
+    }
+   },
+   "wall_ms": 25019,
+   "reasons": {
+    "board": "UNI-DS v8 matched 0.92 (margin 0.57)",
+    "mcu": "no MCU part number text found; the MCU card is only 472 px in this photo, the chip marking needs ~800 px: send the original photo as a file (messengers shrink photos to ~1280 px) or take a close-up of the card",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "layout+frame",
+    "score": 1.0,
+    "size": [
+     1800,
+     1773
+    ],
+    "native_size": [
+     472,
+     465
+    ],
+    "zoom": 3.81,
+    "chip_found": true
+   },
+   "sockets": [
+    {
+     "slot": "mikroBUS 1",
+     "occupancy": "occupied",
+     "score": 0.757,
+     "reason": "46% of the area is not board",
+     "features": {
+      "board": 0.5155,
+      "yellow": 0.027,
+      "foreign": 0.4575,
+      "edges": 0.1487,
+      "visible": 1.0
+     }
+    },
+    {
+     "slot": "mikroBUS 2",
+     "occupancy": "occupied",
+     "score": 0.903,
+     "reason": "60% of the area is not board",
+     "features": {
+      "board": 0.3684,
+      "yellow": 0.0282,
+      "foreign": 0.6034,
+      "edges": 0.2001,
+      "visible": 1.0
+     }
+    },
+    {
+     "slot": "mikroBUS 3",
+     "occupancy": "occupied",
+     "score": 0.736,
+     "reason": "44% of the area is not board",
+     "features": {
+      "board": 0.5392,
+      "yellow": 0.0244,
+      "foreign": 0.4364,
+      "edges": 0.1627,
+      "visible": 1.0
+     }
+    },
+    {
+     "slot": "mikroBUS 4",
+     "occupancy": "occupied",
+     "score": 0.808,
+     "reason": "51% of the area is not board",
+     "features": {
+      "board": 0.4683,
+      "yellow": 0.0235,
+      "foreign": 0.5082,
+      "edges": 0.153,
+      "visible": 1.0
+     }
+    },
+    {
+     "slot": "mikroBUS 5",
+     "occupancy": "occupied",
+     "score": 0.803,
+     "reason": "50% of the area is not board",
+     "features": {
+      "board": 0.4643,
+      "yellow": 0.0326,
+      "foreign": 0.5031,
+      "edges": 0.162,
+      "visible": 1.0
+     }
+    }
+   ],
+   "socket_scores": {
+    "mikroBUS 1": "correct",
+    "mikroBUS 2": "correct",
+    "mikroBUS 3": "correct",
+    "mikroBUS 4": "correct",
+    "mikroBUS 5": "correct"
+   }
+  },
+  "captures/20261105_153743_mcu_02.jpg": {
+   "decisions": {
+    "board": "uni-ds-v8",
+    "mcu": null,
+    "mcu_card": null,
+    "mcu_card_layout": null
+   },
+   "scores": {
+    "board": {
+     "outcome": "unverified",
+     "provisional": "uni-ds-v8",
+     "pred": "uni-ds-v8",
+     "agree": true
+    }
+   },
+   "wall_ms": 28953,
+   "reasons": {
+    "board": "UNI-DS v8 matched 0.83 (margin 0.48)",
+    "mcu": "no MCU part number text found",
+    "mcu_card": "no MCU card title read"
+   },
+   "mcu_source": "card",
+   "card": {
+    "method": "layout+frame",
+    "score": 1.0,
+    "size": [
+     1797,
+     1800
+    ],
+    "native_size": [
+     1541,
+     1544
+    ],
+    "zoom": 1.17,
+    "chip_found": true
+   },
+   "sockets": [
+    {
+     "slot": "mikroBUS 1",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "socket area only 0% inside the photo",
+     "features": {
+      "visible": 0.0
+     }
+    },
+    {
+     "slot": "mikroBUS 2",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "socket area only 0% inside the photo",
+     "features": {
+      "visible": 0.0
+     }
+    },
+    {
+     "slot": "mikroBUS 3",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "socket area only 0% inside the photo",
+     "features": {
+      "visible": 0.0
+     }
+    },
+    {
+     "slot": "mikroBUS 4",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "socket area only 0% inside the photo",
+     "features": {
+      "visible": 0.0
+     }
+    },
+    {
+     "slot": "mikroBUS 5",
+     "occupancy": "unknown",
+     "score": 0.0,
+     "reason": "socket area only 0% inside the photo",
+     "features": {
+      "visible": 0.0
+     }
+    }
+   ],
+   "socket_scores": {}
+  }
+ },
+ "total_s": 388.6
+}

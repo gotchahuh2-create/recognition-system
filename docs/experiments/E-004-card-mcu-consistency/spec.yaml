@@ -1,0 +1,11 @@
+id: E-004
+title: Withdraw a card decision that cannot carry the decided MCU
+hypothesis: H-007
+datasets: [syn_ocr, syn_cards, real3, captures]
+baseline: active
+baseline_report: 20261109-102028-1fbbb0d-dda4621290   # v1 reference (unprofiled)
+variants:
+  - name: guard_on
+    stages: {consistency_guard: "on"}
+    replay: guards   # exact: the guard only reads final decisions
+gates: {tolerance: 0, latency_budget: 1.25}

@@ -1,0 +1,415 @@
+{
+ "name": "syn_cards",
+ "kind": "synthetic",
+ "version": 1,
+ "note": "36 synthetic MCU-card scenes from the card dataset: 12 cards x close/mid/far.",
+ "items": [
+  {
+   "file": "card_close_mcu-card-3-for-kinetis-mkv58f1m0vlq24.jpg",
+   "sha256": "ceb639d32e9c7512e7445c04da121f233ed94bf7fdc953cd915603b136d48c1b",
+   "truth": {
+    "mcu_card": "mcu-card-3-for-kinetis-mkv58f1m0vlq24",
+    "mcu": "MKV58F1M0VLQ24",
+    "mcu_card_layout": "mcu-card-3-for-kinetis"
+   },
+   "verified": true,
+   "preset": "close"
+  },
+  {
+   "file": "card_mid_mcu-card-3-for-kinetis-mkv58f1m0vlq24.jpg",
+   "sha256": "98c0927a057e0b1cd29b95dcdb9bba4acfb20bc1c256a8afa2b00a008f8bd276",
+   "truth": {
+    "mcu_card": "mcu-card-3-for-kinetis-mkv58f1m0vlq24",
+    "mcu": "MKV58F1M0VLQ24",
+    "mcu_card_layout": "mcu-card-3-for-kinetis"
+   },
+   "verified": true,
+   "preset": "mid"
+  },
+  {
+   "file": "card_far_mcu-card-3-for-kinetis-mkv58f1m0vlq24.jpg",
+   "sha256": "45effdd99f40325413c79cf751223f917a4c8ba38302f5409a09a529ec197f14",
+   "truth": {
+    "mcu_card": "mcu-card-3-for-kinetis-mkv58f1m0vlq24",
+    "mcu": "MKV58F1M0VLQ24",
+    "mcu_card_layout": "mcu-card-3-for-kinetis"
+   },
+   "verified": true,
+   "preset": "far"
+  },
+  {
+   "file": "card_close_mcu-card-for-kinetis-mk64fn1m0vdc12.jpg",
+   "sha256": "a15e23e1025a6c4d00a2d082f1750a4b1ff7f0866c597d59f1de6085ddd0bdf7",
+   "truth": {
+    "mcu_card": "mcu-card-for-kinetis-mk64fn1m0vdc12",
+    "mcu": "MK64FN1M0VDC12",
+    "mcu_card_layout": "mcu-card-for-kinetis"
+   },
+   "verified": true,
+   "preset": "close"
+  },
+  {
+   "file": "card_mid_mcu-card-for-kinetis-mk64fn1m0vdc12.jpg",
+   "sha256": "1fd54f255f54b0e0d954714f6996c77201b6c46d5b5fcc03203623fe39bd4744",
+   "truth": {
+    "mcu_card": "mcu-card-for-kinetis-mk64fn1m0vdc12",
+    "mcu": "MK64FN1M0VDC12",
+    "mcu_card_layout": "mcu-card-for-kinetis"
+   },
+   "verified": true,
+   "preset": "mid"
+  },
+  {
+   "file": "card_far_mcu-card-for-kinetis-mk64fn1m0vdc12.jpg",
+   "sha256": "f0cf50c7cc05bda1ad0bd7016935913b08c986935c6f58c346b1a6f9b53a1ba3",
+   "truth": {
+    "mcu_card": "mcu-card-for-kinetis-mk64fn1m0vdc12",
+    "mcu": "MK64FN1M0VDC12",
+    "mcu_card_layout": "mcu-card-for-kinetis"
+   },
+   "verified": true,
+   "preset": "far"
+  },
+  {
+   "file": "card_close_mcu-card-29-for-stm32-stm32f215re.jpg",
+   "sha256": "6b8c6788a7210d72e994884cf3ea5d9b2519992bf0d8172469de9bb04c227ca5",
+   "truth": {
+    "mcu_card": "mcu-card-29-for-stm32-stm32f215re",
+    "mcu": "STM32F215RE",
+    "mcu_card_layout": "mcu-card-29-for-stm32"
+   },
+   "verified": true,
+   "preset": "close"
+  },
+  {
+   "file": "card_mid_mcu-card-29-for-stm32-stm32f215re.jpg",
+   "sha256": "b4b392dc0cafe6c40bfc0e597047f1513e73a9f1db228552fd088f54e893cd71",
+   "truth": {
+    "mcu_card": "mcu-card-29-for-stm32-stm32f215re",
+    "mcu": "STM32F215RE",
+    "mcu_card_layout": "mcu-card-29-for-stm32"
+   },
+   "verified": true,
+   "preset": "mid"
+  },
+  {
+   "file": "card_far_mcu-card-29-for-stm32-stm32f215re.jpg",
+   "sha256": "cb789eb29101ab272100dd9705f0da7c6a01b780b0a6c442a4de17f8e29b033f",
+   "truth": {
+    "mcu_card": "mcu-card-29-for-stm32-stm32f215re",
+    "mcu": "STM32F215RE",
+    "mcu_card_layout": "mcu-card-29-for-stm32"
+   },
+   "verified": true,
+   "preset": "far"
+  },
+  {
+   "file": "card_close_mcu-card-2-for-kinetis-mk20dx128vfm5.jpg",
+   "sha256": "7dedcd451427eff6fcfd67abb49343c6ac29af084fcd672a4a74ca5c82232750",
+   "truth": {
+    "mcu_card": "mcu-card-2-for-kinetis-mk20dx128vfm5",
+    "mcu": "MK20DX128VFM5",
+    "mcu_card_layout": "mcu-card-2-for-kinetis"
+   },
+   "verified": true,
+   "preset": "close"
+  },
+  {
+   "file": "card_mid_mcu-card-2-for-kinetis-mk20dx128vfm5.jpg",
+   "sha256": "6aa5bf4d4320bee196ac6557277c465f26c30c27ca1a1f7cdba8e2aeb0ee089c",
+   "truth": {
+    "mcu_card": "mcu-card-2-for-kinetis-mk20dx128vfm5",
+    "mcu": "MK20DX128VFM5",
+    "mcu_card_layout": "mcu-card-2-for-kinetis"
+   },
+   "verified": true,
+   "preset": "mid"
+  },
+  {
+   "file": "card_far_mcu-card-2-for-kinetis-mk20dx128vfm5.jpg",
+   "sha256": "7b4b70f38ddf32ac70225d60c7553fe4fc48212f491a3eb498829ef99dbd4df8",
+   "truth": {
+    "mcu_card": "mcu-card-2-for-kinetis-mk20dx128vfm5",
+    "mcu": "MK20DX128VFM5",
+    "mcu_card_layout": "mcu-card-2-for-kinetis"
+   },
+   "verified": true,
+   "preset": "far"
+  },
+  {
+   "file": "card_close_mcu-card-3-for-stm32-stm32f303rc.jpg",
+   "sha256": "58fc53ae314bc6dab3f814dd16aed6617dc01c7403e6c96b1ed150cd5f622e04",
+   "truth": {
+    "mcu_card": "mcu-card-3-for-stm32-stm32f303rc",
+    "mcu": "STM32F303RC",
+    "mcu_card_layout": "mcu-card-3-for-stm32"
+   },
+   "verified": true,
+   "preset": "close"
+  },
+  {
+   "file": "card_mid_mcu-card-3-for-stm32-stm32f303rc.jpg",
+   "sha256": "0097e86bb86541f297b914bd3abe49a867ce8f6219946e4635e4191ff370e750",
+   "truth": {
+    "mcu_card": "mcu-card-3-for-stm32-stm32f303rc",
+    "mcu": "STM32F303RC",
+    "mcu_card_layout": "mcu-card-3-for-stm32"
+   },
+   "verified": true,
+   "preset": "mid"
+  },
+  {
+   "file": "card_far_mcu-card-3-for-stm32-stm32f303rc.jpg",
+   "sha256": "50af62b53825f3a368d6e825ee0ee3bf3344ce28b32cacf587a0e98c306a94a5",
+   "truth": {
+    "mcu_card": "mcu-card-3-for-stm32-stm32f303rc",
+    "mcu": "STM32F303RC",
+    "mcu_card_layout": "mcu-card-3-for-stm32"
+   },
+   "verified": true,
+   "preset": "far"
+  },
+  {
+   "file": "card_close_mcu-card-16-for-stm32-stm32l442kc.jpg",
+   "sha256": "9ab0c015e1d3a0b1fc8e610a6d3447a2791d9a38f23c30008c23aa2878180c23",
+   "truth": {
+    "mcu_card": "mcu-card-16-for-stm32-stm32l442kc",
+    "mcu": "STM32L442KC",
+    "mcu_card_layout": "mcu-card-16-for-stm32"
+   },
+   "verified": true,
+   "preset": "close"
+  },
+  {
+   "file": "card_mid_mcu-card-16-for-stm32-stm32l442kc.jpg",
+   "sha256": "f7bab5372e66275ed840fe608ed4601e2f23fc348ee013c013cd4ff61ad3479d",
+   "truth": {
+    "mcu_card": "mcu-card-16-for-stm32-stm32l442kc",
+    "mcu": "STM32L442KC",
+    "mcu_card_layout": "mcu-card-16-for-stm32"
+   },
+   "verified": true,
+   "preset": "mid"
+  },
+  {
+   "file": "card_far_mcu-card-16-for-stm32-stm32l442kc.jpg",
+   "sha256": "ebb1f9987d119fd0dbd9a9ce052f73fed33650024b859d42be2478659a897c35",
+   "truth": {
+    "mcu_card": "mcu-card-16-for-stm32-stm32l442kc",
+    "mcu": "STM32L442KC",
+    "mcu_card_layout": "mcu-card-16-for-stm32"
+   },
+   "verified": true,
+   "preset": "far"
+  },
+  {
+   "file": "card_close_mcu-card-for-kinetis-mk24fn256vdc12.jpg",
+   "sha256": "afe129d569c603cead92d1e22c50213e62dc81b31b5fece0dcb7c35439d47c15",
+   "truth": {
+    "mcu_card": "mcu-card-for-kinetis-mk24fn256vdc12",
+    "mcu": "MK24FN256VDC12",
+    "mcu_card_layout": "mcu-card-for-kinetis"
+   },
+   "verified": true,
+   "preset": "close"
+  },
+  {
+   "file": "card_mid_mcu-card-for-kinetis-mk24fn256vdc12.jpg",
+   "sha256": "4da748da85916641754e48f4291b7436ea9fb72cd46bc78cbc150dafd946bee5",
+   "truth": {
+    "mcu_card": "mcu-card-for-kinetis-mk24fn256vdc12",
+    "mcu": "MK24FN256VDC12",
+    "mcu_card_layout": "mcu-card-for-kinetis"
+   },
+   "verified": true,
+   "preset": "mid"
+  },
+  {
+   "file": "card_far_mcu-card-for-kinetis-mk24fn256vdc12.jpg",
+   "sha256": "0f4e97dfa97d6e9da33194cc3c3877412db45821a724daec9932115863f850c3",
+   "truth": {
+    "mcu_card": "mcu-card-for-kinetis-mk24fn256vdc12",
+    "mcu": "MK24FN256VDC12",
+    "mcu_card_layout": "mcu-card-for-kinetis"
+   },
+   "verified": true,
+   "preset": "far"
+  },
+  {
+   "file": "card_close_mcu-card-3-for-stm32-stm32l4a6rg.jpg",
+   "sha256": "eac09a059f78f7ce88cf51accb950092c96785d2361c0545f90c0d4781bf35b7",
+   "truth": {
+    "mcu_card": "mcu-card-3-for-stm32-stm32l4a6rg",
+    "mcu": "STM32L4A6RG",
+    "mcu_card_layout": "mcu-card-3-for-stm32"
+   },
+   "verified": true,
+   "preset": "close"
+  },
+  {
+   "file": "card_mid_mcu-card-3-for-stm32-stm32l4a6rg.jpg",
+   "sha256": "1d9da967bfc302fe9c67287715cd5b7d37b3ec65cecaeaecef4c34087ce0cb5f",
+   "truth": {
+    "mcu_card": "mcu-card-3-for-stm32-stm32l4a6rg",
+    "mcu": "STM32L4A6RG",
+    "mcu_card_layout": "mcu-card-3-for-stm32"
+   },
+   "verified": true,
+   "preset": "mid"
+  },
+  {
+   "file": "card_far_mcu-card-3-for-stm32-stm32l4a6rg.jpg",
+   "sha256": "b263f8793d5310e76fb44fa2e0bf7e53091d0cca6f9e3f08665a439ee430cd48",
+   "truth": {
+    "mcu_card": "mcu-card-3-for-stm32-stm32l4a6rg",
+    "mcu": "STM32L4A6RG",
+    "mcu_card_layout": "mcu-card-3-for-stm32"
+   },
+   "verified": true,
+   "preset": "far"
+  },
+  {
+   "file": "card_close_mcu-card-22-for-stm32-stm32f373vc.jpg",
+   "sha256": "877e400c967218668dbcea0a41a2223fd9340f013c1cf9e37b855a778b9d0329",
+   "truth": {
+    "mcu_card": "mcu-card-22-for-stm32-stm32f373vc",
+    "mcu": "STM32F373VC",
+    "mcu_card_layout": "mcu-card-22-for-stm32"
+   },
+   "verified": true,
+   "preset": "close"
+  },
+  {
+   "file": "card_mid_mcu-card-22-for-stm32-stm32f373vc.jpg",
+   "sha256": "308c55734e697e53f404d5e31103b7a132a5947102276edaaa37e49dc760f301",
+   "truth": {
+    "mcu_card": "mcu-card-22-for-stm32-stm32f373vc",
+    "mcu": "STM32F373VC",
+    "mcu_card_layout": "mcu-card-22-for-stm32"
+   },
+   "verified": true,
+   "preset": "mid"
+  },
+  {
+   "file": "card_far_mcu-card-22-for-stm32-stm32f373vc.jpg",
+   "sha256": "d782e3689472c4a0a68af7ad986b37155afb8b20b0ae814135e7d8aeecb37300",
+   "truth": {
+    "mcu_card": "mcu-card-22-for-stm32-stm32f373vc",
+    "mcu": "STM32F373VC",
+    "mcu_card_layout": "mcu-card-22-for-stm32"
+   },
+   "verified": true,
+   "preset": "far"
+  },
+  {
+   "file": "card_close_mcu-card-for-tiva-tm4c1299nczad.jpg",
+   "sha256": "087b8b32d8429b5b2808e4a8f15e1700e905a0b711d02f7cf4a3974a88ed8926",
+   "truth": {
+    "mcu_card": "mcu-card-for-tiva-tm4c1299nczad",
+    "mcu": "TM4C1299NCZAD",
+    "mcu_card_layout": "mcu-card-for-tiva"
+   },
+   "verified": true,
+   "preset": "close"
+  },
+  {
+   "file": "card_mid_mcu-card-for-tiva-tm4c1299nczad.jpg",
+   "sha256": "04dfd762dc8d64b8a0d83e428bc3bfa966971409961af3eed4ed5a3b1203c017",
+   "truth": {
+    "mcu_card": "mcu-card-for-tiva-tm4c1299nczad",
+    "mcu": "TM4C1299NCZAD",
+    "mcu_card_layout": "mcu-card-for-tiva"
+   },
+   "verified": true,
+   "preset": "mid"
+  },
+  {
+   "file": "card_far_mcu-card-for-tiva-tm4c1299nczad.jpg",
+   "sha256": "570e854126b37b264dd9d143612e2ffaea274a1c262c5b772906287e749bfd2b",
+   "truth": {
+    "mcu_card": "mcu-card-for-tiva-tm4c1299nczad",
+    "mcu": "TM4C1299NCZAD",
+    "mcu_card_layout": "mcu-card-for-tiva"
+   },
+   "verified": true,
+   "preset": "far"
+  },
+  {
+   "file": "card_close_mcu-card-for-tiva-tm4c1294nczad.jpg",
+   "sha256": "5d813b053940e262a90f133e148ecea40eff4ada6aa16b2906b76defc744822c",
+   "truth": {
+    "mcu_card": "mcu-card-for-tiva-tm4c1294nczad",
+    "mcu": "TM4C1294NCZAD",
+    "mcu_card_layout": "mcu-card-for-tiva"
+   },
+   "verified": true,
+   "preset": "close"
+  },
+  {
+   "file": "card_mid_mcu-card-for-tiva-tm4c1294nczad.jpg",
+   "sha256": "c8b03e398cade9d3d25a961ce35d13ae52220538cc76e14774f5651f7a10644a",
+   "truth": {
+    "mcu_card": "mcu-card-for-tiva-tm4c1294nczad",
+    "mcu": "TM4C1294NCZAD",
+    "mcu_card_layout": "mcu-card-for-tiva"
+   },
+   "verified": true,
+   "preset": "mid"
+  },
+  {
+   "file": "card_far_mcu-card-for-tiva-tm4c1294nczad.jpg",
+   "sha256": "254bcbd9efb5b01c1ca5ee29019b5ef191edef35c2edea4d3d5de51815565a70",
+   "truth": {
+    "mcu_card": "mcu-card-for-tiva-tm4c1294nczad",
+    "mcu": "TM4C1294NCZAD",
+    "mcu_card_layout": "mcu-card-for-tiva"
+   },
+   "verified": true,
+   "preset": "far"
+  },
+  {
+   "file": "card_close_mcu-card-3-for-stm32-stm32f091rc.jpg",
+   "sha256": "43734ce6095e858344b418c0f7aa6c82e8a95ba54fd958079267e38515fbddd0",
+   "truth": {
+    "mcu_card": "mcu-card-3-for-stm32-stm32f091rc",
+    "mcu": "STM32F091RC",
+    "mcu_card_layout": "mcu-card-3-for-stm32"
+   },
+   "verified": true,
+   "preset": "close"
+  },
+  {
+   "file": "card_mid_mcu-card-3-for-stm32-stm32f091rc.jpg",
+   "sha256": "9c0f763bcd9104d82582f2ae573a0114039aa375f907dffd1c58b9a4b512686d",
+   "truth": {
+    "mcu_card": "mcu-card-3-for-stm32-stm32f091rc",
+    "mcu": "STM32F091RC",
+    "mcu_card_layout": "mcu-card-3-for-stm32"
+   },
+   "verified": true,
+   "preset": "mid"
+  },
+  {
+   "file": "card_far_mcu-card-3-for-stm32-stm32f091rc.jpg",
+   "sha256": "1bd82fb6c59f28ed24c00879ce524179d9268fba2cb895717fcb92cee1c68885",
+   "truth": {
+    "mcu_card": "mcu-card-3-for-stm32-stm32f091rc",
+    "mcu": "STM32F091RC",
+    "mcu_card_layout": "mcu-card-3-for-stm32"
+   },
+   "verified": true,
+   "preset": "far"
+  }
+ ],
+ "generator": {
+  "cmd": [
+   "scripts/make_synthetic_cards.py",
+   "{out}",
+   "--n",
+   "12",
+   "--presets",
+   "close,mid,far"
+  ],
+  "deterministic": true
+ }
+}

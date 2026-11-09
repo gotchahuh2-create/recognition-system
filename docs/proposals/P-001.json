@@ -1,0 +1,58 @@
+{
+ "id": "P-001",
+ "status": "pending",
+ "created": "2026-11-09 10:40",
+ "experiment": "E-004",
+ "hypothesis": "H-007",
+ "change": {
+  "stages": {
+   "consistency_guard": "on"
+  },
+  "params": {}
+ },
+ "from_version": "v1",
+ "evidence": {
+  "baseline_report": "20261109-102028-1fbbb0d-dda4621290",
+  "variant_report": "20261109-104030-489a8ed_dirty-cea865c933-replay",
+  "gates": {
+   "no_new_wrong": true,
+   "no_lost_correct": true,
+   "latency_within_budget": true,
+   "identical_decisions": false
+  },
+  "new_correct": [],
+  "lost_correct": [],
+  "new_wrong": [],
+  "fixed_wrong": [
+   "syn_cards/card_mid_mcu-card-3-for-stm32-stm32f303rc.jpg:mcu_card"
+  ],
+  "identical_decisions": false,
+  "latency": {
+   "syn_ocr": {
+    "base_p95": 17229,
+    "cand_p95": 17229,
+    "ratio": 1.0
+   },
+   "real3": {
+    "base_p95": 36754,
+    "cand_p95": 36754,
+    "ratio": 1.0
+   },
+   "captures": {
+    "base_p95": 88450,
+    "cand_p95": 88450,
+    "ratio": 1.0
+   },
+   "syn_cards": {
+    "base_p95": 17863,
+    "cand_p95": 17863,
+    "ratio": 1.0
+   }
+  }
+ },
+ "risks": [
+  "consistency_guard=on is experimental: promotion also changes its status to stable"
+ ],
+ "approved_by": null,
+ "decided": null
+}

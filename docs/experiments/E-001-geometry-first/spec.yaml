@@ -1,0 +1,10 @@
+id: E-001
+title: Geometry-first card localisation
+hypothesis: H-002
+datasets: [real3, captures]   # syn_cards: no layout is placed there, identical by construction (test_geometry_first_without_layout_equals_default)
+baseline: active
+baseline_report: 20261109-102028-1fbbb0d-dda4621290   # v1 reference (unprofiled)
+variants:
+  - name: geometry_first
+    stages: {card_localise: geometry_first}
+gates: {tolerance: 0, latency_budget: 1.25}

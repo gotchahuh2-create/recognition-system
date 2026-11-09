@@ -1,0 +1,77 @@
+# PHOENIX stage registry: which implementation each stage uses, and its status.
+#   protected     part of a preserved component; never removed or replaced without an ADR
+#   stable        measured, may be the default
+#   experimental  opt-in only; promoted through a proposal (phoenix.adapt) + your approval
+# `default` is what config/active.yaml uses unless it says otherwise.
+version: 1
+stages:
+  ocr_backend:
+    default: auto
+    impls:
+      auto:      {status: stable, note: "paddle > rapidocr > tesseract, first one installed"}
+      tesseract: {status: stable}
+      rapidocr:  {status: stable}
+      paddle:    {status: experimental, note: "adapter untested (README 0.3)"}
+  board_read:
+    default: name_ocr
+    impls:
+      name_ocr: {status: protected, component: Standard Board OCR, code: vision/board_ocr.py + Pipeline.board_from_layouts}
+  layout:
+    default: "on"
+    impls:
+      "on":  {status: protected, component: MCU and Socket Identifiers, code: vision/layout.py}
+      "off": {status: stable, note: "whole-photo MCU pass (pre-0.4 behaviour)"}
+      v2:    {status: experimental, hypothesis: H-008, code: data/layouts_v2.json,
+              note: "UNI-DS v8 anchors + 131 anchors read by Tesseract on a 2160x3840 capture"}
+  card_localise:
+    default: frame_first
+    impls:
+      frame_first:    {status: protected, component: MCU and Socket Identifiers, code: vision/card_locate.py}
+      geometry_first: {status: experimental, hypothesis: H-002, code: phoenix/localise.py}
+  chip_read:
+    default: classic
+    impls:
+      classic: {status: protected, component: MCU Reader, code: vision/card_reader.py}
+      faint:   {status: experimental, component: Pixel-by-pixel clustering, code: vision/faint/}
+      both:    {status: experimental, component: Pixel-by-pixel clustering}
+  upscaler:
+    default: bicubic
+    impls:
+      bicubic: {status: protected, component: Resolution Booster, code: vision/enhance.py}
+      espcn:   {status: experimental, component: Resolution Booster, note: "needs opencv-contrib + model"}
+      fsrcnn:  {status: experimental, component: Resolution Booster}
+      edsr:    {status: experimental, component: Resolution Booster}
+  marking_verifier:
+    default: "off"
+    impls:
+      "off": {status: stable}
+      "on":  {status: experimental, component: Resolution Booster, code: vision/faint/synth.py}
+  refine:
+    default: auto
+    impls:
+      auto:   {status: protected, component: MCU Reader, code: vision/refine.py}
+      always: {status: experimental}
+      "off":  {status: stable, note: "ablation only"}
+  socket_occupancy:
+    default: "off"
+    impls:
+      "off":        {status: stable, note: "no socket stage (v0.10 behaviour)"}
+      heuristic_v0: {status: experimental, hypothesis: H-004, code: phoenix/sockets.py}
+      heuristic_v1: {status: experimental, hypothesis: H-004, code: phoenix/sockets.py:classify_v1,
+                     note: "colour + centre texture; fitted on 30 sockets of one board"}
+  text_match:
+    default: exact
+    impls:
+      exact:        {status: protected, component: MCU Reader, code: vision/textmatch.py}
+      exact_cached: {status: experimental, hypothesis: H-006, code: phoenix/accel.py,
+                     note: "memoised ocr_distance/normalize/compact; must give identical decisions"}
+  consistency_guard:
+    default: "off"
+    impls:
+      "off": {status: stable, note: "v0.10 behaviour"}
+      "on":  {status: experimental, hypothesis: H-007, code: phoenix/guards.py,
+              note: "can only withdraw answers that contradict another decided field"}
+  guided_scan:
+    default: two_step
+    impls:
+      two_step: {status: protected, component: Guided Scanning, code: vision/app/quality.py + vision/app/server.py}

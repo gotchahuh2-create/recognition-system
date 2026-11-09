@@ -1,0 +1,144 @@
+{
+ "name": "syn_ocr",
+ "kind": "synthetic",
+ "version": 1,
+ "note": "16 synthetic scenes: 9 smoke (boards, chips, unknown board) + 7 hard chips (defocus, motion, low light, small).",
+ "items": [
+  {
+   "file": "fusion_arm_flat.jpg",
+   "sha256": "c788913b0cb1d2e4def5508cc58180a25dff7ba7dcd9c0d305120c3f1fbb8d95",
+   "truth": {
+    "board": "fusion-arm-v8"
+   },
+   "verified": true
+  },
+  {
+   "file": "fusion_arm_tilt.jpg",
+   "sha256": "363de1f3e776cb59375319efff88f4dce05de7331fdc1f1737c1135ec811c5da",
+   "truth": {
+    "board": "fusion-arm-v8"
+   },
+   "verified": true
+  },
+  {
+   "file": "easypic_v8_rot90.jpg",
+   "sha256": "ca0d1b95d1b769b3c41cbcca6499c0b241f9af379614b2b762dd9abe0405bf8a",
+   "truth": {
+    "board": "easypic-v8"
+   },
+   "verified": true
+  },
+  {
+   "file": "easypic_v7_upside.jpg",
+   "sha256": "8570b04cf2ce192455fe19471abb301dc713dbdacc363ffb0f090c757601c6b1",
+   "truth": {
+    "board": "easypic-v7"
+   },
+   "verified": true
+  },
+  {
+   "file": "clicker4_glare.jpg",
+   "sha256": "9ce0e74067a1a8c57c57c9ba34086df25a2bd9e585d1798c73e1e942eedf5257",
+   "truth": {
+    "board": "clicker-4-stm32"
+   },
+   "verified": true
+  },
+  {
+   "file": "chip_stm32_closeup.jpg",
+   "sha256": "6525ed73a15da97a7c9a7eade50aec37d46adbb15410286343b634bbb70c6300",
+   "truth": {
+    "mcu": "STM32F407ZG"
+   },
+   "verified": true
+  },
+  {
+   "file": "chip_tm4c_closeup.jpg",
+   "sha256": "5cd2e91201790a5d328501cb13d0d3c225526278b5f9a7dca9e23c14bc055d0f",
+   "truth": {
+    "mcu": "TM4C129XNCZAD"
+   },
+   "verified": true
+  },
+  {
+   "file": "card10_closeup.jpg",
+   "sha256": "e2774c6464c411995d1f88f9f1c4e774cba551feb5d9926783c492160b5d46f2",
+   "truth": {
+    "mcu": "PIC18F65K40"
+   },
+   "verified": true
+  },
+  {
+   "file": "unknown_board.jpg",
+   "sha256": "367f9620d2334f2c08c445976277bf812b9aa784bb42d2564d2433fdbff4ce37",
+   "truth": {
+    "board": "none"
+   },
+   "verified": true
+  },
+  {
+   "file": "hard_defocus5.jpg",
+   "sha256": "6574afa01a075c1286d14fc0532a469c8ae6e2eea7a20d8071761918845af7f0",
+   "truth": {
+    "mcu": "STM32F429ZI"
+   },
+   "verified": true
+  },
+  {
+   "file": "hard_lowlight.jpg",
+   "sha256": "37d4f588b12d33298bc85057fe74871e8432b43efa53a230ba852ae5e75c9fab",
+   "truth": {
+    "mcu": "STM32F429ZI"
+   },
+   "verified": true
+  },
+  {
+   "file": "hard_defocus_pic.jpg",
+   "sha256": "200bd7ce6abd3a6862433be9350227b3ebc4ab1724da95988bc8655e282c30be",
+   "truth": {
+    "mcu": "PIC18F45K22"
+   },
+   "verified": true
+  },
+  {
+   "file": "hard_lowlight_avr.jpg",
+   "sha256": "56745e3896f2571fda1cc7f4eb00ea57a77f856b366bcfc3c8a1d02a244fec7c",
+   "truth": {
+    "mcu": "ATMEGA2560"
+   },
+   "verified": true
+  },
+  {
+   "file": "hard_far_small_chip.jpg",
+   "sha256": "571f77a4596d07887cf1affbb05733f8039350819b699b9ad09b21da4d3da2e9",
+   "truth": {
+    "mcu": "STM32F407ZG"
+   },
+   "verified": true
+  },
+  {
+   "file": "hard_motion15.jpg",
+   "sha256": "b9313189edd9cac0ea284118d8d6ec299ac07b7cf85cd992527f1857a3872791",
+   "truth": {
+    "mcu": "STM32F429ZI"
+   },
+   "verified": true
+  },
+  {
+   "file": "hard_defocus7.jpg",
+   "sha256": "82b62601301ce1872d1b875a6ab3cad35d4d5113f984ca97d23fa6798e841fe0",
+   "truth": {
+    "mcu": "STM32F429ZI"
+   },
+   "verified": true
+  }
+ ],
+ "generator": {
+  "cmd": [
+   "scripts/make_synthetic.py",
+   "{out}",
+   "--hard"
+  ],
+  "deterministic": true
+ }
+}

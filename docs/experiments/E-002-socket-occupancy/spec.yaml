@@ -1,0 +1,10 @@
+id: E-002
+title: Socket occupancy heuristic v0
+hypothesis: H-004
+datasets: [captures, real3]
+baseline: active
+baseline_report: 20261109-102028-1fbbb0d-dda4621290   # v1 reference (unprofiled)
+variants:
+  - name: heuristic_v0
+    stages: {socket_occupancy: heuristic_v0}
+gates: {tolerance: 0, latency_budget: 1.25}

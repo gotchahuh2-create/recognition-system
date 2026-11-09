@@ -1,0 +1,471 @@
+{
+ "id": "E-005",
+ "hypothesis": "H-008",
+ "title": "Re-calibrated UNI-DS v8 layout anchors (engine- and resolution-independent placement)",
+ "baseline": "20261109-102028-1fbbb0d-dda4621290",
+ "variants": [
+  {
+   "name": "layout_v2",
+   "config": {
+    "name": "E-005-layout_v2",
+    "hash": "4f71053050",
+    "stages": {
+     "ocr_backend": "auto",
+     "board_read": "name_ocr",
+     "layout": "v2",
+     "card_localise": "frame_first",
+     "chip_read": "classic",
+     "upscaler": "bicubic",
+     "marking_verifier": "off",
+     "refine": "auto",
+     "socket_occupancy": "off",
+     "text_match": "exact",
+     "consistency_guard": "off",
+     "guided_scan": "two_step"
+    },
+    "params": {}
+   },
+   "report": "20261109-111228-6ba4790-4f71053050",
+   "compare": {
+    "base": "20261109-102028-1fbbb0d-dda4621290",
+    "cand": "20261109-111228-6ba4790-4f71053050",
+    "items_compared": 13,
+    "gates": {
+     "no_new_wrong": true,
+     "no_lost_correct": true,
+     "latency_within_budget": true,
+     "identical_decisions": true
+    },
+    "changed": {},
+    "new_wrong": [],
+    "new_correct": [],
+    "lost_correct": [],
+    "fixed_wrong": [],
+    "latency": {
+     "real3": {
+      "base_p95": 36754,
+      "cand_p95": 30943,
+      "ratio": 0.842
+     },
+     "captures": {
+      "base_p95": 88450,
+      "cand_p95": 43726,
+      "ratio": 0.494
+     }
+    },
+    "latency_over_budget": [],
+    "total_time": {
+     "base_s": 481.4,
+     "cand_s": 372.4,
+     "ratio": 0.774
+    }
+   },
+   "passed_gates": true,
+   "improved": true,
+   "faster_same_answers": true,
+   "summary": {
+    "real3": {
+     "n": 3,
+     "fields": {
+      "board": {
+       "n": 3,
+       "correct": 3,
+       "wrong": 0,
+       "abstain": 0,
+       "precision": 1.0,
+       "coverage": 1.0,
+       "top3": "3/3"
+      },
+      "mcu": {
+       "n": 3,
+       "correct": 0,
+       "wrong": 0,
+       "abstain": 3,
+       "precision": null,
+       "coverage": 0.0,
+       "top3": "0/3"
+      },
+      "mcu_card": {
+       "n": 3,
+       "correct": 0,
+       "wrong": 0,
+       "abstain": 3,
+       "precision": null,
+       "coverage": 0.0,
+       "top3": "0/3"
+      },
+      "mcu_card_layout": {
+       "n": 3,
+       "correct": 0,
+       "wrong": 1,
+       "abstain": 2,
+       "precision": 0.0,
+       "coverage": 0.333,
+       "top3": null
+      }
+     },
+     "latency_ms": {
+      "p50": 28555,
+      "p95": 30943,
+      "max": 31209,
+      "mean": 28599
+     },
+     "stage_mean_ms": {
+      "preprocess": 384,
+      "board": 16012,
+      "layout": 14,
+      "card_locate": 34,
+      "mcu": 12129,
+      "clicks": 0
+     }
+    },
+    "captures": {
+     "n": 10,
+     "fields": {
+      "board": {
+       "n": 0,
+       "correct": 0,
+       "wrong": 0,
+       "abstain": 0,
+       "precision": null,
+       "coverage": null,
+       "top3": null,
+       "unverified": 10,
+       "agree_provisional": 10
+      },
+      "mcu": {
+       "n": 0,
+       "correct": 0,
+       "wrong": 0,
+       "abstain": 0,
+       "precision": null,
+       "coverage": null,
+       "top3": null,
+       "unverified": 5,
+       "agree_provisional": 0
+      },
+      "mcu_card": {
+       "n": 0,
+       "correct": 0,
+       "wrong": 0,
+       "abstain": 0,
+       "precision": null,
+       "coverage": null,
+       "top3": null,
+       "unverified": 4,
+       "agree_provisional": 0
+      },
+      "mcu_card_layout": {
+       "n": 0,
+       "correct": 0,
+       "wrong": 0,
+       "abstain": 0,
+       "precision": null,
+       "coverage": null,
+       "top3": null,
+       "unverified": 5,
+       "agree_provisional": 0
+      }
+     },
+     "latency_ms": {
+      "p50": 24476,
+      "p95": 43726,
+      "max": 51301,
+      "mean": 28664
+     },
+     "stage_mean_ms": {
+      "preprocess": 212,
+      "board": 6554,
+      "layout": 39,
+      "card_locate": 59,
+      "mcu": 21778,
+      "clicks": 0
+     }
+    }
+   }
+  },
+  {
+   "name": "layout_v2_geometry_sockets",
+   "config": {
+    "name": "E-005-layout_v2_geometry_sockets",
+    "hash": "46b0dba7c0",
+    "stages": {
+     "ocr_backend": "auto",
+     "board_read": "name_ocr",
+     "layout": "v2",
+     "card_localise": "geometry_first",
+     "chip_read": "classic",
+     "upscaler": "bicubic",
+     "marking_verifier": "off",
+     "refine": "auto",
+     "socket_occupancy": "heuristic_v0",
+     "text_match": "exact",
+     "consistency_guard": "off",
+     "guided_scan": "two_step"
+    },
+    "params": {}
+   },
+   "report": "20261109-111841-6ba4790-46b0dba7c0",
+   "compare": {
+    "base": "20261109-102028-1fbbb0d-dda4621290",
+    "cand": "20261109-111841-6ba4790-46b0dba7c0",
+    "items_compared": 13,
+    "gates": {
+     "no_new_wrong": true,
+     "no_lost_correct": true,
+     "latency_within_budget": true,
+     "identical_decisions": false
+    },
+    "changed": {
+     "captures/20261105_144827_board_01.jpg": {
+      "base": {
+       "board": "uni-ds-v8",
+       "mcu": null,
+       "mcu_card": null,
+       "mcu_card_layout": "easymx-pro-v7-stm32"
+      },
+      "cand": {
+       "board": "uni-ds-v8",
+       "mcu": null,
+       "mcu_card": null,
+       "mcu_card_layout": null
+      }
+     },
+     "captures/20261105_150516_mcu_02.jpg": {
+      "base": {
+       "board": "uni-ds-v8",
+       "mcu": null,
+       "mcu_card": null,
+       "mcu_card_layout": "easymx-pro-v7-stm32"
+      },
+      "cand": {
+       "board": "uni-ds-v8",
+       "mcu": null,
+       "mcu_card": null,
+       "mcu_card_layout": null
+      }
+     },
+     "captures/20261105_150652_mcu_03.jpg": {
+      "base": {
+       "board": "uni-ds-v8",
+       "mcu": null,
+       "mcu_card": null,
+       "mcu_card_layout": null
+      },
+      "cand": {
+       "board": "uni-ds-v8",
+       "mcu": null,
+       "mcu_card": null,
+       "mcu_card_layout": "easymx-pro-v7-stm32"
+      }
+     },
+     "captures/20261105_151336_board_01.jpg": {
+      "base": {
+       "board": "uni-ds-v8",
+       "mcu": null,
+       "mcu_card": null,
+       "mcu_card_layout": null
+      },
+      "cand": {
+       "board": "uni-ds-v8",
+       "mcu": null,
+       "mcu_card": null,
+       "mcu_card_layout": "mcu-card-for-stm32"
+      }
+     },
+     "captures/20261105_153743_mcu_02.jpg": {
+      "base": {
+       "board": "uni-ds-v8",
+       "mcu": null,
+       "mcu_card": null,
+       "mcu_card_layout": "mcu-card-for-stm32"
+      },
+      "cand": {
+       "board": "uni-ds-v8",
+       "mcu": null,
+       "mcu_card": null,
+       "mcu_card_layout": null
+      }
+     },
+     "real3/uni-ds-v8_pic32mz2048efh144_1.jpg": {
+      "base": {
+       "board": "uni-ds-v8",
+       "mcu": null,
+       "mcu_card": null,
+       "mcu_card_layout": "mcu-card-3-for-pic"
+      },
+      "cand": {
+       "board": "uni-ds-v8",
+       "mcu": null,
+       "mcu_card": null,
+       "mcu_card_layout": null
+      }
+     }
+    },
+    "new_wrong": [],
+    "new_correct": [
+     "captures/20261105_151336_board_01.jpg:socket:mikroBUS 1",
+     "captures/20261105_151336_board_01.jpg:socket:mikroBUS 2",
+     "captures/20261105_151336_board_01.jpg:socket:mikroBUS 3",
+     "captures/20261105_151336_board_01.jpg:socket:mikroBUS 4",
+     "captures/20261105_151336_board_01.jpg:socket:mikroBUS 5",
+     "captures/20261105_153735_board_01.jpg:socket:mikroBUS 1",
+     "captures/20261105_153735_board_01.jpg:socket:mikroBUS 2",
+     "captures/20261105_153735_board_01.jpg:socket:mikroBUS 3",
+     "captures/20261105_153735_board_01.jpg:socket:mikroBUS 4",
+     "captures/20261105_153735_board_01.jpg:socket:mikroBUS 5",
+     "real3/uni-ds-v8_pic32mz2048efh144_1.jpg:socket:mikroBUS 1",
+     "real3/uni-ds-v8_pic32mz2048efh144_1.jpg:socket:mikroBUS 2",
+     "real3/uni-ds-v8_pic32mz2048efh144_1.jpg:socket:mikroBUS 3",
+     "real3/uni-ds-v8_pic32mz2048efh144_1.jpg:socket:mikroBUS 4",
+     "real3/uni-ds-v8_pic32mz2048efh144_1.jpg:socket:mikroBUS 5"
+    ],
+    "lost_correct": [],
+    "fixed_wrong": [
+     "real3/uni-ds-v8_pic32mz2048efh144_1.jpg:mcu_card_layout"
+    ],
+    "latency": {
+     "real3": {
+      "base_p95": 36754,
+      "cand_p95": 29632,
+      "ratio": 0.806
+     },
+     "captures": {
+      "base_p95": 88450,
+      "cand_p95": 45669,
+      "ratio": 0.516
+     }
+    },
+    "latency_over_budget": [],
+    "total_time": {
+     "base_s": 481.4,
+     "cand_s": 387.4,
+     "ratio": 0.805
+    }
+   },
+   "passed_gates": true,
+   "improved": true,
+   "faster_same_answers": false,
+   "summary": {
+    "real3": {
+     "n": 3,
+     "fields": {
+      "board": {
+       "n": 3,
+       "correct": 3,
+       "wrong": 0,
+       "abstain": 0,
+       "precision": 1.0,
+       "coverage": 1.0,
+       "top3": "3/3"
+      },
+      "mcu": {
+       "n": 3,
+       "correct": 0,
+       "wrong": 0,
+       "abstain": 3,
+       "precision": null,
+       "coverage": 0.0,
+       "top3": "0/3"
+      },
+      "mcu_card": {
+       "n": 3,
+       "correct": 0,
+       "wrong": 0,
+       "abstain": 3,
+       "precision": null,
+       "coverage": 0.0,
+       "top3": "0/3"
+      },
+      "mcu_card_layout": {
+       "n": 3,
+       "correct": 0,
+       "wrong": 0,
+       "abstain": 3,
+       "precision": null,
+       "coverage": 0.0,
+       "top3": null
+      }
+     },
+     "latency_ms": {
+      "p50": 28291,
+      "p95": 29632,
+      "max": 29781,
+      "mean": 28657
+     },
+     "stage_mean_ms": {
+      "preprocess": 340,
+      "board": 16114,
+      "layout": 14,
+      "card_locate": 9,
+      "mcu": 12156,
+      "clicks": 0
+     }
+    },
+    "captures": {
+     "n": 10,
+     "fields": {
+      "board": {
+       "n": 0,
+       "correct": 0,
+       "wrong": 0,
+       "abstain": 0,
+       "precision": null,
+       "coverage": null,
+       "top3": null,
+       "unverified": 10,
+       "agree_provisional": 10
+      },
+      "mcu": {
+       "n": 0,
+       "correct": 0,
+       "wrong": 0,
+       "abstain": 0,
+       "precision": null,
+       "coverage": null,
+       "top3": null,
+       "unverified": 5,
+       "agree_provisional": 0
+      },
+      "mcu_card": {
+       "n": 0,
+       "correct": 0,
+       "wrong": 0,
+       "abstain": 0,
+       "precision": null,
+       "coverage": null,
+       "top3": null,
+       "unverified": 4,
+       "agree_provisional": 0
+      },
+      "mcu_card_layout": {
+       "n": 0,
+       "correct": 0,
+       "wrong": 0,
+       "abstain": 0,
+       "precision": null,
+       "coverage": null,
+       "top3": null,
+       "unverified": 5,
+       "agree_provisional": 0
+      }
+     },
+     "latency_ms": {
+      "p50": 27608,
+      "p95": 45669,
+      "max": 53958,
+      "mean": 30141
+     },
+     "stage_mean_ms": {
+      "preprocess": 235,
+      "board": 6902,
+      "layout": 40,
+      "card_locate": 56,
+      "mcu": 22877,
+      "clicks": 0
+     }
+    }
+   }
+  }
+ ]
+}

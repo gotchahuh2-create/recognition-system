@@ -1,0 +1,13 @@
+id: E-005
+title: Re-calibrated UNI-DS v8 layout anchors (engine- and resolution-independent placement)
+hypothesis: H-008
+datasets: [real3, captures]
+baseline: active
+baseline_report: 20261109-102028-1fbbb0d-dda4621290   # v1 reference (unprofiled)
+variants:
+  - name: layout_v2
+    stages: {layout: v2}
+  - name: layout_v2_geometry_sockets
+    stages: {layout: v2, card_localise: geometry_first, socket_occupancy: heuristic_v0}
+gates: {tolerance: 0, latency_budget: 1.25}
+# Note: 20261105_153735_board_01 is the calibration photo (in-sample); the other 12 photos are held out.

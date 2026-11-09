@@ -1,0 +1,57 @@
+{
+ "id": "P-002",
+ "status": "pending",
+ "created": "2026-11-09 10:55",
+ "experiment": "E-003",
+ "hypothesis": "H-006",
+ "change": {
+  "stages": {
+   "text_match": "exact_cached"
+  },
+  "params": {}
+ },
+ "from_version": "v1",
+ "evidence": {
+  "baseline_report": "20261109-102028-1fbbb0d-dda4621290",
+  "variant_report": "20261109-104041-8978102-524b7724b8",
+  "gates": {
+   "no_new_wrong": true,
+   "no_lost_correct": true,
+   "latency_within_budget": true,
+   "identical_decisions": true
+  },
+  "new_correct": [],
+  "lost_correct": [],
+  "new_wrong": [],
+  "fixed_wrong": [],
+  "identical_decisions": true,
+  "latency": {
+   "syn_cards": {
+    "base_p95": 17863,
+    "cand_p95": 13085,
+    "ratio": 0.733
+   },
+   "real3": {
+    "base_p95": 36754,
+    "cand_p95": 29147,
+    "ratio": 0.793
+   },
+   "captures": {
+    "base_p95": 88450,
+    "cand_p95": 56330,
+    "ratio": 0.637
+   },
+   "syn_ocr": {
+    "base_p95": 17229,
+    "cand_p95": 15730,
+    "ratio": 0.913
+   }
+  }
+ },
+ "risks": [
+  "text_match=exact_cached is experimental: promotion also changes its status to stable",
+  "replaces protected default text_match=exact as the DEFAULT (the protected code stays in place and selectable)"
+ ],
+ "approved_by": null,
+ "decided": null
+}

@@ -1,0 +1,188 @@
+{
+ "id": "E-002",
+ "hypothesis": "H-004",
+ "title": "Socket occupancy heuristic v0",
+ "baseline": "20261109-102028-1fbbb0d-dda4621290",
+ "variants": [
+  {
+   "name": "heuristic_v0",
+   "config": {
+    "name": "E-002-heuristic_v0",
+    "hash": "cde5dc17ea",
+    "stages": {
+     "ocr_backend": "auto",
+     "board_read": "name_ocr",
+     "layout": "on",
+     "card_localise": "frame_first",
+     "chip_read": "classic",
+     "upscaler": "bicubic",
+     "marking_verifier": "off",
+     "refine": "auto",
+     "socket_occupancy": "heuristic_v0",
+     "text_match": "exact",
+     "consistency_guard": "off",
+     "guided_scan": "two_step"
+    },
+    "params": {}
+   },
+   "report": "20261109-110250-8978102_dirty-cde5dc17ea",
+   "compare": {
+    "base": "20261109-102028-1fbbb0d-dda4621290",
+    "cand": "20261109-110250-8978102_dirty-cde5dc17ea",
+    "items_compared": 13,
+    "gates": {
+     "no_new_wrong": true,
+     "no_lost_correct": true,
+     "latency_within_budget": true,
+     "identical_decisions": true
+    },
+    "changed": {},
+    "new_wrong": [],
+    "new_correct": [],
+    "lost_correct": [],
+    "fixed_wrong": [],
+    "latency": {
+     "real3": {
+      "base_p95": 36754,
+      "cand_p95": 36414,
+      "ratio": 0.991
+     },
+     "captures": {
+      "base_p95": 88450,
+      "cand_p95": 87107,
+      "ratio": 0.985
+     }
+    },
+    "latency_over_budget": [],
+    "total_time": {
+     "base_s": 481.4,
+     "cand_s": 478.9,
+     "ratio": 0.995
+    }
+   },
+   "passed_gates": true,
+   "improved": false,
+   "faster_same_answers": false,
+   "summary": {
+    "captures": {
+     "n": 10,
+     "fields": {
+      "board": {
+       "n": 0,
+       "correct": 0,
+       "wrong": 0,
+       "abstain": 0,
+       "precision": null,
+       "coverage": null,
+       "top3": null,
+       "unverified": 10,
+       "agree_provisional": 10
+      },
+      "mcu": {
+       "n": 0,
+       "correct": 0,
+       "wrong": 0,
+       "abstain": 0,
+       "precision": null,
+       "coverage": null,
+       "top3": null,
+       "unverified": 5,
+       "agree_provisional": 0
+      },
+      "mcu_card": {
+       "n": 0,
+       "correct": 0,
+       "wrong": 0,
+       "abstain": 0,
+       "precision": null,
+       "coverage": null,
+       "top3": null,
+       "unverified": 4,
+       "agree_provisional": 0
+      },
+      "mcu_card_layout": {
+       "n": 0,
+       "correct": 0,
+       "wrong": 0,
+       "abstain": 0,
+       "precision": null,
+       "coverage": null,
+       "top3": null,
+       "unverified": 5,
+       "agree_provisional": 0
+      }
+     },
+     "latency_ms": {
+      "p50": 26082,
+      "p95": 87107,
+      "max": 115182,
+      "mean": 38339
+     },
+     "stage_mean_ms": {
+      "preprocess": 236,
+      "board": 6829,
+      "layout": 319,
+      "card_locate": 60,
+      "mcu": 30873,
+      "clicks": 0
+     }
+    },
+    "real3": {
+     "n": 3,
+     "fields": {
+      "board": {
+       "n": 3,
+       "correct": 3,
+       "wrong": 0,
+       "abstain": 0,
+       "precision": 1.0,
+       "coverage": 1.0,
+       "top3": "3/3"
+      },
+      "mcu": {
+       "n": 3,
+       "correct": 0,
+       "wrong": 0,
+       "abstain": 3,
+       "precision": null,
+       "coverage": 0.0,
+       "top3": "0/3"
+      },
+      "mcu_card": {
+       "n": 3,
+       "correct": 0,
+       "wrong": 0,
+       "abstain": 3,
+       "precision": null,
+       "coverage": 0.0,
+       "top3": "0/3"
+      },
+      "mcu_card_layout": {
+       "n": 3,
+       "correct": 0,
+       "wrong": 1,
+       "abstain": 2,
+       "precision": 0.0,
+       "coverage": 0.333,
+       "top3": null
+      }
+     },
+     "latency_ms": {
+      "p50": 30599,
+      "p95": 36414,
+      "max": 37060,
+      "mean": 31852
+     },
+     "stage_mean_ms": {
+      "preprocess": 336,
+      "board": 15593,
+      "layout": 20,
+      "card_locate": 29,
+      "mcu": 15851,
+      "clicks": 0
+     }
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,12 @@
+id: E-006
+title: Socket occupancy heuristic v1 (colour + centre texture) vs v0
+hypothesis: H-004
+datasets: [real3, captures]
+baseline: {stages: {layout: v2, card_localise: geometry_first, socket_occupancy: heuristic_v0}}
+baseline_report: 20261109-111841-6ba4790-46b0dba7c0   # E-005 variant 2, rescored with socket truth
+variants:
+  - name: heuristic_v1
+    stages: {layout: v2, card_localise: geometry_first, socket_occupancy: heuristic_v1}
+gates: {tolerance: 0, latency_budget: 1.25}
+# Socket truth: 35 sockets on 7 board photos, read off the photos (contact_sheet.jpg); v1 thresholds were
+# fitted on 30 of them (in-sample). Held out: uni-ds-v8_stm32f429zi_2 (5 empty).

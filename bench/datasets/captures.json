@@ -1,0 +1,177 @@
+{
+ "name": "captures",
+ "kind": "real",
+ "version": 1,
+ "note": "Phone captures of 5 Nov 2026 (2160x3840). Unverified until photos/captures/labels.csv is filled (see bench/datasets/README.md).",
+ "items": [
+  {
+   "file": "20261105_124116_board_01.jpg",
+   "sha256": "ba28c4aef98d306034c14821e3be55c71d728aeef8d49605bc5d9c6de2104f79",
+   "truth": {},
+   "verified": false,
+   "provisional": {
+    "board": "uni-ds-v8"
+   },
+   "mode": "board",
+   "session": "20261105"
+  },
+  {
+   "file": "20261105_144642_board_01.jpg",
+   "sha256": "001979ce1f4e9f3b00e3e90eaf0ab1bc298f4ac765d551182b4228e867d3543e",
+   "truth": {
+    "sockets": {
+     "mikroBUS 1": "empty",
+     "mikroBUS 2": "empty",
+     "mikroBUS 3": "empty",
+     "mikroBUS 4": "empty",
+     "mikroBUS 5": "empty"
+    }
+   },
+   "verified": false,
+   "provisional": {
+    "board": "uni-ds-v8"
+   },
+   "mode": "board",
+   "truth_source": {
+    "sockets": "visual check by Claude, 2026-11-09"
+   },
+   "session": "20261105"
+  },
+  {
+   "file": "20261105_144827_board_01.jpg",
+   "sha256": "8bc5e7dbc152125d800951fe5f9a2cad7b626fc97f9adb7c2e23b5dbfaa81e7c",
+   "truth": {
+    "sockets": {
+     "mikroBUS 1": "empty",
+     "mikroBUS 2": "empty",
+     "mikroBUS 3": "empty",
+     "mikroBUS 4": "empty",
+     "mikroBUS 5": "empty"
+    }
+   },
+   "verified": false,
+   "provisional": {
+    "board": "uni-ds-v8",
+    "mcu": "STM32F373VC",
+    "mcu_card": "mcu-card-22-for-stm32-stm32f373vc",
+    "mcu_card_layout": "mcu-card-22-for-stm32"
+   },
+   "mode": "board",
+   "truth_source": {
+    "sockets": "visual check by Claude, 2026-11-09"
+   },
+   "session": "20261105"
+  },
+  {
+   "file": "20261105_150507_board_01.jpg",
+   "sha256": "02a0a0c37c7af1d6317fa89c6c3e908d57e65f5c2a7327b6fe6249c791bbffdf",
+   "truth": {},
+   "verified": false,
+   "provisional": {
+    "board": "uni-ds-v8"
+   },
+   "mode": "board",
+   "session": "20261105"
+  },
+  {
+   "file": "20261105_150516_mcu_02.jpg",
+   "sha256": "809f76cd0480be2cd29cd9823fbdc7a7292950b7c0e539da6a92a774ff6b2b28",
+   "truth": {},
+   "verified": false,
+   "provisional": {
+    "board": "uni-ds-v8",
+    "mcu": "STM32F373VC",
+    "mcu_card": "mcu-card-22-for-stm32-stm32f373vc",
+    "mcu_card_layout": "mcu-card-22-for-stm32"
+   },
+   "mode": "mcu",
+   "session": "20261105"
+  },
+  {
+   "file": "20261105_150652_mcu_03.jpg",
+   "sha256": "87fb2b2bf06d0e42647212aaa28d6d7a92e80d07d74978e08584828a26f003a8",
+   "truth": {},
+   "verified": false,
+   "provisional": {
+    "board": "uni-ds-v8",
+    "mcu": "STM32F373VC",
+    "mcu_card": "mcu-card-22-for-stm32-stm32f373vc",
+    "mcu_card_layout": "mcu-card-22-for-stm32"
+   },
+   "mode": "mcu",
+   "session": "20261105"
+  },
+  {
+   "file": "20261105_151336_board_01.jpg",
+   "sha256": "570815401dba80ee9b798d44e2ae79e68fd9fefffe2c5617e56d9a56eb908b22",
+   "truth": {
+    "sockets": {
+     "mikroBUS 1": "occupied",
+     "mikroBUS 2": "occupied",
+     "mikroBUS 3": "occupied",
+     "mikroBUS 4": "occupied",
+     "mikroBUS 5": "occupied"
+    }
+   },
+   "verified": false,
+   "provisional": {
+    "board": "uni-ds-v8"
+   },
+   "mode": "board",
+   "truth_source": {
+    "sockets": "visual check by Claude, 2026-11-09"
+   },
+   "session": "20261105"
+  },
+  {
+   "file": "20261105_151343_mcu_02.jpg",
+   "sha256": "8ec6bd4b7d1921a02687a130f8e6c797f6b97f6919e67d06c6460c4bd85ff8b9",
+   "truth": {},
+   "verified": false,
+   "provisional": {
+    "board": "uni-ds-v8",
+    "mcu": "STM32F429ZI",
+    "mcu_card_layout": "easymx-pro-v7-stm32"
+   },
+   "mode": "mcu",
+   "session": "20261105"
+  },
+  {
+   "file": "20261105_153735_board_01.jpg",
+   "sha256": "97183035f88a94f6d7bbbf763aad200b5a6913924a10aa0a5b08217b8baa62c8",
+   "truth": {
+    "sockets": {
+     "mikroBUS 1": "occupied",
+     "mikroBUS 2": "occupied",
+     "mikroBUS 3": "occupied",
+     "mikroBUS 4": "occupied",
+     "mikroBUS 5": "occupied"
+    }
+   },
+   "verified": false,
+   "provisional": {
+    "board": "uni-ds-v8",
+    "mcu": "STM32F373VC",
+    "mcu_card": "mcu-card-22-for-stm32-stm32f373vc",
+    "mcu_card_layout": "mcu-card-22-for-stm32"
+   },
+   "mode": "board",
+   "truth_source": {
+    "sockets": "visual check by Claude, 2026-11-09"
+   },
+   "session": "20261105"
+  },
+  {
+   "file": "20261105_153743_mcu_02.jpg",
+   "sha256": "23cc29d06973d9f47a4878b44f76bc933abf372f1d60d49c3f8b37823907e92f",
+   "truth": {},
+   "verified": false,
+   "provisional": {
+    "board": "uni-ds-v8"
+   },
+   "mode": "mcu",
+   "session": "20261105"
+  }
+ ],
+ "root": "photos/captures"
+}

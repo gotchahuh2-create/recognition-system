@@ -1,0 +1,15 @@
+# v0.10 behaviour: registry defaults, no parameter overrides.
+stages:
+  ocr_backend: auto
+  board_read: name_ocr
+  layout: 'on'
+  card_localise: frame_first
+  chip_read: classic
+  upscaler: bicubic
+  marking_verifier: 'off'
+  refine: auto
+  socket_occupancy: 'off'
+  text_match: exact
+  consistency_guard: 'off'
+  guided_scan: two_step
+params: {}

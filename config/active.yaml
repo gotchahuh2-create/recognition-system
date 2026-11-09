@@ -1,0 +1,9 @@
+# Which config version recognition uses. Change only with `python -m phoenix promote|rollback`.
+active: v1
+previous: null
+last_known_good: v1
+history:
+- version: v1
+  date: '2026-11-09'
+  by: baseline
+  proposal: null

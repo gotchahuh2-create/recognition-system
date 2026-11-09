@@ -1,0 +1,72 @@
+{
+ "id": "P-004",
+ "status": "superseded",
+ "created": "2026-11-09 11:44",
+ "experiment": "E-005",
+ "hypothesis": "H-008",
+ "change": {
+  "stages": {
+   "layout": "v2",
+   "card_localise": "geometry_first",
+   "socket_occupancy": "heuristic_v0"
+  },
+  "params": {}
+ },
+ "from_version": "v1",
+ "evidence": {
+  "baseline_report": "20261109-102028-1fbbb0d-dda4621290",
+  "variant_report": "20261109-111841-6ba4790-46b0dba7c0",
+  "gates": {
+   "no_new_wrong": true,
+   "no_lost_correct": true,
+   "latency_within_budget": true,
+   "identical_decisions": false
+  },
+  "new_correct": [
+   "captures/20261105_151336_board_01.jpg:socket:mikroBUS 1",
+   "captures/20261105_151336_board_01.jpg:socket:mikroBUS 2",
+   "captures/20261105_151336_board_01.jpg:socket:mikroBUS 3",
+   "captures/20261105_151336_board_01.jpg:socket:mikroBUS 4",
+   "captures/20261105_151336_board_01.jpg:socket:mikroBUS 5",
+   "captures/20261105_153735_board_01.jpg:socket:mikroBUS 1",
+   "captures/20261105_153735_board_01.jpg:socket:mikroBUS 2",
+   "captures/20261105_153735_board_01.jpg:socket:mikroBUS 3",
+   "captures/20261105_153735_board_01.jpg:socket:mikroBUS 4",
+   "captures/20261105_153735_board_01.jpg:socket:mikroBUS 5",
+   "real3/uni-ds-v8_pic32mz2048efh144_1.jpg:socket:mikroBUS 1",
+   "real3/uni-ds-v8_pic32mz2048efh144_1.jpg:socket:mikroBUS 2",
+   "real3/uni-ds-v8_pic32mz2048efh144_1.jpg:socket:mikroBUS 3",
+   "real3/uni-ds-v8_pic32mz2048efh144_1.jpg:socket:mikroBUS 4",
+   "real3/uni-ds-v8_pic32mz2048efh144_1.jpg:socket:mikroBUS 5"
+  ],
+  "lost_correct": [],
+  "new_wrong": [],
+  "fixed_wrong": [
+   "real3/uni-ds-v8_pic32mz2048efh144_1.jpg:mcu_card_layout"
+  ],
+  "identical_decisions": false,
+  "latency": {
+   "real3": {
+    "base_p95": 36754,
+    "cand_p95": 29632,
+    "ratio": 0.806
+   },
+   "captures": {
+    "base_p95": 88450,
+    "cand_p95": 45669,
+    "ratio": 0.516
+   }
+  }
+ },
+ "risks": [
+  "layout=v2 is experimental: promotion also changes its status to stable",
+  "replaces protected default layout=on as the DEFAULT (the protected code stays in place and selectable)",
+  "card_localise=geometry_first is experimental: promotion also changes its status to stable",
+  "replaces protected default card_localise=frame_first as the DEFAULT (the protected code stays in place and selectable)",
+  "socket_occupancy=heuristic_v0 is experimental: promotion also changes its status to stable",
+  "5 decision(s) changed on photos without ground truth (cannot be judged until labelled): captures/20261105_144827_board_01.jpg, captures/20261105_150516_mcu_02.jpg, captures/20261105_150652_mcu_03.jpg, captures/20261105_151336_board_01.jpg, captures/20261105_153743_mcu_02.jpg"
+ ],
+ "approved_by": null,
+ "decided": null,
+ "superseded_by": "P-005"
+}

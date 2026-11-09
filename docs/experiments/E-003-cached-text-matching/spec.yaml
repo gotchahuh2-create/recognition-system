@@ -1,0 +1,11 @@
+id: E-003
+title: Memoised fuzzy text matching (exact acceleration)
+hypothesis: H-006
+datasets: [syn_ocr, syn_cards, real3, captures]
+baseline: active
+baseline_report: 20261109-102028-1fbbb0d-dda4621290   # v1 reference (unprofiled)
+variants:
+  - name: exact_cached
+    stages: {text_match: exact_cached}
+gates: {tolerance: 0, latency_budget: 1.25}
+# Extra requirement for an acceleration: identical decisions on every item (checked in the report).

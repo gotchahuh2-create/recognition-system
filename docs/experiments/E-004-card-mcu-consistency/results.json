@@ -1,0 +1,293 @@
+{
+ "id": "E-004",
+ "hypothesis": "H-007",
+ "title": "Withdraw a card decision that cannot carry the decided MCU",
+ "baseline": "20261109-102028-1fbbb0d-dda4621290",
+ "variants": [
+  {
+   "name": "guard_on",
+   "config": {
+    "name": "E-004-guard_on",
+    "hash": "cea865c933",
+    "stages": {
+     "ocr_backend": "auto",
+     "board_read": "name_ocr",
+     "layout": "on",
+     "card_localise": "frame_first",
+     "chip_read": "classic",
+     "upscaler": "bicubic",
+     "marking_verifier": "off",
+     "refine": "auto",
+     "socket_occupancy": "off",
+     "text_match": "exact",
+     "consistency_guard": "on",
+     "guided_scan": "two_step"
+    },
+    "params": {}
+   },
+   "report": "20261109-104030-489a8ed_dirty-cea865c933-replay",
+   "compare": {
+    "base": "20261109-102028-1fbbb0d-dda4621290",
+    "cand": "20261109-104030-489a8ed_dirty-cea865c933-replay",
+    "items_compared": 65,
+    "gates": {
+     "no_new_wrong": true,
+     "no_lost_correct": true,
+     "latency_within_budget": true,
+     "identical_decisions": false
+    },
+    "changed": {
+     "syn_cards/card_mid_mcu-card-3-for-stm32-stm32f303rc.jpg": {
+      "base": {
+       "board": null,
+       "mcu": "STM32F303RC",
+       "mcu_card": "easymx-pro-v7-stellaris-144-pin-tqfp-lm4f-series-empty",
+       "mcu_card_layout": "mcu-card-3-for-stm32"
+      },
+      "cand": {
+       "board": null,
+       "mcu": "STM32F303RC",
+       "mcu_card": null,
+       "mcu_card_layout": "mcu-card-3-for-stm32"
+      }
+     }
+    },
+    "new_wrong": [],
+    "new_correct": [],
+    "lost_correct": [],
+    "fixed_wrong": [
+     "syn_cards/card_mid_mcu-card-3-for-stm32-stm32f303rc.jpg:mcu_card"
+    ],
+    "latency": {
+     "syn_ocr": {
+      "base_p95": 17229,
+      "cand_p95": 17229,
+      "ratio": 1.0
+     },
+     "real3": {
+      "base_p95": 36754,
+      "cand_p95": 36754,
+      "ratio": 1.0
+     },
+     "captures": {
+      "base_p95": 88450,
+      "cand_p95": 88450,
+      "ratio": 1.0
+     },
+     "syn_cards": {
+      "base_p95": 17863,
+      "cand_p95": 17863,
+      "ratio": 1.0
+     }
+    },
+    "latency_over_budget": []
+   },
+   "passed_gates": true,
+   "improved": true,
+   "faster_same_answers": false,
+   "summary": {
+    "syn_ocr": {
+     "n": 16,
+     "fields": {
+      "board": {
+       "n": 6,
+       "correct": 6,
+       "wrong": 0,
+       "abstain": 0,
+       "precision": 1.0,
+       "coverage": 1.0,
+       "top3": "5/5"
+      },
+      "mcu": {
+       "n": 10,
+       "correct": 8,
+       "wrong": 0,
+       "abstain": 2,
+       "precision": 1.0,
+       "coverage": 0.8,
+       "top3": "9/10"
+      }
+     },
+     "latency_ms": {
+      "p50": 2635,
+      "p95": 17229,
+      "max": 19556,
+      "mean": 4927
+     },
+     "stage_mean_ms": {
+      "preprocess": 109,
+      "board": 1949,
+      "layout": 0,
+      "card_locate": 25,
+      "mcu": 2824,
+      "clicks": 0
+     }
+    },
+    "syn_cards": {
+     "n": 36,
+     "fields": {
+      "mcu": {
+       "n": 36,
+       "correct": 25,
+       "wrong": 0,
+       "abstain": 11,
+       "precision": 1.0,
+       "coverage": 0.694,
+       "top3": "29/36"
+      },
+      "mcu_card": {
+       "n": 36,
+       "correct": 24,
+       "wrong": 0,
+       "abstain": 12,
+       "precision": 1.0,
+       "coverage": 0.667,
+       "top3": "31/36"
+      },
+      "mcu_card_layout": {
+       "n": 36,
+       "correct": 36,
+       "wrong": 0,
+       "abstain": 0,
+       "precision": 1.0,
+       "coverage": 1.0,
+       "top3": null
+      }
+     },
+     "latency_ms": {
+      "p50": 13012,
+      "p95": 17863,
+      "max": 30141,
+      "mean": 14371
+     },
+     "stage_mean_ms": {
+      "preprocess": 298,
+      "board": 4497,
+      "layout": 49,
+      "card_locate": 78,
+      "mcu": 9428,
+      "clicks": 0
+     }
+    },
+    "real3": {
+     "n": 3,
+     "fields": {
+      "board": {
+       "n": 3,
+       "correct": 3,
+       "wrong": 0,
+       "abstain": 0,
+       "precision": 1.0,
+       "coverage": 1.0,
+       "top3": "3/3"
+      },
+      "mcu": {
+       "n": 3,
+       "correct": 0,
+       "wrong": 0,
+       "abstain": 3,
+       "precision": null,
+       "coverage": 0.0,
+       "top3": "0/3"
+      },
+      "mcu_card": {
+       "n": 3,
+       "correct": 0,
+       "wrong": 0,
+       "abstain": 3,
+       "precision": null,
+       "coverage": 0.0,
+       "top3": "0/3"
+      },
+      "mcu_card_layout": {
+       "n": 3,
+       "correct": 0,
+       "wrong": 1,
+       "abstain": 2,
+       "precision": 0.0,
+       "coverage": 0.333,
+       "top3": null
+      }
+     },
+     "latency_ms": {
+      "p50": 30898,
+      "p95": 36754,
+      "max": 37405,
+      "mean": 32279
+     },
+     "stage_mean_ms": {
+      "preprocess": 344,
+      "board": 15956,
+      "layout": 21,
+      "card_locate": 29,
+      "mcu": 15905,
+      "clicks": 0
+     }
+    },
+    "captures": {
+     "n": 10,
+     "fields": {
+      "board": {
+       "n": 0,
+       "correct": 0,
+       "wrong": 0,
+       "abstain": 0,
+       "precision": null,
+       "coverage": null,
+       "top3": null,
+       "unverified": 10,
+       "agree_provisional": 10
+      },
+      "mcu": {
+       "n": 0,
+       "correct": 0,
+       "wrong": 0,
+       "abstain": 0,
+       "precision": null,
+       "coverage": null,
+       "top3": null,
+       "unverified": 5,
+       "agree_provisional": 0
+      },
+      "mcu_card": {
+       "n": 0,
+       "correct": 0,
+       "wrong": 0,
+       "abstain": 0,
+       "precision": null,
+       "coverage": null,
+       "top3": null,
+       "unverified": 4,
+       "agree_provisional": 0
+      },
+      "mcu_card_layout": {
+       "n": 0,
+       "correct": 0,
+       "wrong": 0,
+       "abstain": 0,
+       "precision": null,
+       "coverage": null,
+       "top3": null,
+       "unverified": 5,
+       "agree_provisional": 0
+      }
+     },
+     "latency_ms": {
+      "p50": 25859,
+      "p95": 88450,
+      "max": 117120,
+      "mean": 38455
+     },
+     "stage_mean_ms": {
+      "preprocess": 219,
+      "board": 6729,
+      "layout": 329,
+      "card_locate": 61,
+      "mcu": 31094,
+      "clicks": 0
+     }
+    }
+   }
+  }
+ ]
+}
