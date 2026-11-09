@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#111111">
+<title>Board Camera</title>
+<style>
+:root{
+  --bg:#0f0f0f; --panel:rgba(20,20,20,.86); --line:rgba(255,255,255,.12);
+  --ink:#ececec; --ink-2:#a8a8a8; --yellow:#f5c400; --green:#41c463; --amber:#e8a93a; --red:#e5534b; --blue:#4a8cff;
+  --sans:"Inter","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:15px/1.35 var(--sans);overflow:hidden;touch-action:manipulation}
+button{font:inherit;color:inherit}
+[hidden]{display:none!important}
+#stage{position:fixed;inset:0;background:#000}
+video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000}
+#ov{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#tap{position:absolute;inset:0}
+.top{position:fixed;left:0;right:0;top:0;padding:calc(env(safe-area-inset-top) + 8px) 10px 8px;display:flex;gap:8px;align-items:center;
+  background:linear-gradient(#000c,#0000)}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:13px;white-space:nowrap}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--red)}
+.dot.on{background:var(--green)}
+.top .sp{flex:1}
+.iconbtn{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--panel);display:grid;place-items:center;padding:0}
+.iconbtn.on{border-color:var(--yellow);color:var(--yellow)}
+.iconbtn svg{width:20px;height:20px}
+.seg{display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px}
+.seg button{border:0;background:transparent;padding:5px 12px;border-radius:999px;font-size:13px}
+.seg button.on{background:var(--yellow);color:#151515;font-weight:600}
+.bottom{position:fixed;left:0;right:0;bottom:0;padding:10px 12px calc(env(safe-area-inset-bottom) + 12px);
+  background:linear-gradient(#0000,#000d 28%)}
+#instr{font-size:21px;font-weight:650;text-align:center;margin:6px 8px 4px;min-height:28px;text-shadow:0 1px 3px #000}
+#instr.good{color:var(--green)}
+#hints{font-size:13px;color:var(--ink-2);text-align:center;min-height:18px;margin-bottom:8px}
+#mets{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-bottom:10px}
+.m{font-size:11.5px;padding:3px 8px;border-radius:999px;background:var(--panel);border:1px solid var(--line);white-space:nowrap}
+.m::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;vertical-align:0;background:var(--ink-2)}
+.m.good::before{background:var(--green)} .m.warn::before{background:var(--amber)} .m.bad::before{background:var(--red)}
+.m.bad{border-color:rgba(229,83,75,.5)}
+.row{display:flex;align-items:center;justify-content:center;gap:28px}
+#shutter{width:72px;height:72px;border-radius:50%;border:4px solid #fff;background:transparent;padding:0;position:relative}
+#shutter::after{content:"";position:absolute;inset:5px;border-radius:50%;background:#fff;opacity:.9}
+#shutter:active::after{inset:9px}
+#shutter:disabled{opacity:.4}
+.side{width:56px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;color:var(--ink-2)}
+.side .iconbtn{width:46px;height:46px}
+#banner{position:fixed;left:12px;right:12px;top:calc(env(safe-area-inset-top) + 62px);background:var(--panel);border:1px solid var(--line);
+  border-radius:12px;padding:12px 14px;font-size:14px;box-shadow:0 6px 24px #0008}
+#banner b{display:block;margin-bottom:3px}
+#banner.bad{border-color:rgba(229,83,75,.6)} #banner.ok{border-color:rgba(65,196,99,.6)}
+#banner .kv{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;margin-top:6px;font-size:13px}
+#banner .kv span:nth-child(odd){color:var(--ink-2)}
+#flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;transition:opacity .25s}
+#flash.on{opacity:.85;transition:none}
+#start{position:fixed;inset:0;display:grid;place-items:center;background:var(--bg);padding:24px;text-align:center}
+#start h1{font-size:22px;margin:0 0 8px}
+#start p{color:var(--ink-2);margin:0 0 22px;max-width:340px}
+.big{border:0;border-radius:12px;background:var(--yellow);color:#141414;font-weight:700;padding:14px 26px;font-size:17px}
+.link{background:none;border:0;color:var(--ink-2);text-decoration:underline;margin-top:14px;font-size:14px}
+#prog{position:fixed;left:12px;right:12px;top:calc(env(safe-area-inset-top) + 62px);height:6px;border-radius:3px;background:#0008;overflow:hidden}
+#prog i{display:block;height:100%;width:0;background:var(--yellow);transition:width .15s}
+</style>
+</head>
+<body>
+<div id="stage">
+  <video id="v" playsinline muted autoplay></video>
+  <canvas id="ov"></canvas>
+  <div id="tap"></div>
+</div>
+
+<div class="top">
+  <span class="chip"><span class="dot" id="conn"></span><span id="step">Connecting…</span></span>
+  <span class="sp"></span>
+  <span class="seg" id="modes"><button data-m="board" class="on">Board</button><button data-m="mcu">MCU</button></span>
+  <button class="iconbtn" id="torch" hidden title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 2h6l-1 6h3l-7 14 1-9H7z"/></svg></button>
+</div>
+
+<div id="banner" hidden></div>
+<div id="prog" hidden><i></i></div>
+
+<div class="bottom">
+  <div id="instr">Starting…</div>
+  <div id="hints"></div>
+  <div id="mets"></div>
+  <div class="row">
+    <div class="side"><button class="iconbtn" id="fileBtn" title="Use the phone's camera app"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="4"/><path d="M8 6l2-3h4l2 3"/></svg></button>Camera app</div>
+    <button id="shutter" title="Capture now"></button>
+    <div class="side"><button class="iconbtn" id="restart" title="Start over"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg></button>Restart</div>
+  </div>
+</div>
+<input type="file" id="file" accept="image/*" capture="environment" hidden>
+<div id="flash"></div>
+
+<div id="start">
+  <div>
+    <h1>Board camera</h1>
+    <p id="startMsg">The PC guides you to a sharp, glare-free photo of the board and its MCU, then takes it automatically.</p>
+    <button class="big" id="go">Start camera</button><br>
+    <button class="link" id="goFile">Use the phone's camera app instead</button>
+  </div>
+</div>
+
+<script>
+"use strict";
+const $ = s => document.querySelector(s);
+const token = new URLSearchParams(location.search).get("t") || "";
+const video = $("#v"), ov = $("#ov"), octx = ov.getContext("2d");
+const S = {
+  ws:null, mode:"board", stream:null, track:null, imageCapture:null, caps:{}, photoW:0, photoH:0,
+  report:null, progress:0, inflight:false, lastSend:0, seq:0, cropReq:null, gyro:[], busy:false,
+  focusAt:0, lastFocus:null, tapPoint:null, tapAt:0, wake:null, retryMs:500, capturing:false,
+};
+const frameCv = document.createElement("canvas"), cropCv = document.createElement("canvas");
+const FRAME_LONG = 960, CROP_MAX = 1024, MIN_INTERVAL = 130;
+
+// ------------------------------------------------------------------ socket
+function connect(){
+  const ws = new WebSocket(`${location.protocol==="https:"?"wss":"ws"}://${location.host}/ws?t=${encodeURIComponent(token)}`);
+  ws.binaryType = "arraybuffer";
+  S.ws = ws;
+  ws.onopen = () => { S.retryMs = 500; $("#conn").classList.add("on"); hello(); };
+  ws.onclose = (e) => {
+    $("#conn").classList.remove("on"); S.inflight = false;
+    if (e.code === 4000 || e.code === 4001){ setInstr(e.code===4001 ? "Pairing reset on the PC — scan the new QR code" : "Another phone connected"); return; }
+    setTimeout(connect, S.retryMs); S.retryMs = Math.min(S.retryMs*2, 5000);
+  };
+  ws.onmessage = (e) => { if (typeof e.data === "string") onMsg(JSON.parse(e.data)); };
+}
+function send(o){ if (S.ws && S.ws.readyState === 1) S.ws.send(JSON.stringify(o)); }
+function hello(){
+  send({type:"hello", video_w:video.videoWidth||0, video_h:video.videoHeight||0, photo_w:S.photoW, photo_h:S.photoH,
+        image_capture:!!S.imageCapture, torch:!!S.caps.torch, focus:(S.caps.focusMode||[]).join(","), ua:navigator.userAgent});
+}
+
+function onMsg(m){
+  switch(m.type){
+    case "config":
+      S.mode = m.mode; S.done = false;
+      document.querySelectorAll("#modes button").forEach(b => b.classList.toggle("on", b.dataset.m===m.mode));
+      $("#step").textContent = m.step === 1 ? "Step 1 · Board" : "Step 2 · MCU close-up";
+      if (performance.now() - (S.resultAt || -1e9) > 4000) showBanner(esc(m.message), "", 3500);
+      S.cropReq = null; break;
+    case "analysis":
+      S.inflight = false;
+      if (m.dropped) break;
+      S.report = m.report; S.progress = m.progress || 0;
+      S.cropReq = m.report.crop_request || null;
+      renderReport(); maybeFocus(); break;
+    case "capture": capture(m.focus_point, m.manual); break;
+    case "photo_received": setInstr("Checking the photo…"); break;
+    case "retake":
+      S.busy = false; showBanner("Retaking: " + (m.reasons||[]).join("; "), "bad", 3500); break;
+    case "accepted": setInstr("Photo OK"); break;
+    case "status": setInstr(m.message); break;
+    case "result": S.busy = false; S.done = !m.next; showResult(m.summary||{}, m.next); break;
+    case "error": S.busy = false; showBanner(m.message, "bad", 4000); break;
+  }
+}
+
+// ------------------------------------------------------------------ camera
+async function startCamera(){
+  $("#startMsg").textContent = "Opening the camera…";
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+    $("#startMsg").innerHTML = "This browser blocks the live camera on this page" +
+      (location.protocol !== "https:" ? " (the page is not https)" : "") +
+      ". Use the phone's camera app instead — the PC still checks every photo.";
+    return;
+  }
+  try{
+    if (typeof DeviceMotionEvent !== "undefined" && DeviceMotionEvent.requestPermission){
+      try{ await DeviceMotionEvent.requestPermission(); }catch(_){}
+    }
+    const want = {facingMode:{ideal:"environment"}, width:{ideal:3840}, height:{ideal:2160}, frameRate:{ideal:30}};
+    S.stream = await navigator.mediaDevices.getUserMedia({audio:false, video:want});
+  }catch(e){
+    $("#startMsg").textContent = "Camera not available: " + e.message + ". Use the phone's camera app instead.";
+    return;
+  }
+  S.track = S.stream.getVideoTracks()[0];
+  video.srcObject = S.stream;
+  await video.play().catch(()=>{});
+  await new Promise(r => video.videoWidth ? r() : video.onloadedmetadata = r);
+  S.caps = S.track.getCapabilities ? S.track.getCapabilities() : {};
+  const adv = {};
+  if ((S.caps.focusMode||[]).includes("continuous")) adv.focusMode = "continuous";
+  if ((S.caps.exposureMode||[]).includes("continuous")) adv.exposureMode = "continuous";
+  if ((S.caps.whiteBalanceMode||[]).includes("continuous")) adv.whiteBalanceMode = "continuous";
+  if (Object.keys(adv).length) S.track.applyConstraints({advanced:[adv]}).catch(()=>{});
+  if ("ImageCapture" in window){
+    try{
+      S.imageCapture = new ImageCapture(S.track);
+      const pc = await S.imageCapture.getPhotoCapabilities();
+      S.photoW = pc.imageWidth ? pc.imageWidth.max : 0; S.photoH = pc.imageHeight ? pc.imageHeight.max : 0;
+      S.photoCaps = pc;
+    }catch(_){ S.imageCapture = null; }
+  }
+  if (!S.photoW){ S.photoW = video.videoWidth; S.photoH = video.videoHeight; }
+  $("#torch").hidden = !S.caps.torch;
+  $("#start").hidden = true;
+  try{ S.wake = await navigator.wakeLock.request("screen"); }catch(_){}
+  addEventListener("devicemotion", e => {
+    const r = e.rotationRate; if (!r) return;
+    const v = Math.hypot(r.alpha||0, r.beta||0, r.gamma||0);
+    const t = performance.now(); S.gyro.push([t, v]);
+    while (S.gyro.length && t - S.gyro[0][0] > 300) S.gyro.shift();
+  });
+  hello();
+  resize(); loop();
+}
+function gyroNow(){ return S.gyro.length ? Math.max(...S.gyro.map(g => g[1])) : null; }
+
+// guide rectangle in frame units (0..1)
+function guide(){
+  const vw = video.videoWidth || 1, vh = video.videoHeight || 1;
+  if (S.mode === "mcu"){
+    const side = 0.62 * Math.min(vw, vh);
+    return [(vw-side)/2/vw, (vh-side)/2/vh, side/vw, side/vh];
+  }
+  return [0.06, 0.06, 0.88, 0.88];
+}
+
+// ------------------------------------------------------------------ preview loop
+function loop(){
+  requestAnimationFrame(loop);
+  draw();
+  const now = performance.now();
+  if (S.capturing || S.busy) return;
+  if (S.inflight && now - S.lastSend < 1500) return;
+  if (now - S.lastSend < MIN_INTERVAL) return;
+  if (!S.ws || S.ws.readyState !== 1 || !video.videoWidth) return;
+  sendPreview().catch(()=>{ S.inflight = false; });
+}
+const blobOf = (cv, q) => new Promise(r => cv.toBlob(r, "image/jpeg", q));
+async function sendPreview(){
+  S.inflight = true; S.lastSend = performance.now();
+  const vw = video.videoWidth, vh = video.videoHeight;
+  const s = Math.min(1, FRAME_LONG / Math.max(vw, vh));
+  frameCv.width = Math.round(vw*s); frameCv.height = Math.round(vh*s);
+  frameCv.getContext("2d").drawImage(video, 0, 0, frameCv.width, frameCv.height);
+  let crop = null, cropRect = null, cropScale = 1;
+  if (S.cropReq){
+    const [x,y,w,h] = S.cropReq;
+    const sx = Math.round(x*vw), sy = Math.round(y*vh), sw = Math.round(w*vw), sh = Math.round(h*vh);
+    if (sw > 8 && sh > 8){
+      cropScale = Math.min(1, CROP_MAX / Math.max(sw, sh));
+      cropCv.width = Math.round(sw*cropScale); cropCv.height = Math.round(sh*cropScale);
+      cropCv.getContext("2d").drawImage(video, sx, sy, sw, sh, 0, 0, cropCv.width, cropCv.height);
+      cropRect = [sx/vw, sy/vh, sw/vw, sh/vh];
+    }
+  }
+  const [fb, cb] = await Promise.all([blobOf(frameCv, 0.72), cropRect ? blobOf(cropCv, 0.9) : null]);
+  const meta = {seq:++S.seq, guide:guide(), video_w:vw, video_h:vh, photo_w:S.photoW, photo_h:S.photoH,
+                crop_rect:cropRect, crop_scale:cropScale, gyro:gyroNow(), t_ms:Date.now()};
+  const head = new TextEncoder().encode(JSON.stringify(meta));
+  const fbuf = new Uint8Array(await fb.arrayBuffer());
+  const cbuf = cb ? new Uint8Array(await cb.arrayBuffer()) : new Uint8Array(0);
+  const out = new Uint8Array(1 + 4 + head.length + 4 + fbuf.length + cbuf.length);
+  const dv = new DataView(out.buffer);
+  out[0] = 1; dv.setUint32(1, head.length); out.set(head, 5);
+  let p = 5 + head.length; dv.setUint32(p, fbuf.length); out.set(fbuf, p+4); out.set(cbuf, p+4+fbuf.length);
+  if (S.ws.bufferedAmount > 2e6){ S.inflight = false; return; }
+  S.ws.send(out.buffer);
+}
+
+// ------------------------------------------------------------------ overlay
+function resize(){
+  const r = devicePixelRatio || 1;
+  ov.width = innerWidth * r; ov.height = innerHeight * r;
+}
+addEventListener("resize", resize);
+function videoRect(){   // displayed video area (object-fit: contain)
+  const vw = video.videoWidth || 1, vh = video.videoHeight || 1;
+  const W = ov.width, H = ov.height, s = Math.min(W/vw, H/vh);
+  return {x:(W - vw*s)/2, y:(H - vh*s)/2, w:vw*s, h:vh*s};
+}
+function poly(pts, r, color, width, fill){
+  if (!pts) return;
+  octx.beginPath();
+  pts.forEach(([x,y],i) => { const X = r.x + x*r.w, Y = r.y + y*r.h; i ? octx.lineTo(X,Y) : octx.moveTo(X,Y); });
+  octx.closePath();
+  if (fill){ octx.fillStyle = fill; octx.fill(); }
+  octx.strokeStyle = color; octx.lineWidth = width; octx.stroke();
+}
+function draw(){
+  const d = devicePixelRatio || 1;
+  octx.clearRect(0, 0, ov.width, ov.height);
+  if (!video.videoWidth) return;
+  const r = videoRect(), [gx,gy,gw,gh] = guide();
+  // dim outside the guide
+  octx.save();
+  octx.fillStyle = "rgba(0,0,0,.42)";
+  octx.beginPath(); octx.rect(r.x, r.y, r.w, r.h);
+  octx.rect(r.x+gx*r.w, r.y+gy*r.h, gw*r.w, gh*r.h); octx.fill("evenodd");
+  octx.restore();
+  const rep = S.report, ok = rep && rep.passing;
+  // guide corners
+  const cx = r.x+gx*r.w, cy = r.y+gy*r.h, cw = gw*r.w, ch = gh*r.h, L = Math.min(cw,ch)*0.12;
+  octx.strokeStyle = ok ? "#41c463" : "#f5c400"; octx.lineWidth = 4*d; octx.lineCap = "round";
+  [[cx,cy,1,1],[cx+cw,cy,-1,1],[cx+cw,cy+ch,-1,-1],[cx,cy+ch,1,-1]].forEach(([x,y,sx,sy]) => {
+    octx.beginPath(); octx.moveTo(x, y+sy*L); octx.lineTo(x,y); octx.lineTo(x+sx*L, y); octx.stroke();
+  });
+  if (rep){
+    poly(rep.board_quad, r, ok ? "rgba(65,196,99,.95)" : "rgba(245,196,0,.9)", 2.5*d);
+    poly(rep.card_quad, r, "rgba(74,140,255,.95)", 2*d);
+    poly(rep.chip_quad, r, "rgba(240,160,40,.95)", 2*d, "rgba(240,160,40,.08)");
+  }
+  // tap-to-focus reticle
+  if (S.tapPoint && performance.now() - S.tapAt < 1200){
+    const X = r.x + S.tapPoint[0]*r.w, Y = r.y + S.tapPoint[1]*r.h;
+    octx.strokeStyle = "#f5c400"; octx.lineWidth = 2*d; octx.strokeRect(X-28*d, Y-28*d, 56*d, 56*d);
+  }
+  // auto-capture progress ring
+  if (S.progress > 0 && !S.capturing){
+    const R = 30*d, X = ov.width/2, Y = cy + ch/2;
+    octx.lineWidth = 6*d; octx.strokeStyle = "rgba(0,0,0,.5)";
+    octx.beginPath(); octx.arc(X, Y, R, 0, Math.PI*2); octx.stroke();
+    octx.strokeStyle = "#41c463";
+    octx.beginPath(); octx.arc(X, Y, R, -Math.PI/2, -Math.PI/2 + Math.PI*2*S.progress); octx.stroke();
+  }
+}
+
+function setInstr(t, good){ const e = $("#instr"); e.textContent = t; e.classList.toggle("good", !!good); }
+function renderReport(){
+  const rep = S.report; if (!rep || S.capturing || S.busy) return;
+  if (S.done) setInstr("Finished — Restart for another board", true);
+  else setInstr(rep.passing ? (S.progress > 0 ? "Hold still — capturing" : "Hold still") : rep.instruction, rep.passing);
+  $("#hints").textContent = (rep.hints||[]).slice(0,2).join(" · ");
+  const show = rep.metrics.filter(m => m.level !== "na");
+  $("#mets").innerHTML = show.map(m => `<span class="m ${m.level}">${esc(m.label)}</span>`).join("");
+}
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let bannerT = 0;
+function showBanner(html, cls, ms){
+  const b = $("#banner"); b.className = cls || ""; b.innerHTML = html; b.hidden = false;
+  clearTimeout(bannerT); if (ms) bannerT = setTimeout(() => b.hidden = true, ms);
+}
+function showResult(s, next){
+  S.resultAt = performance.now();
+  const kv = (k, v) => `<span>${k}</span><span>${v ? esc(v) : "<i style='color:#e8a93a'>not sure</i>"}</span>`;
+  showBanner(`<b>${next === "mcu" ? "Board recognised — now the MCU close-up" : "Done"}</b>` +
+    `<div class="kv">${kv("Board", s.board)}${kv("MCU", s.mcu)}${kv("MCU card", s.mcu_card || (s.layout ? s.layout + " (card not decided)" : ""))}</div>`,
+    "ok", next === "mcu" ? 5000 : 0);
+  setInstr(next === "mcu" ? "Fill the square with the MCU card" : "Finished — see the PC", !next);
+}
+
+// ------------------------------------------------------------------ focus
+function setPOI(pt){
+  if (!S.track) return;      // unsupported constraints are ignored / rejected harmlessly
+  S.track.applyConstraints({advanced:[{pointsOfInterest:[{x:pt[0], y:pt[1]}]}]}).catch(()=>{});
+}
+function maybeFocus(){
+  const fp = S.report && S.report.focus_point;
+  if (!fp || performance.now() - S.focusAt < 1500) return;
+  if (performance.now() - S.tapAt < 4000) return;          // the user's tap wins for a while
+  if (S.lastFocus && Math.hypot(fp[0]-S.lastFocus[0], fp[1]-S.lastFocus[1]) < 0.05) return;
+  S.lastFocus = fp; S.focusAt = performance.now(); setPOI(fp);
+}
+$("#tap").addEventListener("click", e => {
+  const r = videoRect(), d = devicePixelRatio || 1;
+  const x = (e.clientX*d - r.x)/r.w, y = (e.clientY*d - r.y)/r.h;
+  if (x < 0 || y < 0 || x > 1 || y > 1) return;
+  S.tapPoint = [x, y]; S.tapAt = performance.now(); setPOI([x, y]);
+});
+
+// ------------------------------------------------------------------ capture
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+async function capture(focusPoint, manual){
+  if (S.capturing) return;
+  S.capturing = true; S.progress = 0;
+  setInstr("Hold still…", true);
+  try{
+    if (focusPoint && !manual) setPOI(focusPoint);
+    // wait for the gyro to settle (max 1.5 s)
+    for (let i = 0; i < 15 && !manual; i++){ const g = gyroNow(); if (g === null || g < 6) break; await sleep(100); }
+    let blob, source, w = 0, h = 0, settings = {};
+    if (S.imageCapture){
+      try{
+        const ps = {};
+        if (S.photoCaps && S.photoCaps.imageWidth){ ps.imageWidth = S.photoCaps.imageWidth.max; ps.imageHeight = S.photoCaps.imageHeight.max; }
+        if (S.photoCaps && (S.photoCaps.fillLightMode||[]).includes("off")) ps.fillLightMode = "off";   // flash = glare on the chip
+        settings = ps;
+        blob = await S.imageCapture.takePhoto(ps); source = "image-capture";
+        w = ps.imageWidth || 0; h = ps.imageHeight || 0;
+      }catch(e){ blob = null; }
+    }
+    if (!blob){       // fallback: the native video frame, lossless-ish
+      const c = document.createElement("canvas");
+      c.width = video.videoWidth; c.height = video.videoHeight;
+      c.getContext("2d").drawImage(video, 0, 0);
+      blob = await new Promise(r => c.toBlob(r, "image/jpeg", 0.97)); source = "video-frame";
+      w = c.width; h = c.height;
+    }
+    flash();
+    if (navigator.vibrate) navigator.vibrate(40);
+    await uploadPhoto(blob, {source, width:w, height:h, settings});
+    S.busy = true;
+  }catch(e){
+    send({type:"capture_failed", message:String(e && e.message || e)});
+    showBanner("Capture failed: " + esc(e.message || e), "bad", 3000);
+  }finally{
+    S.capturing = false;
+  }
+}
+function flash(){ const f = $("#flash"); f.classList.add("on"); setTimeout(() => f.classList.remove("on"), 60); }
+
+async function sha256hex(buf){
+  if (!(window.crypto && crypto.subtle)) return null;
+  const h = await crypto.subtle.digest("SHA-256", buf);
+  return [...new Uint8Array(h)].map(b => b.toString(16).padStart(2,"0")).join("");
+}
+async function uploadPhoto(blob, info){
+  const buf = await blob.arrayBuffer();
+  const id = Date.now().toString(36);
+  const prog = $("#prog"), bar = prog.querySelector("i"); prog.hidden = false; bar.style.width = "0";
+  setInstr("Sending the full-resolution photo…", true);
+  send({type:"photo_begin", id, size:buf.byteLength, sha256:await sha256hex(buf), mime:blob.type || "image/jpeg", ...info});
+  const CH = 256*1024, u8 = new Uint8Array(buf);
+  for (let off = 0; off < u8.length; off += CH){
+    while (S.ws.bufferedAmount > 4e6) await sleep(20);
+    const part = u8.subarray(off, Math.min(off+CH, u8.length));
+    const msg = new Uint8Array(5 + part.length);
+    msg[0] = 2; new DataView(msg.buffer).setUint32(1, off); msg.set(part, 5);
+    S.ws.send(msg.buffer);
+    bar.style.width = Math.round(100*(off+part.length)/u8.length) + "%";
+  }
+  while (S.ws.bufferedAmount > 0) await sleep(20);
+  send({type:"photo_end", id});
+  setTimeout(() => prog.hidden = true, 400);
+}
+
+// ------------------------------------------------------------------ controls
+$("#go").onclick = () => startCamera();
+$("#shutter").onclick = () => send({type:"shutter"});
+$("#restart").onclick = () => send({type:"restart"});
+document.querySelectorAll("#modes button").forEach(b => b.onclick = () => send({type:"mode", mode:b.dataset.m}));
+$("#torch").onclick = async () => {
+  const on = !$("#torch").classList.contains("on");
+  try{ await S.track.applyConstraints({advanced:[{torch:on}]}); $("#torch").classList.toggle("on", on); }catch(_){}
+};
+const pickFile = () => $("#file").click();
+$("#fileBtn").onclick = pickFile; $("#goFile").onclick = pickFile;
+$("#file").onchange = async (e) => {
+  const f = e.target.files[0]; if (!f) return;
+  setInstr("Sending the photo…", true); S.busy = true;
+  try{
+    const r = await fetch(`/api/upload?t=${encodeURIComponent(token)}`, {method:"POST", body:f,
+      headers:{"X-Filename": encodeURIComponent(f.name || "photo.jpg").slice(0,120)}});
+    if (!r.ok) throw new Error(await r.text());
+    setInstr("Checking the photo…", true);
+  }catch(err){ S.busy = false; showBanner("Upload failed: " + esc(err.message), "bad", 4000); }
+  e.target.value = "";
+};
+document.addEventListener("visibilitychange", async () => {
+  if (document.visibilityState === "visible" && S.stream && !S.wake){ try{ S.wake = await navigator.wakeLock.request("screen"); }catch(_){} }
+});
+connect();
+</script>
+</body>
+</html>

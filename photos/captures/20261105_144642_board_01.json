@@ -1,0 +1,218 @@
+{
+ "file": "20261105_144642_board_01.jpg",
+ "bytes": 3191249,
+ "sha256": "001979ce1f4e9f3b00e3e90eaf0ab1bc298f4ac765d551182b4228e867d3543e",
+ "mode": "board",
+ "transfer": {
+  "width": 2160,
+  "height": 3840,
+  "settings": {
+   "imageWidth": 4032,
+   "imageHeight": 3024
+  },
+  "source": "video-frame",
+  "mime": "image/jpeg",
+  "sha256": "001979ce1f4e9f3b00e3e90eaf0ab1bc298f4ac765d551182b4228e867d3543e"
+ },
+ "photo_check": {
+  "ok": true,
+  "reasons": [],
+  "width": 2160,
+  "height": 3840,
+  "board_quad": [
+   [
+    0.0,
+    672.0
+   ],
+   [
+    1920.0,
+    774.0
+   ],
+   [
+    1956.0,
+    2850.0
+   ],
+   [
+    198.0,
+    3054.0
+   ]
+  ],
+  "board_score": 0.987,
+  "card_quad": null,
+  "chip_px": null,
+  "chip_blur": null,
+  "chip_glare": null,
+  "chip_contrast": null,
+  "frame_blur": 0.18,
+  "needs_closeup": true,
+  "ms": 59
+ },
+ "last_preview": {
+  "meta": {
+   "seq": 20,
+   "guide": [
+    0.06,
+    0.06,
+    0.88,
+    0.88
+   ],
+   "video_w": 2160,
+   "video_h": 3840,
+   "photo_w": 4032,
+   "photo_h": 3024,
+   "crop_rect": null,
+   "crop_scale": 1,
+   "gyro": 2.09011253187824,
+   "t_ms": 1793886401000
+  },
+  "report": {
+   "metrics": [
+    {
+     "name": "board",
+     "label": "Board",
+     "level": "good",
+     "text": "found (yellow)",
+     "value": 1.0,
+     "blocking": true
+    },
+    {
+     "name": "framing",
+     "label": "Framing",
+     "level": "warn",
+     "text": "fills 59% of the frame",
+     "value": 0.5883,
+     "blocking": true
+    },
+    {
+     "name": "center",
+     "label": "Centred",
+     "level": "good",
+     "text": "offset 4%",
+     "value": 0.0353,
+     "blocking": true
+    },
+    {
+     "name": "rotation",
+     "label": "Rotation",
+     "level": "good",
+     "text": "+1\u00b0",
+     "value": 1.3875,
+     "blocking": true
+    },
+    {
+     "name": "perspective",
+     "label": "Perspective",
+     "level": "warn",
+     "text": "~9\u00b0 tilt",
+     "value": 0.0741,
+     "blocking": true
+    },
+    {
+     "name": "exposure",
+     "label": "Exposure",
+     "level": "good",
+     "text": "p98 216",
+     "value": 216.0,
+     "blocking": true
+    },
+    {
+     "name": "glare",
+     "label": "Glare (board)",
+     "level": "good",
+     "text": "0.0%",
+     "value": 0.0004,
+     "blocking": false
+    },
+    {
+     "name": "noise",
+     "label": "Noise",
+     "level": "good",
+     "text": "\u03c3 3.9",
+     "value": 3.9062,
+     "blocking": false
+    },
+    {
+     "name": "motion",
+     "label": "Steadiness",
+     "level": "good",
+     "text": "1.6 %/s, gyro 2\u00b0/s",
+     "value": 0.0155,
+     "blocking": true
+    },
+    {
+     "name": "sharp_frame",
+     "label": "Sharpness (view)",
+     "level": "good",
+     "text": "0.14",
+     "value": 0.1412,
+     "blocking": false
+    },
+    {
+     "name": "chip",
+     "label": "MCU found",
+     "level": "na",
+     "text": "\u2014",
+     "value": null,
+     "blocking": false
+    }
+   ],
+   "instruction": "Hold still",
+   "hints": [],
+   "board_quad": [
+    [
+     0.0639,
+     0.1859
+    ],
+    [
+     0.8667,
+     0.1969
+    ],
+    [
+     0.8889,
+     0.7469
+    ],
+    [
+     0.0972,
+     0.7781
+    ]
+   ],
+   "card_quad": null,
+   "chip_quad": null,
+   "crop_request": null,
+   "focus_point": null,
+   "chip_px_photo": null,
+   "score": 0.88,
+   "passing": true,
+   "ms": 54.5
+  }
+ },
+ "phone": {
+  "video_w": 2160,
+  "video_h": 3840,
+  "photo_w": 4032,
+  "photo_h": 3024,
+  "image_capture": true,
+  "ua": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5.2 Mobile/15E148 Safari/604.1",
+  "torch": true,
+  "focus": ""
+ },
+ "recognition": {
+  "board": {
+   "key": "uni-ds-v8",
+   "name": "UNI-DS v8",
+   "pid": null,
+   "confidence": 0.97
+  },
+  "mcu": null,
+  "mcu_card": null,
+  "mcu_card_layout": null,
+  "clicks": [],
+  "needs_user": [
+   {
+    "field": "mcu",
+    "reason": "no MCU part number text found; the MCU card is only 575 px in this photo, the chip marking needs ~800 px: send the original photo as a file (messengers shrink photos to ~1280 px) or take a close-up of the card",
+    "options": []
+   }
+  ]
+ }
+}

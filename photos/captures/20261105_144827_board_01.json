@@ -1,0 +1,316 @@
+{
+ "file": "20261105_144827_board_01.jpg",
+ "bytes": 3152956,
+ "sha256": "8bc5e7dbc152125d800951fe5f9a2cad7b626fc97f9adb7c2e23b5dbfaa81e7c",
+ "mode": "board",
+ "transfer": {
+  "width": 2160,
+  "height": 3840,
+  "settings": {
+   "imageWidth": 4032,
+   "imageHeight": 3024
+  },
+  "source": "video-frame",
+  "mime": "image/jpeg",
+  "sha256": "8bc5e7dbc152125d800951fe5f9a2cad7b626fc97f9adb7c2e23b5dbfaa81e7c"
+ },
+ "photo_check": {
+  "ok": true,
+  "reasons": [],
+  "width": 2160,
+  "height": 3840,
+  "board_quad": [
+   [
+    0.0,
+    822.0
+   ],
+   [
+    1752.0,
+    804.0
+   ],
+   [
+    1860.0,
+    2946.0
+   ],
+   [
+    114.0,
+    3102.0
+   ]
+  ],
+  "board_score": 1.0,
+  "card_quad": [
+   [
+    147.1,
+    1746.3
+   ],
+   [
+    631.5,
+    1722.1
+   ],
+   [
+    655.2,
+    2195.8
+   ],
+   [
+    170.8,
+    2220.0
+   ]
+  ],
+  "chip_px": 155.0,
+  "chip_blur": 0.151,
+  "chip_glare": 0.0,
+  "chip_contrast": 12.0,
+  "frame_blur": 0.178,
+  "needs_closeup": true,
+  "ms": 84
+ },
+ "last_preview": {
+  "meta": {
+   "seq": 86,
+   "guide": [
+    0.06,
+    0.06,
+    0.88,
+    0.88
+   ],
+   "video_w": 2160,
+   "video_h": 3840,
+   "photo_w": 4032,
+   "photo_h": 3024,
+   "crop_rect": [
+    0.041666666666666664,
+    0.43723958333333335,
+    0.28194444444444444,
+    0.15546875
+   ],
+   "crop_scale": 1,
+   "gyro": 3.2132120999240374,
+   "t_ms": 1793886505461
+  },
+  "report": {
+   "metrics": [
+    {
+     "name": "board",
+     "label": "Board",
+     "level": "good",
+     "text": "found (yellow)",
+     "value": 1.0,
+     "blocking": true
+    },
+    {
+     "name": "framing",
+     "label": "Framing",
+     "level": "warn",
+     "text": "fills 56% of the frame",
+     "value": 0.5616,
+     "blocking": true
+    },
+    {
+     "name": "center",
+     "label": "Centred",
+     "level": "good",
+     "text": "offset 8%",
+     "value": 0.0835,
+     "blocking": true
+    },
+    {
+     "name": "rotation",
+     "label": "Rotation",
+     "level": "good",
+     "text": "-1\u00b0",
+     "value": -0.981,
+     "blocking": true
+    },
+    {
+     "name": "perspective",
+     "label": "Perspective",
+     "level": "good",
+     "text": "~4\u00b0 tilt",
+     "value": 0.0343,
+     "blocking": true
+    },
+    {
+     "name": "exposure",
+     "label": "Exposure",
+     "level": "good",
+     "text": "p98 208",
+     "value": 208.0,
+     "blocking": true
+    },
+    {
+     "name": "glare",
+     "label": "Glare (board)",
+     "level": "good",
+     "text": "0.1%",
+     "value": 0.0009,
+     "blocking": false
+    },
+    {
+     "name": "noise",
+     "label": "Noise",
+     "level": "good",
+     "text": "\u03c3 3.9",
+     "value": 3.8599,
+     "blocking": false
+    },
+    {
+     "name": "motion",
+     "label": "Steadiness",
+     "level": "good",
+     "text": "1.5 %/s, gyro 3\u00b0/s",
+     "value": 0.0155,
+     "blocking": true
+    },
+    {
+     "name": "sharp_frame",
+     "label": "Sharpness (view)",
+     "level": "good",
+     "text": "0.14",
+     "value": 0.1421,
+     "blocking": false
+    },
+    {
+     "name": "chip_px",
+     "label": "MCU size in photo",
+     "level": "bad",
+     "text": "163 px (need 250)",
+     "value": 162.973,
+     "blocking": false
+    },
+    {
+     "name": "focus",
+     "label": "MCU focus",
+     "level": "good",
+     "text": "0.16",
+     "value": 0.1552,
+     "blocking": true
+    },
+    {
+     "name": "chip_glare",
+     "label": "Glare on MCU",
+     "level": "good",
+     "text": "0.0%",
+     "value": 0.0,
+     "blocking": true
+    },
+    {
+     "name": "marking",
+     "label": "Marking contrast",
+     "level": "warn",
+     "text": "11",
+     "value": 11.0,
+     "blocking": false
+    }
+   ],
+   "instruction": "Hold still",
+   "hints": [
+    "MCU will be 163 px \u2014 a close-up of the MCU will follow"
+   ],
+   "board_quad": [
+    [
+     0.0,
+     0.225
+    ],
+    [
+     0.8111,
+     0.2172
+    ],
+    [
+     0.85,
+     0.7656
+    ],
+    [
+     0.0472,
+     0.7547
+    ]
+   ],
+   "card_quad": [
+    [
+     0.0695,
+     0.4553
+    ],
+    [
+     0.2944,
+     0.4493
+    ],
+    [
+     0.3048,
+     0.572
+    ],
+    [
+     0.0799,
+     0.5781
+    ]
+   ],
+   "chip_quad": [
+    [
+     0.1819,
+     0.4857
+    ],
+    [
+     0.2364,
+     0.513
+    ],
+    [
+     0.189,
+     0.5429
+    ],
+    [
+     0.1346,
+     0.5156
+    ]
+   ],
+   "crop_request": [
+    0.046,
+    0.4364,
+    0.2823,
+    0.1545
+   ],
+   "focus_point": [
+    0.1855,
+    0.5143
+   ],
+   "chip_px_photo": 163,
+   "score": 0.8,
+   "passing": true,
+   "ms": 47.9
+  }
+ },
+ "phone": {
+  "video_w": 2160,
+  "video_h": 3840,
+  "photo_w": 4032,
+  "photo_h": 3024,
+  "image_capture": true,
+  "ua": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5.2 Mobile/15E148 Safari/604.1",
+  "torch": true,
+  "focus": ""
+ },
+ "recognition": {
+  "board": {
+   "key": "uni-ds-v8",
+   "name": "UNI-DS v8",
+   "pid": null,
+   "confidence": 0.97
+  },
+  "mcu": {
+   "key": "STM32F373VC",
+   "name": "STM32F373VC",
+   "pid": null,
+   "confidence": 0.95
+  },
+  "mcu_card": {
+   "key": "mcu-card-22-for-stm32-stm32f373vc",
+   "name": "MCU CARD 22 for STM32 STM32F373VC",
+   "pid": "MIKROE-3531",
+   "confidence": 1.0
+  },
+  "mcu_card_layout": {
+   "key": "mcu-card-22-for-stm32",
+   "title": "MCU CARD 22 for STM32",
+   "cards": 1
+  },
+  "clicks": [],
+  "needs_user": []
+ }
+}

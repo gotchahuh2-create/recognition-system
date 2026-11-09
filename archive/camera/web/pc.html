@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Board Camera</title>
+<style>
+/* Same chrome as the test window (vision/webui): NECTO Studio dark */
+:root{
+  --chrome:#141414; --bg:#1b1b1b; --editor:#1e1e1e; --panel:#1f1f1f; --panel-2:#252525; --hover:#2a2a2a;
+  --line:#2b2b2b; --line-2:#3a3a3a; --ink:#d6d6d6; --ink-2:#a0a0a0; --ink-3:#6f6f6f;
+  --yellow:#f5c400; --blue:#4a8cff; --green:#41c463; --red:#e5534b; --amber:#e8a93a; --mcu:#f0a028;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --sans:"Inter","Segoe UI",system-ui,-apple-system,Roboto,Ubuntu,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font:13px/1.45 var(--sans);display:flex;flex-direction:column;overflow:hidden}
+button{font:inherit;color:inherit}
+[hidden]{display:none!important}
+.titlebar{height:30px;display:flex;align-items:center;justify-content:center;background:var(--chrome);font-weight:600;flex:none}
+.titlebar span{color:var(--ink-3);font-weight:500;margin-left:6px}
+.menubar{display:flex;align-items:center;gap:8px;padding:0 12px;height:42px;border-bottom:1px solid var(--line);flex:none}
+.btn{border:1px solid var(--line-2);background:var(--panel-2);border-radius:4px;padding:4px 12px;min-height:28px;cursor:pointer;white-space:nowrap}
+.btn:hover{background:var(--hover)}
+.btn.primary{background:var(--yellow);border-color:var(--yellow);color:#161616;font-weight:600}
+.btn.on{border-color:var(--yellow);color:var(--yellow)}
+.sp{flex:1}
+.pill{display:inline-flex;align-items:center;gap:6px;color:var(--ink-2)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ink-3)}
+.dot.on{background:var(--green)} .dot.busy{background:var(--amber)}
+.ws{flex:1;display:grid;grid-template-columns:300px minmax(0,1fr) 380px;min-height:0}
+.col{border-right:1px solid var(--line);overflow:auto;min-height:0;background:var(--panel)}
+.col:last-child{border-right:0}
+.ph{height:38px;display:flex;align-items:center;padding:0 12px;border-bottom:1px solid var(--line);color:var(--blue);gap:8px}
+.ph .cnt{margin-left:auto;color:var(--ink-3)}
+.sec{padding:12px;border-bottom:1px solid var(--line)}
+.qr{background:#fff;border-radius:6px;padding:6px;display:block;width:100%}
+.qr svg{width:100%;height:auto;display:block}
+.url{font:11.5px var(--mono);color:var(--ink-2);word-break:break-all;margin-top:6px}
+.muted{color:var(--ink-2)} .small{font-size:12px}
+ol.steps{padding-left:18px;margin:6px 0 0;color:var(--ink-2)} ol.steps li{margin:3px 0}
+#center{display:grid;grid-template-rows:auto minmax(0,1fr) auto;min-width:0;min-height:0;background:var(--editor)}
+#instr{padding:10px 14px;font-size:18px;font-weight:650;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px}
+#instr.good{color:var(--green)}
+#prog{width:120px;height:6px;border-radius:3px;background:var(--line-2);overflow:hidden;margin-left:auto;flex:none}
+#prog i{display:block;height:100%;width:0;background:var(--green)}
+#view{position:relative;min-height:0;display:grid;place-items:center;padding:10px}
+#cv{max-width:100%;max-height:100%;background:#000;border-radius:4px}
+#empty{position:absolute;color:var(--ink-3);text-align:center}
+#mets{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:6px;padding:10px 12px;border-top:1px solid var(--line);background:var(--panel)}
+.m{display:flex;gap:8px;align-items:center;background:var(--panel-2);border-radius:4px;padding:5px 8px;border-left:3px solid var(--ink-3)}
+.m.good{border-left-color:var(--green)} .m.warn{border-left-color:var(--amber)} .m.bad{border-left-color:var(--red)}
+.m b{font-weight:500;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.m span{color:var(--ink-2);font:11.5px var(--mono);white-space:nowrap}
+.card{background:var(--panel-2);border-radius:6px;padding:10px;margin-bottom:8px}
+.card h4{margin:0 0 4px;font-size:12px;color:var(--ink-2);font-weight:500;text-transform:uppercase;letter-spacing:.4px}
+.card .v{font-size:15px;font-weight:600}
+.card .v.ask{color:var(--amber)}
+.card .r{color:var(--ink-2);font-size:12px;margin-top:3px}
+.opts{margin-top:6px;font-size:12px;color:var(--ink-2)}
+.cap{display:grid;grid-template-columns:72px 1fr;gap:10px;padding:8px 12px;border-bottom:1px solid var(--line)}
+.cap img{width:72px;height:72px;object-fit:cover;border-radius:4px;background:#000}
+.cap .ok{color:var(--green)} .cap .bad{color:var(--red)}
+.imgs{display:flex;gap:8px;flex-wrap:wrap} .imgs img{max-width:100%;border-radius:4px;background:#000}
+#log{font:11.5px var(--mono);color:var(--ink-2);padding:8px 12px;white-space:pre-wrap;max-height:160px;overflow:auto}
+</style>
+</head>
+<body>
+<div class="titlebar">Board Camera<span id="ver"></span></div>
+<div class="menubar">
+  <span class="pill"><span class="dot" id="pdot"></span><span id="pstat">Phone not connected</span></span>
+  <span class="sp"></span>
+  <button class="btn" data-m="board" id="mBoard">1 · Board</button>
+  <button class="btn" data-m="mcu" id="mMcu">2 · MCU close-up</button>
+  <button class="btn primary" id="shutter">Capture now</button>
+  <button class="btn" id="restart">New setup</button>
+</div>
+<div class="ws">
+  <div class="col">
+    <div class="ph">Connect the phone</div>
+    <div class="sec">
+      <div id="qrs"></div>
+      <ol class="steps small">
+        <li>Phone on the same Wi-Fi as this PC.</li>
+        <li>Scan the code with the phone camera.</li>
+        <li id="certStep">The page uses a local certificate: tap <i>Advanced → Proceed</i> once.</li>
+        <li>Tap <b>Start camera</b> and follow the instructions.</li>
+      </ol>
+      <div class="small muted" style="margin-top:8px" id="fp"></div>
+      <button class="btn" id="newtok" style="margin-top:10px">New pairing code</button>
+    </div>
+    <div class="ph">Captures<span class="cnt" id="ncap">0</span></div>
+    <div id="caps"></div>
+  </div>
+  <div id="center">
+    <div id="instr">Waiting for the phone…<div id="prog"><i></i></div></div>
+    <div id="view"><canvas id="cv" width="960" height="720"></canvas><div id="empty">The phone's live view appears here.</div></div>
+    <div id="mets"></div>
+  </div>
+  <div class="col">
+    <div class="ph">Result</div>
+    <div class="sec" id="result"><div class="muted">Nothing recognised yet.</div></div>
+    <div class="ph">MCU card</div>
+    <div class="sec"><div class="imgs" id="cardimgs"><span class="muted">—</span></div><div class="small muted" id="cardtext"></div></div>
+    <div class="ph">Log</div>
+    <div id="log"></div>
+  </div>
+</div>
+<script>
+"use strict";
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const cv = $("#cv"), ctx = cv.getContext("2d");
+let ws = null, mode = "board", last = null, done = false;
+
+async function loadInfo(){
+  const info = await (await fetch("/api/info")).json();
+  showInfo(info);
+}
+function showInfo(info){
+  $("#ver").textContent = "vision " + info.version;
+  $("#qrs").innerHTML = info.phone_urls.map((u,i) => `<div class="qr">${info.qr[i] || ""}</div><div class="url">${esc(u)}</div>`).join("<div style='height:10px'></div>")
+    || "<div class='muted'>No LAN address found — start with --host-ip.</div>";
+  $("#fp").textContent = info.cert_fingerprint ? "Certificate " + info.cert_fingerprint + "…" : (info.secure ? "" : "Plain http: the live camera may be blocked; the phone can still send photos from its camera app.");
+  $("#certStep").hidden = !info.secure;
+  if (info.state) showState(info.state);
+}
+function connect(){
+  ws = new WebSocket(`ws://${location.host}/ws`);
+  ws.binaryType = "arraybuffer";
+  ws.onmessage = e => typeof e.data === "string" ? onMsg(JSON.parse(e.data)) : onPreview(e.data);
+  ws.onclose = () => setTimeout(connect, 1000);
+}
+const send = o => ws && ws.readyState === 1 && ws.send(JSON.stringify(o));
+
+function onMsg(m){
+  if (m.type === "state") showState(m.state);
+  else if (m.type === "info") showInfo(m.info);
+  else if (m.type === "photo") addCapture(m.capture);
+  else if (m.type === "result") showResult(m);
+  else if (m.type === "log") log(m.text);
+  else if (m.type === "transfer") log(`receiving photo (${(m.size/1e6).toFixed(1)} MB)…`);
+}
+function showState(s){
+  mode = s.mode; done = !!s.done;
+  $("#mBoard").classList.toggle("on", s.mode === "board"); $("#mMcu").classList.toggle("on", s.mode === "mcu");
+  $("#pdot").className = "dot" + (s.busy ? " busy" : s.phone ? " on" : "");
+  const pi = s.phone_info || {};
+  $("#pstat").textContent = s.phone ? `Phone connected — stream ${pi.video_w||"?"}×${pi.video_h||"?"}, photo ${pi.photo_w||"?"}×${pi.photo_h||"?"}${pi.image_capture ? "" : " (video frame)"}` : "Phone not connected";
+  if (!s.phone){ setInstr("Waiting for the phone…"); }
+  if (s.busy) setInstr("Checking / recognising the photo…");
+  if (s.manifest) showManifest(s.manifest);
+}
+function setInstr(t, good){ const e = $("#instr"); e.firstChild.textContent = t; e.classList.toggle("good", !!good); }
+
+function onPreview(buf){
+  const dv = new DataView(buf), hl = dv.getUint32(1);
+  const head = JSON.parse(new TextDecoder().decode(new Uint8Array(buf, 5, hl)));
+  const blob = new Blob([new Uint8Array(buf, 5 + hl)], {type:"image/jpeg"});
+  const url = URL.createObjectURL(blob), im = new Image();
+  im.onload = () => { last = {im, head}; drawPreview(); URL.revokeObjectURL(url); };
+  im.src = url;
+  const r = head.report;
+  if (done) setInstr("Finished — Capture now retakes, New setup starts over", true);
+  else setInstr(r.passing ? "Hold still — capturing" : r.instruction, r.passing);
+  $("#prog i").style.width = Math.round(100 * (head.progress||0)) + "%";
+  $("#mets").innerHTML = r.metrics.map(m => `<div class="m ${m.level}"><b>${esc(m.label)}</b><span>${esc(m.text)}</span></div>`).join("");
+}
+function drawPreview(){
+  if (!last) return;
+  const {im, head} = last, r = head.report;
+  $("#empty").hidden = true;
+  if (cv.width !== im.width || cv.height !== im.height){ cv.width = im.width; cv.height = im.height; }
+  ctx.drawImage(im, 0, 0);
+  const W = cv.width, H = cv.height;
+  const poly = (q, color, w, fill) => {
+    if (!q) return; ctx.beginPath(); q.forEach(([x,y],i) => i ? ctx.lineTo(x*W,y*H) : ctx.moveTo(x*W,y*H)); ctx.closePath();
+    if (fill){ ctx.fillStyle = fill; ctx.fill(); } ctx.strokeStyle = color; ctx.lineWidth = w; ctx.stroke();
+  };
+  poly(r.board_quad, r.passing ? "#41c463" : "#f5c400", 3);
+  poly(r.card_quad, "#4a8cff", 2);
+  poly(r.chip_quad, "#f0a028", 2, "rgba(240,160,40,.12)");
+  if (r.crop_request){ const [x,y,w,h] = r.crop_request; ctx.setLineDash([6,4]); ctx.strokeStyle = "rgba(255,255,255,.5)"; ctx.lineWidth = 1; ctx.strokeRect(x*W,y*H,w*W,h*H); ctx.setLineDash([]); }
+  if (r.chip_px_photo){ ctx.font = "14px sans-serif"; ctx.fillStyle = "#f0a028"; const q = r.chip_quad; if (q) ctx.fillText(`MCU ≈ ${r.chip_px_photo} px in photo`, q[0][0]*W, q[0][1]*H - 6); }
+}
+function addCapture(c){
+  const ch = c.check, ok = ch.ok;
+  const div = document.createElement("div"); div.className = "cap";
+  div.innerHTML = `<img src="${c.thumb}"><div><div><b>${esc(c.name)}</b></div>
+    <div class="small muted">${c.w}×${c.h} · ${(c.bytes/1e6).toFixed(1)} MB · ${esc(c.source||"")}</div>
+    <div class="small ${ok ? "ok" : "bad"}">${ok ? "quality OK" : esc(ch.reasons.join("; "))}</div>
+    <div class="small muted">MCU ${ch.chip_px ?? "?"} px · blur ${ch.chip_blur ?? "?"} · glare ${ch.chip_glare ?? "?"}${ch.needs_closeup ? " · close-up needed" : ""}</div></div>`;
+  $("#caps").prepend(div);
+  $("#ncap").textContent = $("#caps").children.length;
+  log(`photo ${c.name}: ${ok ? "OK" : "retake — " + ch.reasons.join("; ")}`);
+}
+function showResult(m){
+  if (!m.payload){ $("#result").innerHTML = "<div class='muted'>Nothing recognised yet.</div>"; $("#cardimgs").innerHTML = "<span class='muted'>—</span>"; $("#cardtext").textContent = ""; $("#caps").innerHTML = ""; $("#ncap").textContent = 0; return; }
+  if (m.manifest) showManifest(m.manifest, m.payload.result);
+  const c = m.payload.card;
+  if (c){
+    $("#cardimgs").innerHTML = (c.img ? `<img src="${c.img}" style="max-width:220px">` : "") + (c.chip_img ? `<img src="${c.chip_img}" style="max-width:140px">` : "");
+    $("#cardtext").textContent = (c.text || []).slice(0, 12).join(" · ");
+  }
+  log(`recognised (${m.mode}) in ${m.payload.result.timings_ms.total} ms`);
+}
+function showManifest(man, res){
+  const row = (label, v, extra) => `<div class="card"><h4>${label}</h4><div class="v ${v ? "" : "ask"}">${v ? esc(v.name) + ` <span class="muted small">${(v.confidence*100).toFixed(0)}%</span>` : "Not sure"}</div>${extra || ""}</div>`;
+  const need = f => (man.needs_user || []).find(n => n.field === f);
+  const why = f => { const n = need(f); return n ? `<div class="r">${esc(n.reason)}</div><div class="opts">${(n.options||[]).slice(0,3).map(o => esc(o.name)).join(" · ")}</div>` : ""; };
+  const lay = man.mcu_card_layout;
+  $("#result").innerHTML = row("Board", man.board, why("board")) + row("MCU", man.mcu, why("mcu")) +
+    row("MCU card", man.mcu_card, (lay && !man.mcu_card ? `<div class="r">Layout: ${esc(lay.title)} (${lay.cards} cards)</div>` : "") + why("mcu_card")) +
+    (man.clicks && man.clicks.length ? row("Clicks", {name: man.clicks.map(c => c.name).join(", "), confidence: 1}) : "") +
+    `<details class="small"><summary class="muted">manifest JSON</summary><pre style="white-space:pre-wrap">${esc(JSON.stringify(man, null, 1))}</pre></details>`;
+}
+function log(t){ const l = $("#log"); l.textContent = `${new Date().toLocaleTimeString()}  ${t}\n` + l.textContent.slice(0, 6000); }
+
+$("#mBoard").onclick = () => send({type:"mode", mode:"board"});
+$("#mMcu").onclick = () => send({type:"mode", mode:"mcu"});
+$("#shutter").onclick = () => send({type:"shutter"});
+$("#restart").onclick = () => send({type:"restart"});
+$("#newtok").onclick = () => send({type:"new_token"});
+loadInfo(); connect();
+</script>
+</body>
+</html>

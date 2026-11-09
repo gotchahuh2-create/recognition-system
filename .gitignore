@@ -1,0 +1,19 @@
+# --- Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+# --- models and galleries (large, downloaded/built locally)
+models/
+gallery/
+# --- photos: versioned through dataset manifests (bench/datasets/*.json), not in git
+photos/**/*.jpg
+photos/**/*.jpeg
+photos/**/*.png
+photos/**/*.heic
+# keep the three regression photos used by tests
+!tests/real/*.jpg
+# --- PHOENIX run output (traces, scratch); reports and baselines ARE versioned
+runs/
+dbg*/
+syn*/

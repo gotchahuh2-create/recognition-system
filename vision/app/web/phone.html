@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Scan board</title>
+<style>
+:root{
+  --ink:#ffffff; --ink-2:rgba(235,235,245,.62); --ink-3:rgba(235,235,245,.36);
+  --sheet:#1c1c1e; --sheet-2:#2c2c2e; --sep:rgba(84,84,88,.55);
+  --accent:#f7b500; --accent-ink:#141414; --good:#32d74b; --bad:#ff453a;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:#000;color:var(--ink);font:17px/1.3 var(--sans);overflow:hidden;
+  touch-action:manipulation;-webkit-font-smoothing:antialiased;-webkit-user-select:none;user-select:none}
+button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:pointer}
+[hidden]{display:none!important}
+
+/* ------------------------------------------------------------- camera */
+#stage{position:fixed;inset:0;background:#000}
+video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+#ov{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#tap{position:absolute;inset:0}
+
+/* ------------------------------------------------------------- top */
+.top{position:fixed;left:0;right:0;top:0;padding:calc(env(safe-area-inset-top) + 10px) 16px 0;pointer-events:none}
+.steps{display:flex;gap:6px}
+.steps i{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.28);overflow:hidden;position:relative}
+.steps i b{position:absolute;inset:0;background:#fff;transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.steps i.on b{transform:scaleX(1)}
+.toprow{display:flex;align-items:center;margin-top:10px;min-height:36px}
+#stepLabel{font-size:13px;font-weight:600;letter-spacing:.2px;color:var(--ink-2);text-transform:uppercase}
+.toprow .sp{flex:1}
+.round{width:36px;height:36px;border-radius:50%;background:rgba(40,40,40,.62);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);
+  display:grid;place-items:center;pointer-events:auto;transition:background .2s}
+.round svg{width:18px;height:18px}
+.round.on{background:var(--accent);color:var(--accent-ink)}
+#net{font-size:13px;color:var(--ink-2);margin-right:10px;display:flex;align-items:center;gap:6px}
+#net::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--bad)}
+
+/* ------------------------------------------------------------- toast */
+#toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top) + 64px);transform:translate(-50%,-8px);opacity:0;
+  background:rgba(40,40,40,.78);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);
+  padding:10px 16px;border-radius:14px;font-size:15px;max-width:calc(100% - 32px);text-align:center;
+  transition:opacity .25s var(--ease),transform .25s var(--ease);pointer-events:none}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ------------------------------------------------------------- bottom */
+.bottom{transition:opacity .3s;position:fixed;left:0;right:0;bottom:0;padding:0 16px calc(env(safe-area-inset-bottom) + 18px);
+  background:linear-gradient(to top,rgba(0,0,0,.72),rgba(0,0,0,.45) 60%,rgba(0,0,0,0))}
+#instr{font-size:22px;font-weight:600;text-align:center;letter-spacing:-.2px;min-height:29px;padding-top:28px;
+  transition:color .25s}
+#instr.good{color:var(--accent)}
+#hint{font-size:15px;color:var(--ink-2);text-align:center;min-height:20px;margin:4px 0 18px}
+.controls{display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
+.controls .l{justify-self:start} .controls .r{justify-self:end}
+.ghost{width:48px;height:48px;border-radius:50%;background:rgba(40,40,40,.62);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);display:grid;place-items:center}
+.ghost svg{width:22px;height:22px}
+#shutter{width:76px;height:76px;position:relative;display:grid;place-items:center}
+#shutter svg{position:absolute;inset:0;width:76px;height:76px;transform:rotate(-90deg)}
+#shutter .ring{fill:none;stroke:#fff;stroke-width:4}
+#shutter .prog{fill:none;stroke:var(--accent);stroke-width:4;stroke-linecap:round;stroke-dasharray:226;stroke-dashoffset:226;transition:stroke-dashoffset .15s linear}
+#shutter i{width:60px;height:60px;border-radius:50%;background:#fff;transition:transform .12s var(--ease),opacity .2s}
+#shutter:active i{transform:scale(.88)}
+#shutter:disabled i{opacity:.35}
+
+#flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;transition:opacity .3s}
+#flash.on{opacity:.9;transition:none}
+#bar{position:fixed;left:0;right:0;top:0;height:3px;pointer-events:none}
+#bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .15s}
+
+/* ------------------------------------------------------------- sheets */
+#scrim{position:fixed;inset:0;background:rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:opacity .35s var(--ease)}
+#scrim.show{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:8px;right:8px;bottom:calc(env(safe-area-inset-bottom) + 8px);background:var(--sheet);border-radius:22px;
+  padding:22px 20px 18px;transform:translateY(calc(100% + 40px));transition:transform .45s var(--ease);
+  max-width:520px;margin:0 auto;box-shadow:0 -1px 0 rgba(255,255,255,.04)}
+.sheet.show{transform:none}
+.sheet h2{margin:0;font-size:22px;font-weight:700;letter-spacing:-.3px}
+.sheet p{margin:6px 0 0;color:var(--ink-2);font-size:15px}
+.sheet .head{display:flex;gap:14px;align-items:center}
+.badge{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;flex:none}
+.badge.ok{background:rgba(50,215,75,.16);color:var(--good)}
+.badge.wait{background:rgba(255,255,255,.08)}
+.badge svg{width:22px;height:22px}
+.list{margin:18px 0 0;background:var(--sheet-2);border-radius:12px;overflow:hidden}
+.list .row{display:flex;justify-content:space-between;gap:12px;padding:12px 14px;font-size:16px}
+.list .row + .row{box-shadow:inset 0 .5px 0 var(--sep)}
+.list .k{color:var(--ink-2)}
+.list .v{text-align:right;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.list .v.open{color:var(--accent);font-weight:400}
+.illu{display:block;margin:18px auto 0;width:180px;height:110px}
+.btn{display:block;width:100%;height:52px;border-radius:14px;background:var(--accent);color:var(--accent-ink);font-weight:600;font-size:17px;
+  margin-top:18px;position:relative;overflow:hidden}
+.btn .cd{position:absolute;left:0;bottom:0;height:3px;background:rgba(0,0,0,.25);width:100%;transform-origin:left}
+.btn.plain{background:transparent;color:var(--accent);height:44px;margin-top:6px;font-weight:500}
+.spinner{width:22px;height:22px;border-radius:50%;border:2.5px solid rgba(255,255,255,.18);border-top-color:#fff;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ------------------------------------------------------------- start */
+#start{position:fixed;inset:0;background:#000;display:flex;flex-direction:column;justify-content:flex-end;
+  padding:24px 24px calc(env(safe-area-inset-bottom) + 28px)}
+#start .mid{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+#start .mark{width:72px;height:72px;border-radius:18px;background:#1c1c1e;display:grid;place-items:center;margin-bottom:22px}
+#start .mark svg{width:40px;height:40px;color:var(--accent)}
+#start h1{font-size:28px;font-weight:700;letter-spacing:-.5px;margin:0}
+#start p{color:var(--ink-2);font-size:17px;margin:10px 0 0;max-width:320px}
+#start ol{list-style:none;padding:0;margin:28px 0 0;text-align:left;width:100%;max-width:320px}
+#start li{display:flex;gap:14px;align-items:center;padding:8px 0;font-size:16px}
+#start li b{width:28px;height:28px;border-radius:50%;background:#1c1c1e;display:grid;place-items:center;font-size:14px;flex:none}
+#startErr{color:var(--bad);font-size:15px;text-align:center;min-height:20px;margin-bottom:6px}
+</style>
+</head>
+<body>
+<div id="stage">
+  <video id="v" playsinline muted autoplay></video>
+  <canvas id="ov"></canvas>
+  <div id="tap"></div>
+</div>
+<div id="bar"><i></i></div>
+
+<div class="top">
+  <div class="steps"><i id="s1"><b></b></i><i id="s2"><b></b></i></div>
+  <div class="toprow">
+    <span id="stepLabel">Step 1 of 2 · Board</span>
+    <span class="sp"></span>
+    <span id="net" hidden>Reconnecting</span>
+    <button class="round" id="torch" hidden aria-label="Light"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.5 2h7l-1.6 6H18l-8.2 14 1.5-10H7.2z"/></svg></button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<div class="bottom" id="bottom">
+  <div id="instr">Starting…</div>
+  <div id="hint"></div>
+  <div class="controls">
+    <button class="ghost l" id="fileBtn" aria-label="Use the camera app"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="5" width="18" height="15" rx="3"/><path d="M8 13l3 3 5-6"/></svg></button>
+    <button id="shutter" aria-label="Take photo"><svg viewBox="0 0 76 76"><circle class="ring" cx="38" cy="38" r="36"/><circle class="prog" cx="38" cy="38" r="36" id="ringProg"/></svg><i></i></button>
+    <button class="ghost r" id="restart" aria-label="Start over"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.4-5.7L4 8.6"/><path d="M4 4v4.6h4.6"/></svg></button>
+  </div>
+</div>
+<input type="file" id="file" accept="image/*" capture="environment" hidden>
+<div id="flash"></div>
+
+<div id="scrim"></div>
+<!-- working -->
+<div class="sheet" id="shWork">
+  <div class="head"><div class="badge wait"><div class="spinner"></div></div><div><h2 id="workTitle">Recognising</h2><p id="workText">Keep the phone where it is.</p></div></div>
+</div>
+<!-- between the steps -->
+<div class="sheet" id="shNext">
+  <div class="head"><div class="badge ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <div><h2 id="nextTitle">Board photo taken</h2><p id="nextText">Now move closer to the MCU.</p></div></div>
+  <svg class="illu" viewBox="0 0 180 110" fill="none">
+    <rect x="10" y="8" width="160" height="94" rx="6" stroke="rgba(255,255,255,.35)" stroke-width="1.5"/>
+    <rect x="72" y="34" width="36" height="36" rx="3" fill="rgba(247,181,0,.14)" stroke="#f7b500" stroke-width="1.5"/>
+    <rect x="82" y="44" width="16" height="16" rx="1.5" fill="#f7b500"/>
+    <path d="M60 22h-8v8M120 22h8v8M60 82h-8v-8M120 82h8v-8" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+  <p style="text-align:center;margin-top:12px">Hold the phone about 10–15 cm above the MCU card and fill the square with it.</p>
+  <button class="btn" id="go2">Continue<span class="cd" id="cd"></span></button>
+</div>
+<!-- done -->
+<div class="sheet" id="shDone">
+  <div class="head"><div class="badge ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <div><h2>Scan complete</h2><p>The setup is on your PC.</p></div></div>
+  <div class="list" id="doneList"></div>
+  <button class="btn" id="again">Scan another board</button>
+  <button class="btn plain" id="retake2">Retake the close-up</button>
+</div>
+
+<div id="start">
+  <div class="mid">
+    <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"/></svg></div>
+    <h1>Scan your board</h1>
+    <p>Two photos, taken automatically when the picture is sharp. Then the PC reads them both.</p>
+    <ol><li><b>1</b>The whole board</li><li><b>2</b>A close-up of the MCU</li></ol>
+  </div>
+  <div id="startErr"></div>
+  <button class="btn" id="go">Start camera</button>
+  <button class="btn plain" id="goFile">Use the camera app instead</button>
+</div>
+
+<script>
+"use strict";
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const token = new URLSearchParams(location.search).get("t") || "";
+const video = $("#v"), ov = $("#ov"), octx = ov.getContext("2d");
+const S = {
+  ws:null, mode:"board", step:1, steps:2, done:false, stream:null, track:null, imageCapture:null, caps:{}, photoW:0, photoH:0,
+  report:null, progress:0, inflight:false, lastSend:0, seq:0, cropReq:null, gyro:[], busy:false, capturing:false,
+  focusAt:0, lastFocus:null, tapPoint:null, tapAt:0, wake:null, retryMs:500, sheet:null, summary:{},
+  g:[0.06,0.06,0.88,0.88], gT:null, closed:false,
+};
+const frameCv = document.createElement("canvas"), cropCv = document.createElement("canvas");
+const FRAME_LONG = 960, CROP_MAX = 1024, MIN_INTERVAL = 130;
+const haptic = ms => { try{ navigator.vibrate && navigator.vibrate(ms); }catch(_){} };
+
+// ================================================================== socket
+function connect(){
+  const ws = new WebSocket(`${location.protocol==="https:"?"wss":"ws"}://${location.host}/ws?t=${encodeURIComponent(token)}`);
+  ws.binaryType = "arraybuffer";
+  S.ws = ws;
+  ws.onopen = () => { S.retryMs = 500; $("#net").hidden = true; hello(); };
+  ws.onclose = e => {
+    S.inflight = false;
+    if (e.code === 4000 || e.code === 4001){
+      S.closed = true;
+      setInstr(e.code === 4001 ? "Pairing was reset" : "Another phone took over");
+      setHint(e.code === 4001 ? "Scan the new QR code on the PC." : "");
+      return;
+    }
+    $("#net").hidden = false;
+    setTimeout(connect, S.retryMs); S.retryMs = Math.min(S.retryMs * 2, 4000);
+  };
+  ws.onmessage = e => { if (typeof e.data === "string") onMsg(JSON.parse(e.data)); };
+}
+const send = o => { if (S.ws && S.ws.readyState === 1) S.ws.send(JSON.stringify(o)); };
+function hello(){
+  send({type:"hello", video_w:video.videoWidth||0, video_h:video.videoHeight||0, photo_w:S.photoW, photo_h:S.photoH,
+        image_capture:!!S.imageCapture, torch:!!S.caps.torch, focus:(S.caps.focusMode||[]).join(","), ua:navigator.userAgent});
+}
+
+function onMsg(m){
+  switch (m.type){
+    case "config": {
+      const changed = m.mode !== S.mode || m.step !== S.step;
+      S.mode = m.mode; S.step = m.step; S.steps = m.steps || 2; S.done = !!m.done; S.summary = m.summary || {};
+      S.cropReq = null; S.report = null; S.progress = 0;
+      renderSteps();
+      if (S.done) showDone(S.summary);
+      else if (m.step === 2 && m.hold > 0) showNext(S.summary, m.hold);
+      else if (S.sheet && S.sheet !== "shWork") hideSheet();
+      if (changed || !S.report){ setInstr(m.message); setHint(""); }
+      break;
+    }
+    case "analysis":
+      S.inflight = false;
+      if (m.dropped) break;
+      S.report = m.report; S.progress = m.progress || 0;
+      S.cropReq = m.report.crop_request || null;
+      renderReport(); maybeFocus(); break;
+    case "capture": capture(m.focus_point, m.manual); break;
+    case "photo_received": showWork("Checking the photo", ""); break;
+    case "retake":
+      S.busy = false; hideSheet();
+      toast("Taking it again — " + (m.reasons || []).slice(0, 2).join(", ").toLowerCase()); haptic([30, 60, 30]); break;
+    case "accepted": if (S.mode === "mcu") showWork("Recognising", "Board and MCU. Keep the phone where it is."); break;
+    case "status": showWork(m.message.replace(/…$/, ""), "Keep the phone where it is."); break;
+    case "result":
+      S.busy = false; S.summary = m.summary || {};
+      haptic(25);
+      if (m.next === "mcu") showNext(S.summary, 4); else { S.done = true; showDone(S.summary); }
+      break;
+    case "error": S.busy = false; hideSheet(); toast(m.message); break;
+  }
+}
+
+// ================================================================== steps + sheets
+function renderSteps(){
+  $("#s1").classList.toggle("on", S.step >= 1);
+  $("#s2").classList.toggle("on", S.step >= 2);
+  $("#stepLabel").textContent = S.done ? "Done" : S.step === 1 ? "Step 1 of 2 · Board" : "Step 2 of 2 · MCU";
+  S.gT = guideFor(S.mode);
+}
+let cdTimer = 0;
+function showSheet(id){
+  ["shWork","shNext","shDone"].forEach(k => $("#"+k).classList.toggle("show", k === id));
+  $("#scrim").classList.toggle("show", id !== "shWork");
+  $("#bottom").style.opacity = id ? "0" : "1";
+  $("#bottom").style.pointerEvents = id ? "none" : "";
+  S.sheet = id;
+}
+function hideSheet(){ clearTimeout(cdTimer); showSheet(null); }
+function showWork(title, text){
+  $("#workTitle").textContent = title; $("#workText").textContent = text;
+  if (S.sheet !== "shNext" && S.sheet !== "shDone") showSheet("shWork");
+}
+function showNext(sum, secs){
+  $("#nextTitle").textContent = sum.board ? sum.board : "Board photo taken";
+  $("#nextText").textContent = "Next, a close-up of the MCU. Both photos are processed together.";
+  if (S.sheet !== "shNext"){
+    showSheet("shNext");
+    const cd = $("#cd"); cd.style.transition = "none"; cd.style.transform = "scaleX(1)";
+    requestAnimationFrame(() => requestAnimationFrame(() => { cd.style.transition = `transform ${secs}s linear`; cd.style.transform = "scaleX(0)"; }));
+    clearTimeout(cdTimer); cdTimer = setTimeout(goStep2, secs * 1000);
+  }
+}
+function goStep2(){
+  if (S.sheet !== "shNext") return;
+  hideSheet(); send({type:"ready"});
+  setInstr("Move closer until the MCU card fills the square"); setHint("");
+}
+function showDone(sum){
+  const row = (k, v, open) => `<div class="row"><span class="k">${k}</span><span class="v ${v ? "" : "open"}">${v ? esc(v) : open}</span></div>`;
+  $("#doneList").innerHTML = row("Board", sum.board, "Choose on PC") + row("MCU", sum.mcu, "Choose on PC") +
+    row("MCU card", sum.mcu_card || (sum.layout ? sum.layout : ""), "Choose on PC") +
+    ((sum.clicks || []).length ? row("Click boards", sum.clicks.join(", ")) : "");
+  showSheet("shDone");
+}
+
+// ================================================================== camera
+// iPhone / iPad Safari: ImageCapture.takePhoto() fails there and leaves the
+// camera track black. Its 4K video frame is the still we use instead.
+const IS_WEBKIT = /iPhone|iPad|iPod/.test(navigator.userAgent) ||
+  (/Safari\//.test(navigator.userAgent) && !/Chrome|Chromium|CriOS|Android/.test(navigator.userAgent)) ||
+  (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+const CONSTRAINTS = {audio:false, video:{facingMode:{ideal:"environment"}, width:{ideal:3840}, height:{ideal:2160}, frameRate:{ideal:30}}};
+
+async function openStream(){
+  if (S.stream) S.stream.getTracks().forEach(t => { try{ t.stop(); }catch(_){} });
+  S.stream = await navigator.mediaDevices.getUserMedia(CONSTRAINTS);
+  S.track = S.stream.getVideoTracks()[0];
+  video.srcObject = S.stream;
+  await video.play().catch(() => {});
+  await new Promise(r => video.videoWidth ? r() : video.onloadedmetadata = r);
+  S.caps = S.track.getCapabilities ? S.track.getCapabilities() : {};
+  const adv = {};
+  if ((S.caps.focusMode||[]).includes("continuous")) adv.focusMode = "continuous";
+  if ((S.caps.exposureMode||[]).includes("continuous")) adv.exposureMode = "continuous";
+  if ((S.caps.whiteBalanceMode||[]).includes("continuous")) adv.whiteBalanceMode = "continuous";
+  if (Object.keys(adv).length) S.track.applyConstraints({advanced:[adv]}).catch(() => {});
+  S.imageCapture = null; S.photoW = S.photoH = 0;
+  if ("ImageCapture" in window && !IS_WEBKIT && !S.noImageCapture){
+    try{
+      S.imageCapture = new ImageCapture(S.track);
+      const pc = await S.imageCapture.getPhotoCapabilities();
+      S.photoW = pc.imageWidth ? pc.imageWidth.max : 0; S.photoH = pc.imageHeight ? pc.imageHeight.max : 0;
+      S.photoCaps = pc;
+    }catch(_){ S.imageCapture = null; }
+  }
+  if (!S.imageCapture || !S.photoW){ S.imageCapture = null; S.photoW = video.videoWidth; S.photoH = video.videoHeight; }
+  $("#torch").hidden = !S.caps.torch; $("#torch").classList.remove("on");
+  S.lastFrame = performance.now();
+  if (video.requestVideoFrameCallback){
+    const tick = () => { S.lastFrame = performance.now(); video.requestVideoFrameCallback(tick); };
+    video.requestVideoFrameCallback(tick);
+  }
+  hello();
+}
+
+// The camera feed can stop (iOS after a capture, another app took the camera,
+// screen locked): reopen it instead of leaving the user with a black view.
+let reopening = false;
+async function watchdog(){
+  if (!S.stream || reopening || S.capturing || document.hidden) return;
+  if (video.paused) video.play().catch(() => {});
+  const ended = !S.track || S.track.readyState === "ended";
+  const stalled = video.requestVideoFrameCallback && performance.now() - (S.lastFrame || 0) > 2500;
+  if (!ended && !stalled && video.videoWidth) return;
+  reopening = true;
+  try{ await openStream(); }catch(e){ toast("The camera stopped. Tap Restart or reload the page."); }
+  finally{ reopening = false; }
+}
+
+async function startCamera(){
+  $("#startErr").textContent = "";
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+    $("#startErr").textContent = location.protocol !== "https:" ? "The live camera needs a secure page. Use the camera app instead." : "This browser blocks the live camera. Use the camera app instead.";
+    return;
+  }
+  $("#go").textContent = "Opening camera…";
+  try{
+    if (typeof DeviceMotionEvent !== "undefined" && DeviceMotionEvent.requestPermission){
+      try{ await DeviceMotionEvent.requestPermission(); }catch(_){}
+    }
+    await openStream();
+  }catch(e){
+    $("#go").textContent = "Try again";
+    $("#startErr").textContent = e.name === "NotAllowedError" ? "Camera access was denied. Allow it in the browser settings." : "Camera not available (" + e.message + ").";
+    return;
+  }
+  $("#start").style.transition = "opacity .35s"; $("#start").style.opacity = "0";
+  setTimeout(() => $("#start").hidden = true, 350);
+  try{ S.wake = await navigator.wakeLock.request("screen"); }catch(_){}
+  addEventListener("devicemotion", e => {
+    const r = e.rotationRate; if (!r) return;
+    const v = Math.hypot(r.alpha||0, r.beta||0, r.gamma||0), t = performance.now();
+    S.gyro.push([t, v]); while (S.gyro.length && t - S.gyro[0][0] > 300) S.gyro.shift();
+  });
+  setInterval(watchdog, 1000);
+  resize(); loop();
+}
+const gyroNow = () => S.gyro.length ? Math.max(...S.gyro.map(g => g[1])) : null;
+
+// guide rectangle in frame units (0..1): what the server checks against
+function guideFor(mode){
+  const vw = video.videoWidth || 1, vh = video.videoHeight || 1;
+  if (mode === "mcu"){ const side = 0.62 * Math.min(vw, vh); return [(vw-side)/2/vw, (vh-side)/2/vh, side/vw, side/vh]; }
+  return [0.06, 0.06, 0.88, 0.88];
+}
+const guide = () => guideFor(S.mode);
+
+// ================================================================== preview loop
+function loop(){
+  requestAnimationFrame(loop);
+  draw();
+  const now = performance.now();
+  if (S.capturing || S.busy || S.closed || document.hidden) return;
+  if (S.inflight && now - S.lastSend < 1500) return;
+  if (now - S.lastSend < MIN_INTERVAL) return;
+  if (!S.ws || S.ws.readyState !== 1 || !video.videoWidth) return;
+  sendPreview().catch(() => { S.inflight = false; });
+}
+const blobOf = (cv, q) => new Promise(r => cv.toBlob(r, "image/jpeg", q));
+async function sendPreview(){
+  S.inflight = true; S.lastSend = performance.now();
+  const vw = video.videoWidth, vh = video.videoHeight;
+  const s = Math.min(1, FRAME_LONG / Math.max(vw, vh));
+  frameCv.width = Math.round(vw*s); frameCv.height = Math.round(vh*s);
+  frameCv.getContext("2d").drawImage(video, 0, 0, frameCv.width, frameCv.height);
+  let cropRect = null, cropScale = 1;
+  if (S.cropReq){
+    const [x,y,w,h] = S.cropReq;
+    const sx = Math.round(x*vw), sy = Math.round(y*vh), sw = Math.round(w*vw), sh = Math.round(h*vh);
+    if (sw > 8 && sh > 8){
+      cropScale = Math.min(1, CROP_MAX / Math.max(sw, sh));
+      cropCv.width = Math.round(sw*cropScale); cropCv.height = Math.round(sh*cropScale);
+      cropCv.getContext("2d").drawImage(video, sx, sy, sw, sh, 0, 0, cropCv.width, cropCv.height);
+      cropRect = [sx/vw, sy/vh, sw/vw, sh/vh];
+    }
+  }
+  const [fb, cb] = await Promise.all([blobOf(frameCv, 0.72), cropRect ? blobOf(cropCv, 0.9) : null]);
+  const meta = {seq:++S.seq, guide:guide(), video_w:vw, video_h:vh, photo_w:S.photoW, photo_h:S.photoH,
+                crop_rect:cropRect, crop_scale:cropScale, gyro:gyroNow(), t_ms:Date.now()};
+  const head = new TextEncoder().encode(JSON.stringify(meta));
+  const fbuf = new Uint8Array(await fb.arrayBuffer());
+  const cbuf = cb ? new Uint8Array(await cb.arrayBuffer()) : new Uint8Array(0);
+  const out = new Uint8Array(1 + 4 + head.length + 4 + fbuf.length + cbuf.length);
+  const dv = new DataView(out.buffer);
+  out[0] = 1; dv.setUint32(1, head.length); out.set(head, 5);
+  const p = 5 + head.length; dv.setUint32(p, fbuf.length); out.set(fbuf, p+4); out.set(cbuf, p+4+fbuf.length);
+  if (S.ws.bufferedAmount > 2e6){ S.inflight = false; return; }
+  S.ws.send(out.buffer);
+}
+
+// ================================================================== overlay
+function resize(){ const r = devicePixelRatio || 1; ov.width = innerWidth * r; ov.height = innerHeight * r; }
+addEventListener("resize", resize);
+function videoRect(){
+  const vw = video.videoWidth || 1, vh = video.videoHeight || 1, W = ov.width, H = ov.height, s = Math.min(W/vw, H/vh);
+  return {x:(W - vw*s)/2, y:(H - vh*s)/2, w:vw*s, h:vh*s};
+}
+function poly(pts, r, color, width){
+  if (!pts) return;
+  octx.beginPath();
+  pts.forEach(([x,y],i) => { const X = r.x + x*r.w, Y = r.y + y*r.h; i ? octx.lineTo(X,Y) : octx.moveTo(X,Y); });
+  octx.closePath(); octx.strokeStyle = color; octx.lineWidth = width; octx.lineJoin = "round"; octx.stroke();
+}
+function rrect(x, y, w, h, rad){
+  octx.moveTo(x+rad, y); octx.arcTo(x+w, y, x+w, y+h, rad); octx.arcTo(x+w, y+h, x, y+h, rad);
+  octx.arcTo(x, y+h, x, y, rad); octx.arcTo(x, y, x+w, y, rad); octx.closePath();
+}
+function draw(){
+  const d = devicePixelRatio || 1;
+  octx.clearRect(0, 0, ov.width, ov.height);
+  if (!video.videoWidth) return;
+  // the guide eases between the board frame and the MCU square
+  const tgt = S.gT || guide();
+  S.g = S.g.map((v, i) => v + (tgt[i] - v) * 0.16);
+  const r = videoRect(), [gx,gy,gw,gh] = S.g;
+  const cx = r.x+gx*r.w, cy = r.y+gy*r.h, cw = gw*r.w, ch = gh*r.h, rad = 14*d;
+  octx.save();
+  octx.fillStyle = "rgba(0,0,0,.45)";
+  octx.beginPath(); octx.rect(0, 0, ov.width, ov.height); rrect(cx, cy, cw, ch, rad); octx.fill("evenodd");
+  octx.restore();
+  const rep = S.report, ok = !!(rep && rep.passing);
+  if (rep && S.mode === "board") poly(rep.board_quad, r, ok ? "rgba(247,181,0,.95)" : "rgba(255,255,255,.55)", 2*d);
+  if (rep && S.mode === "mcu") poly(rep.chip_quad, r, ok ? "rgba(247,181,0,.95)" : "rgba(255,255,255,.55)", 2*d);
+  // corner brackets
+  const L = Math.min(cw, ch) * 0.1;
+  octx.strokeStyle = ok ? "#f7b500" : "#ffffff"; octx.lineWidth = 3.5*d; octx.lineCap = "round"; octx.lineJoin = "round";
+  [[cx,cy,1,1],[cx+cw,cy,-1,1],[cx+cw,cy+ch,-1,-1],[cx,cy+ch,1,-1]].forEach(([x,y,sx,sy]) => {
+    octx.beginPath(); octx.moveTo(x, y+sy*L); octx.lineTo(x, y+sy*rad); octx.quadraticCurveTo(x, y, x+sx*rad, y); octx.lineTo(x+sx*L, y); octx.stroke();
+  });
+  if (S.tapPoint && performance.now() - S.tapAt < 1000){
+    const X = r.x + S.tapPoint[0]*r.w, Y = r.y + S.tapPoint[1]*r.h, a = 1 - (performance.now() - S.tapAt) / 1000;
+    octx.globalAlpha = Math.min(1, a * 2); octx.strokeStyle = "#f7b500"; octx.lineWidth = 1.5*d;
+    octx.strokeRect(X-30*d, Y-30*d, 60*d, 60*d); octx.globalAlpha = 1;
+  }
+  $("#ringProg").style.strokeDashoffset = String(226 * (1 - (S.capturing ? 1 : S.progress)));
+}
+
+function setInstr(t, good){ const e = $("#instr"); if (e.textContent !== t) e.textContent = t; e.classList.toggle("good", !!good); }
+function setHint(t){ $("#hint").textContent = t || ""; }
+function renderReport(){
+  const rep = S.report; if (!rep || S.capturing || S.busy || S.done) return;
+  if (rep.passing) setInstr("Hold still", true);
+  else setInstr(rep.instruction);
+  setHint(rep.passing ? "Taking the photo automatically" : (rep.hints || [])[0] || "");
+}
+let toastT = 0;
+function toast(t){ const e = $("#toast"); e.textContent = t; e.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(() => e.classList.remove("show"), 3200); }
+
+// ================================================================== focus
+function setPOI(pt){ if (S.track) S.track.applyConstraints({advanced:[{pointsOfInterest:[{x:pt[0], y:pt[1]}]}]}).catch(() => {}); }
+function maybeFocus(){
+  const fp = S.report && S.report.focus_point, now = performance.now();
+  if (!fp || now - S.focusAt < 1500 || now - S.tapAt < 4000) return;
+  if (S.lastFocus && Math.hypot(fp[0]-S.lastFocus[0], fp[1]-S.lastFocus[1]) < 0.05) return;
+  S.lastFocus = fp; S.focusAt = now; setPOI(fp);
+}
+$("#tap").addEventListener("click", e => {
+  const r = videoRect(), d = devicePixelRatio || 1;
+  const x = (e.clientX*d - r.x)/r.w, y = (e.clientY*d - r.y)/r.h;
+  if (x < 0 || y < 0 || x > 1 || y > 1) return;
+  S.tapPoint = [x, y]; S.tapAt = performance.now(); setPOI([x, y]);
+});
+
+// ================================================================== capture
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+async function capture(focusPoint, manual){
+  if (S.capturing) return;
+  S.capturing = true; S.progress = 0;
+  setInstr("Hold still", true); setHint("");
+  try{
+    if (focusPoint && !manual) setPOI(focusPoint);
+    for (let i = 0; i < 15 && !manual; i++){ const g = gyroNow(); if (g === null || g < 6) break; await sleep(100); }
+    let blob = null, source, w = 0, h = 0, settings = {};
+    if (S.imageCapture){
+      try{
+        const ps = {};
+        if (S.photoCaps && S.photoCaps.imageWidth){ ps.imageWidth = S.photoCaps.imageWidth.max; ps.imageHeight = S.photoCaps.imageHeight.max; }
+        if (S.photoCaps && (S.photoCaps.fillLightMode||[]).includes("off")) ps.fillLightMode = "off";
+        settings = ps;
+        blob = await S.imageCapture.takePhoto(ps); source = "image-capture";
+        w = ps.imageWidth || 0; h = ps.imageHeight || 0;
+      }catch(_){
+        // never again this session: a failed takePhoto() can leave the track dead
+        blob = null; S.noImageCapture = true; S.imageCapture = null;
+        S.photoW = video.videoWidth; S.photoH = video.videoHeight; hello();
+      }
+    }
+    if (!blob){
+      if (!video.videoWidth || video.paused) await video.play().catch(() => {});
+      const c = document.createElement("canvas");
+      c.width = video.videoWidth; c.height = video.videoHeight;
+      c.getContext("2d").drawImage(video, 0, 0);
+      blob = await new Promise(r => c.toBlob(r, "image/jpeg", 0.97)); source = "video-frame";
+      w = c.width; h = c.height;
+    }
+    flash(); haptic(35);
+    if (source === "image-capture" && (S.track.readyState === "ended" || S.track.muted)) await openStream().catch(() => {});
+    await uploadPhoto(blob, {source, width:w, height:h, settings});
+    S.busy = true;
+  }catch(e){
+    send({type:"capture_failed", message:String(e && e.message || e)});
+    toast("Couldn't take the photo. Trying again.");
+  }finally{
+    S.capturing = false;
+  }
+}
+function flash(){ const f = $("#flash"); f.classList.add("on"); setTimeout(() => f.classList.remove("on"), 60); }
+async function sha256hex(buf){
+  if (!(window.crypto && crypto.subtle)) return null;
+  const h = await crypto.subtle.digest("SHA-256", buf);
+  return [...new Uint8Array(h)].map(b => b.toString(16).padStart(2, "0")).join("");
+}
+async function uploadPhoto(blob, info){
+  const buf = await blob.arrayBuffer(), id = Date.now().toString(36);
+  const bar = $("#bar i"); bar.style.width = "0";
+  showWork("Sending the photo", "");
+  send({type:"photo_begin", id, size:buf.byteLength, sha256:await sha256hex(buf), mime:blob.type || "image/jpeg", ...info});
+  const CH = 256*1024, u8 = new Uint8Array(buf);
+  for (let off = 0; off < u8.length; off += CH){
+    while (S.ws.bufferedAmount > 4e6) await sleep(20);
+    const part = u8.subarray(off, Math.min(off+CH, u8.length));
+    const msg = new Uint8Array(5 + part.length);
+    msg[0] = 2; new DataView(msg.buffer).setUint32(1, off); msg.set(part, 5);
+    S.ws.send(msg.buffer);
+    bar.style.width = Math.round(100*(off+part.length)/u8.length) + "%";
+  }
+  while (S.ws.bufferedAmount > 0) await sleep(20);
+  send({type:"photo_end", id});
+  setTimeout(() => bar.style.width = "0", 400);
+}
+
+// ================================================================== controls
+$("#go").onclick = () => startCamera();
+$("#go2").onclick = goStep2;
+$("#shutter").onclick = () => { haptic(10); send({type:"shutter"}); };
+$("#restart").onclick = () => { hideSheet(); send({type:"restart"}); };
+$("#again").onclick = () => { hideSheet(); send({type:"restart"}); };
+$("#retake2").onclick = () => { hideSheet(); send({type:"mode", mode:"mcu"}); };
+$("#scrim").onclick = () => { if (S.sheet === "shNext") goStep2(); };
+$("#torch").onclick = async () => {
+  const on = !$("#torch").classList.contains("on");
+  try{ await S.track.applyConstraints({advanced:[{torch:on}]}); $("#torch").classList.toggle("on", on); }catch(_){}
+};
+const pickFile = () => $("#file").click();
+$("#fileBtn").onclick = pickFile; $("#goFile").onclick = pickFile;
+$("#file").onchange = async e => {
+  const f = e.target.files[0]; if (!f) return;
+  $("#start").hidden = true;
+  showWork("Sending the photo", ""); S.busy = true;
+  try{
+    const r = await fetch(`/api/upload?t=${encodeURIComponent(token)}`, {method:"POST", body:f,
+      headers:{"X-Filename": encodeURIComponent(f.name || "photo.jpg").slice(0, 120)}});
+    if (!r.ok) throw new Error(await r.text());
+    showWork("Checking the photo", "");
+  }catch(err){ S.busy = false; hideSheet(); toast("Upload failed. " + err.message); }
+  e.target.value = "";
+};
+document.addEventListener("visibilitychange", async () => {
+  if (document.visibilityState !== "visible" || !S.stream) return;
+  S.wake = null; try{ S.wake = await navigator.wakeLock.request("screen"); }catch(_){}
+  S.lastFrame = 0; watchdog();       // coming back from the lock screen / another app
+});
+renderSteps();
+connect();
+</script>
+</body>
+</html>

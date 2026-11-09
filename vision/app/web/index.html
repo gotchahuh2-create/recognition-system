@@ -1,0 +1,957 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vision — Board Recognition</title>
+<style>
+/* NECTO Studio look: near-black flat chrome, hairline separators, small type,
+   MikroE amber for the active / primary state, square-ish corners. */
+:root{
+  --chrome:#141414; --bg:#1b1b1b; --panel:#202020; --panel-2:#272727; --field:#2b2b2b; --hover:#2e2e2e; --sel:#333333;
+  --line:#2c2c2c; --line-2:#3b3b3b;
+  --ink:#e6e6e6; --ink-2:#a6a6a6; --ink-3:#6e6e6e;
+  --amber:#f7b500; --amber-2:#ffc933; --amber-ink:#141414;
+  --green:#3fb950; --red:#f0564d; --orange:#f39c32; --blue:#4b8df8; --violet:#b07cf0; --cyan:#33c3d9;
+  --mono:"JetBrains Mono","Cascadia Mono",ui-monospace,Menlo,Consolas,monospace;
+  --sans:"Segoe UI","Inter",Roboto,"Helvetica Neue",Ubuntu,system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font:12.5px/1.45 var(--sans);display:flex;flex-direction:column;overflow:hidden;-webkit-font-smoothing:antialiased}
+button,select,input{font:inherit;color:inherit}
+button{cursor:pointer}
+[hidden]{display:none!important}
+::-webkit-scrollbar{width:10px;height:10px} ::-webkit-scrollbar-thumb{background:#3a3a3a;border:3px solid transparent;background-clip:padding-box;border-radius:6px} ::-webkit-scrollbar-track{background:transparent}
+svg.i{width:16px;height:16px;flex:none}
+
+/* ------------------------------------------------------------ chrome */
+.titlebar{height:28px;flex:none;display:flex;align-items:center;justify-content:center;background:var(--chrome);color:var(--ink-2);font-size:12px}
+.app{flex:1;display:flex;min-height:0}
+.rail{width:64px;flex:none;background:var(--chrome);border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:stretch;padding:6px 0}
+.rail button{border:0;background:none;color:var(--ink-2);height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:10.5px;position:relative}
+.rail button svg{width:22px;height:22px}
+.rail button:hover{color:var(--ink)}
+.rail button.on{color:var(--amber)}
+.rail button.on::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:2px;background:var(--amber)}
+main{flex:1;min-width:0;display:flex;flex-direction:column}
+.view{flex:1;min-height:0;display:flex;flex-direction:column}
+
+/* page header: like "My setups" */
+.phead{height:52px;flex:none;display:flex;align-items:center;gap:10px;padding:0 16px;border-bottom:1px solid var(--line)}
+.phead h1{font-size:15px;font-weight:600;margin:0;display:flex;align-items:center;gap:10px}
+.phead h1 svg{width:20px;height:20px;color:var(--ink-2)}
+.phead .sub{color:var(--ink-3);font-size:12px;margin-left:4px}
+.phead .sp{flex:1}
+.btn{height:28px;padding:0 14px;border-radius:2px;border:1px solid var(--amber);background:transparent;color:var(--amber);font-weight:600;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{background:rgba(247,181,0,.08)}
+.btn.fill{background:var(--amber);color:var(--amber-ink)}
+.btn.fill:hover{background:var(--amber-2)}
+.btn.quiet{border-color:var(--line-2);color:var(--ink)}
+.btn.quiet:hover{background:var(--hover)}
+.btn:disabled{opacity:.35;cursor:default;background:transparent}
+.btn.fill:disabled{background:var(--amber)}
+.lnk{border:0;background:none;color:var(--amber);padding:0;font-weight:500}
+.lnk:hover{text-decoration:underline}
+
+/* underline fields (NECTO search / selects) */
+.field{display:flex;flex-direction:column;gap:1px;min-width:0}
+.field span{font-size:10.5px;color:var(--ink-3)}
+select,input[type=text],input[type=number]{background:transparent;border:0;border-bottom:1px solid var(--line-2);border-radius:0;padding:3px 2px;min-height:24px;color:var(--ink);outline:none}
+select:focus,input:focus{border-bottom-color:var(--amber)}
+select option{background:var(--panel-2)}
+input[type=checkbox]{accent-color:var(--amber)}
+
+/* panels */
+.panel{background:var(--panel);min-height:0;overflow:auto}
+.ptitle{height:34px;display:flex;align-items:center;gap:8px;padding:0 12px;color:var(--ink);font-weight:600;border-bottom:1px solid var(--line);flex:none;position:sticky;top:0;background:var(--panel);z-index:1}
+.ptitle .cnt{margin-left:auto;color:var(--ink-3);font-weight:400}
+.muted{color:var(--ink-3)} .dim{color:var(--ink-2)}
+.mono{font-family:var(--mono);font-size:11.5px}
+
+/* status bar */
+.status{height:24px;flex:none;display:flex;align-items:center;gap:18px;padding:0 12px;background:var(--chrome);border-top:1px solid var(--line);font-size:11.5px;color:var(--ink-2);white-space:nowrap;overflow:hidden}
+.status .sp{flex:1}
+.status b{font-weight:500;color:var(--amber)}
+.sdot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--ink-3);margin-right:6px;vertical-align:0}
+.sdot.on{background:var(--green)} .sdot.busy{background:var(--amber)} .sdot.err{background:var(--red)}
+.cnts{display:flex;gap:10px}
+.cnts span::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px}
+.cnts .e::before{background:var(--red)} .cnts .w::before{background:var(--amber)} .cnts .o::before{background:var(--blue)}
+
+/* bottom console: "Issues | Compile | Application" */
+.console{flex:none;height:178px;border-top:1px solid var(--line);display:flex;flex-direction:column;background:var(--bg);min-height:0}
+.ctabs{height:30px;flex:none;display:flex;padding:0 6px;border-bottom:1px solid var(--line)}
+.ctabs button{border:0;background:none;color:var(--ink-2);padding:0 10px;border-bottom:2px solid transparent;font-size:12px}
+.ctabs button.on{color:var(--ink);border-bottom-color:var(--amber)}
+.cbody{flex:1;overflow:auto;padding:4px 0}
+.line{display:grid;grid-template-columns:16px 1fr auto;gap:10px;padding:3px 14px;align-items:start}
+.line:hover{background:var(--panel)}
+.line .src{color:var(--ink-3);font-family:var(--mono);font-size:11px}
+.line svg{width:14px;height:14px;margin-top:2px}
+.line.e svg{color:var(--red)} .line.w svg{color:var(--amber)} .line.i svg{color:var(--blue)} .line.ok svg{color:var(--green)}
+pre.json{font:11.5px/1.5 var(--mono);white-space:pre-wrap;word-break:break-all;margin:0;padding:6px 14px;color:#cfcfcf}
+.kv{display:grid;grid-template-columns:120px 1fr;gap:3px 16px;padding:6px 14px}
+.kv dt{color:var(--ink-3)} .kv dd{margin:0;font-family:var(--mono);font-size:11.5px}
+
+/* ============================================================ SCAN */
+.scan{flex:1;min-height:0;display:grid;grid-template-columns:280px minmax(0,1fr) 340px}
+.scan > .panel{border-right:1px solid var(--line)}
+.scan > .panel:last-child{border-right:0;border-left:1px solid var(--line)}
+.pair{padding:14px 14px 16px}
+.qr{background:#fff;padding:8px;width:100%;max-width:220px;margin:0 auto;display:block;border-radius:2px}
+.qr svg{display:block;width:100%;height:auto}
+.pair ol{margin:14px 0 0;padding:0;list-style:none;counter-reset:n}
+.pair li{counter-increment:n;display:grid;grid-template-columns:20px 1fr;gap:6px;padding:3px 0;color:var(--ink-2)}
+.pair li::before{content:counter(n);color:var(--amber);font-weight:600}
+.url{font:11px var(--mono);color:var(--ink-3);word-break:break-all;margin-top:10px}
+.conn{display:flex;gap:10px;align-items:center;padding:12px 14px;border-top:1px solid var(--line)}
+.conn svg{width:22px;height:22px;color:var(--ink-2)}
+.conn .t{font-weight:600}
+.conn .d{color:var(--ink-3);font-size:11.5px}
+.connected .conn svg{color:var(--green)}
+
+.center{display:flex;flex-direction:column;min-width:0;min-height:0;background:var(--bg)}
+.stepper{display:flex;height:44px;flex:none;border-bottom:1px solid var(--line);padding:0 8px}
+.stp{display:flex;align-items:center;gap:9px;padding:0 14px;color:var(--ink-3);border-bottom:2px solid transparent;margin-bottom:-1px}
+.stp .n{width:20px;height:20px;border-radius:50%;border:1px solid currentColor;display:grid;place-items:center;font-size:11px;font-weight:600}
+.stp .n svg{width:12px;height:12px}
+.stp.cur{color:var(--ink);border-bottom-color:var(--amber)}
+.stp.cur .n{border-color:var(--amber);background:var(--amber);color:var(--amber-ink)}
+.stp.done{color:var(--ink-2)}
+.stp.done .n{border-color:var(--green);color:var(--green)}
+.stepper .sep{width:28px;align-self:center;height:1px;background:var(--line-2)}
+.stepper .sp{flex:1}
+.stepper .att{align-self:center;color:var(--ink-3);font-size:11.5px;padding-right:8px}
+.live{flex:1;min-height:0;position:relative;background:#111;overflow:hidden}
+#cv{position:absolute;left:14px;top:14px;width:calc(100% - 28px);height:calc(100% - 28px);object-fit:contain;display:block}
+.live .empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--ink-3);padding:20px}
+.live .empty b{display:block;color:var(--ink-2);font-size:14px;font-weight:600;margin-bottom:4px}
+.instr{height:44px;flex:none;display:flex;align-items:center;gap:12px;padding:0 16px;border-top:1px solid var(--line);background:var(--panel)}
+.instr .t{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.instr .t.good{color:var(--amber)}
+.instr .h{color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.meter{margin-left:auto;width:120px;height:3px;background:var(--line-2);flex:none}
+.meter i{display:block;height:100%;width:0;background:var(--amber);transition:width .15s}
+.mets{display:flex;flex-wrap:wrap;gap:4px 18px;padding:8px 16px;border-top:1px solid var(--line);background:var(--panel);min-height:34px}
+.met{display:flex;align-items:center;gap:6px;color:var(--ink-2);font-size:11.5px;white-space:nowrap}
+.met i{width:7px;height:7px;border-radius:1px;background:var(--ink-3)}
+.met.good i{background:var(--green)} .met.warn i{background:var(--amber)} .met.bad i{background:var(--red)}
+.met.bad{color:var(--ink)}
+.met em{font-style:normal;color:var(--ink-3);font-family:var(--mono);font-size:11px}
+
+/* setup card: NECTO "My setups" card */
+.setup{margin:14px;border:1px solid var(--line-2);background:var(--panel)}
+.setup.complete{border-color:var(--amber)}
+.setup .hd{padding:14px 14px 10px;text-align:center}
+.setup .hd .nm{font-weight:600;font-size:13px}
+.setup .hd svg{width:30px;height:30px;color:var(--ink-2);margin-top:6px}
+.setup .rows{padding:4px 12px 12px}
+.srow{display:grid;grid-template-columns:18px 72px 1fr auto;gap:8px;align-items:center;padding:5px 0;min-height:28px}
+.srow svg{width:15px;height:15px}
+.srow .k{color:var(--ink-3)}
+.srow .v{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.srow .c{font:11px var(--mono);color:var(--ink-3)}
+.srow .v.open{color:var(--amber)}
+.srow select{width:100%;color:var(--amber)}
+.srow .why{grid-column:3/-1;color:var(--ink-3);font-size:11.5px;margin-top:-3px}
+.setup .ft{display:grid;grid-template-columns:repeat(3,1fr);background:var(--amber)}
+.setup:not(.complete) .ft{background:var(--panel-2)}
+.setup .ft button{border:0;background:none;height:28px;color:var(--amber-ink);font-weight:600;font-size:11.5px}
+.setup .ft button + button{border-left:1px solid rgba(0,0,0,.25)}
+.setup:not(.complete) .ft button{color:var(--ink-2)}
+.setup:not(.complete) .ft button + button{border-left-color:var(--line)}
+.setup .ft button:disabled{opacity:.4;cursor:default}
+.c-board{color:var(--green)} .c-mcu{color:var(--orange)} .c-card{color:var(--violet)} .c-click{color:var(--blue)} .c-lay{color:var(--cyan)}
+.caps{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 14px 14px}
+.cap{background:var(--panel-2);border:1px solid var(--line)}
+.cap img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background:#000}
+.cap div{padding:5px 7px;font-size:11px;display:flex;justify-content:space-between;gap:6px}
+.cap .ok{color:var(--green)} .cap .bad{color:var(--red)}
+.cardimgs{display:flex;gap:8px;padding:0 14px 14px;flex-wrap:wrap}
+.cardimgs img{max-width:100%;border:1px solid var(--line)}
+
+/* ============================================================ PHOTOS */
+.opts{display:flex;align-items:flex-end;gap:16px;padding:0 4px;min-width:0;overflow-x:auto}
+.opts .field select{min-width:84px}
+.opts label.chk{display:flex;gap:6px;align-items:center;color:var(--ink-2);white-space:nowrap;padding-bottom:4px}
+.bench{flex:1;min-height:0;display:grid;grid-template-columns:240px minmax(0,1fr) 360px}
+.bench > .panel{border-right:1px solid var(--line)}
+.bench > .panel:last-child{border-right:0;border-left:1px solid var(--line)}
+.qi{display:grid;grid-template-columns:44px 1fr;gap:10px;padding:7px 12px;cursor:pointer;align-items:center;border-left:2px solid transparent}
+.qi:hover{background:var(--hover)}
+.qi.sel{background:var(--sel);border-left-color:var(--amber)}
+.qi img{width:44px;height:44px;object-fit:cover;background:#000}
+.qn{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qs{font-size:11.5px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qs .sdot{margin-right:5px}
+.spin{display:inline-block;width:9px;height:9px;border:1.5px solid var(--line-2);border-top-color:var(--amber);border-radius:50%;animation:sp .8s linear infinite;margin-right:6px;vertical-align:-1px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.viewer{display:flex;flex-direction:column;min-width:0;min-height:0}
+.vtabs{height:34px;flex:none;display:flex;align-items:stretch;border-bottom:1px solid var(--line);background:var(--bg)}
+.vtab{display:flex;align-items:center;gap:10px;padding:0 12px;max-width:300px;border-bottom:2px solid var(--amber);margin-bottom:-1px;background:var(--panel)}
+.vtab span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vtab button{border:0;background:none;color:var(--ink-3);padding:0;font-size:14px;line-height:1}
+.vtab button:hover{color:var(--ink)}
+.tools{margin-left:auto;display:flex;align-items:center;gap:2px;padding:0 6px}
+.tb{border:0;background:none;color:var(--ink-2);height:26px;padding:0 8px;display:flex;align-items:center;gap:5px;font-size:12px;border-radius:2px}
+.tb:hover{background:var(--hover);color:var(--ink)}
+.tb.on{color:var(--amber)}
+.tb svg{width:14px;height:14px}
+.tsep{width:1px;height:16px;background:var(--line-2);margin:0 4px}
+.hint{color:var(--amber);font-size:11.5px;padding:0 8px;white-space:nowrap}
+.legend{display:flex;gap:14px;padding:5px 12px;font-size:11px;color:var(--ink-3);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.legend i{display:inline-block;width:8px;height:8px;margin-right:5px}
+.stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:14px;overflow:auto;background:#111;position:relative}
+.frame{position:relative;max-width:100%;max-height:100%;line-height:0}
+.frame img{max-width:100%;max-height:calc(100vh - 360px);min-height:120px;display:block}
+.frame svg{position:absolute;inset:0;width:100%;height:100%}
+.frame.pick{cursor:crosshair;user-select:none}
+.drop{text-align:center;color:var(--ink-3);max-width:360px}
+.drop svg{width:44px;height:44px;color:var(--ink-3);margin-bottom:12px}
+.drop b{display:block;color:var(--ink);font-size:14px;font-weight:600;margin-bottom:4px}
+.drop .btn{margin-top:16px}
+#dragcover{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(20,20,20,.82);border:1px solid var(--amber);z-index:50;font-size:15px;font-weight:600;color:var(--amber)}
+#dragcover.show{display:flex}
+/* explorer tree */
+.sect{display:flex;align-items:center;gap:6px;padding:7px 12px;cursor:pointer;user-select:none;font-weight:600}
+.sect:hover{background:var(--hover)}
+.chev{width:10px;height:10px;color:var(--ink-3);transition:transform .12s}
+.sect.closed .chev{transform:rotate(-90deg)}
+.sect.closed + .sb{display:none}
+.sect .cnt{margin-left:auto;color:var(--ink-3);font-weight:400}
+.sb{padding:0 0 8px}
+.node{display:flex;align-items:center;gap:8px;padding:3px 12px 3px 28px;min-width:0}
+.node .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.node .sc{margin-left:auto;font:11px var(--mono);color:var(--ink-3)}
+.node.top .nm{font-weight:600}
+.tag{font-size:10.5px;padding:0 5px;line-height:16px;border:1px solid var(--line-2);color:var(--ink-2);white-space:nowrap;flex:none}
+.tag.ok{border-color:#2f6b3b;color:var(--green)} .tag.ask{border-color:#6b5317;color:var(--amber)} .tag.bad{border-color:#6b2c28;color:var(--red)}
+.why{padding:0 12px 4px 28px;color:var(--ink-3);font-size:11.5px}
+.bar{height:2px;background:var(--line);margin:2px 12px 3px 28px}
+.bar i{display:block;height:100%;background:var(--ink-3)}
+.bar.top i{background:var(--amber)}
+.rd{font:11px var(--mono);color:var(--ink-3)}
+.chips{display:flex;flex-wrap:wrap;gap:4px;padding:2px 12px 6px 28px}
+.chip{font:11px var(--mono);padding:0 5px;background:var(--panel-2);border:1px solid var(--line-2);color:var(--ink-2)}
+.rois{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:4px 12px 8px 28px}
+.roi{background:#111;border:1px solid var(--line)}
+.roi img{width:100%;height:76px;object-fit:contain;display:block}
+.roi div{font-size:10.5px;padding:2px 5px;color:var(--ink-3);display:flex;justify-content:space-between}
+.crop{padding:4px 12px 8px 28px}
+.crop .ct{font-size:11.5px;color:var(--ink-3);margin-bottom:4px}
+.crop img{max-width:100%;display:block;border:1px solid var(--line);background:#fff;margin-bottom:4px}
+.crop .best{font-family:var(--mono);color:var(--amber)}
+details summary{cursor:pointer;color:var(--ink-3);font-size:11.5px;margin-top:3px}
+.form{display:grid;grid-template-columns:86px 1fr;gap:8px 10px;align-items:end;padding:4px 12px 10px 28px}
+.form > span{color:var(--ink-3);padding-bottom:4px}
+.form .full{grid-column:1/-1;display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:4px}
+.empty-r{padding:16px 14px;color:var(--ink-3)}
+.toast{position:fixed;bottom:36px;left:50%;transform:translateX(-50%);background:var(--panel-2);border:1px solid var(--line-2);padding:7px 14px;font-size:12.5px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:60}
+.toast.show{opacity:1}
+
+@media (max-width:1180px){
+  .scan{grid-template-columns:240px minmax(0,1fr) 300px}
+  .bench{grid-template-columns:200px minmax(0,1fr) 300px}
+}
+@media (max-width:900px){
+  body{overflow:auto} html,body{height:auto}
+  .app{flex-direction:column}
+  .rail{width:auto;flex-direction:row;padding:0 6px;border-right:0;border-bottom:1px solid var(--line)}
+  .rail button{width:64px;height:50px}
+  .rail button.on::before{left:12px;right:12px;top:auto;bottom:0;width:auto;height:2px}
+  .scan,.bench{grid-template-columns:1fr}
+  .scan > .panel,.bench > .panel{border:0;border-bottom:1px solid var(--line)}
+  .live{min-height:280px}
+  .phead{flex-wrap:wrap;height:auto;padding:10px 16px;row-gap:8px}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-scan" viewBox="0 0 24 24"><path d="M4 8V5.5A1.5 1.5 0 015.5 4H8M16 4h2.5A1.5 1.5 0 0120 5.5V8M20 16v2.5a1.5 1.5 0 01-1.5 1.5H16M8 20H5.5A1.5 1.5 0 014 18.5V16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><rect x="8.5" y="8.5" width="7" height="7" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol id="i-photos" viewBox="0 0 24 24"><rect x="3.5" y="5" width="14" height="12" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M7 20h11.5a2 2 0 002-2V8.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M6 14.5l3-3 2.5 2.5 2-2 2 2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    <symbol id="i-setup" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="9" cy="7" r="2" fill="var(--panel)" stroke="currentColor" stroke-width="1.4"/><circle cx="15" cy="12" r="2" fill="var(--panel)" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="17" r="2" fill="var(--panel)" stroke="currentColor" stroke-width="1.4"/></symbol>
+    <symbol id="i-board" viewBox="0 0 16 16"><rect x="1.5" y="3.5" width="13" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M4.5 3.5v-2M8 3.5v-2M11.5 3.5v-2" stroke="currentColor" stroke-width="1.3"/><rect x="4" y="6" width="3" height="3" fill="currentColor"/></symbol>
+    <symbol id="i-chip" viewBox="0 0 16 16"><rect x="4" y="4" width="8" height="8" rx=".8" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M6 1.5V4M10 1.5V4M6 12v2.5M10 12v2.5M1.5 6H4M1.5 10H4M12 6h2.5M12 10h2.5" stroke="currentColor" stroke-width="1.3"/></symbol>
+    <symbol id="i-card" viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="1" fill="none" stroke="currentColor" stroke-width="1.3"/><rect x="5.5" y="5.5" width="5" height="5" fill="currentColor"/></symbol>
+    <symbol id="i-click" viewBox="0 0 16 16"><path d="M3 1.5h10v13H3z" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M5 4h6M5 12h2M9 12h2" stroke="currentColor" stroke-width="1.3"/></symbol>
+    <symbol id="i-layout" viewBox="0 0 16 16"><rect x="1.5" y="1.5" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.3" stroke-dasharray="2 1.5"/><rect x="4" y="4" width="4" height="4" fill="none" stroke="currentColor" stroke-width="1.3"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><rect x="6.5" y="2.5" width="11" height="19" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 18.5h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-check" viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-chev" viewBox="0 0 12 12"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-info" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.3" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 7.2v3.6M8 5v.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-warn" viewBox="0 0 16 16"><path d="M8 2.2l6.2 11H1.8z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M8 6.5v3.2M8 11.4v.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-err" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.3" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M5.8 5.8l4.4 4.4M10.2 5.8l-4.4 4.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></symbol>
+    <symbol id="i-ok" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.3" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M5.3 8.2l1.9 1.9 3.6-4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-add" viewBox="0 0 24 24"><path d="M12 15V4m0 0L8 8m4-4l4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 14v4.5A1.5 1.5 0 005.5 20h13a1.5 1.5 0 001.5-1.5V14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-corners" viewBox="0 0 16 16"><path d="M2 5V2h3M11 2h3v3M14 11v3h-3M5 14H2v-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></symbol>
+    <symbol id="i-box" viewBox="0 0 16 16"><rect x="2.5" y="2.5" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.3" stroke-dasharray="2.5 1.8"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 16 16"><path d="M1.5 8s2.4-4.5 6.5-4.5S14.5 8 14.5 8 12.1 12.5 8 12.5 1.5 8 1.5 8z" fill="none" stroke="currentColor" stroke-width="1.3"/><circle cx="8" cy="8" r="2" fill="none" stroke="currentColor" stroke-width="1.3"/></symbol>
+  </defs>
+</svg>
+
+<div class="titlebar" id="titlebar">Vision — Board Recognition</div>
+<div class="app">
+  <nav class="rail" aria-label="Views">
+    <button class="on" data-v="scan"><svg><use href="#i-scan"/></svg>Scan</button>
+    <button data-v="photos"><svg><use href="#i-photos"/></svg>Photos</button>
+  </nav>
+  <main>
+    <!-- ========================================================== SCAN -->
+    <section class="view" id="v-scan">
+      <div class="phead">
+        <h1><svg><use href="#i-scan"/></svg>Scan board</h1>
+        <span class="sub" id="scanSub">Two photos with your phone: the board, then the MCU. Both are read when the second one is in.</span>
+        <span class="sp"></span>
+        <button class="btn quiet" id="sTake" disabled title="Take the photo now, without waiting for the automatic capture">Take photo now</button>
+        <button class="btn" id="sRescan" disabled>Rescan board</button>
+        <button class="btn fill" id="sNew">New scan</button>
+      </div>
+      <div class="scan">
+        <aside class="panel" id="pairPanel">
+          <div class="ptitle">Phone</div>
+          <div class="pair" id="pair">
+            <div class="qr" id="qr"></div>
+            <ol>
+              <li>Connect the phone to the same Wi-Fi as this PC.</li>
+              <li>Scan the code with the phone's camera.</li>
+              <li id="certStep">On the warning page, tap <i>Advanced</i>, then <i>Proceed</i>. Only the first time.</li>
+              <li>Tap <i>Start camera</i>.</li>
+            </ol>
+            <div class="url" id="url"></div>
+            <div style="margin-top:12px"><button class="lnk" id="newtok">New pairing code</button></div>
+          </div>
+          <div class="conn"><svg><use href="#i-phone"/></svg><div><div class="t" id="connT">Waiting for the phone</div><div class="d" id="connD">Scan the code to connect.</div></div></div>
+          <div class="pair" id="pairShow" hidden><button class="lnk" id="showQr">Show the QR code</button></div>
+        </aside>
+
+        <section class="center">
+          <div class="stepper">
+            <div class="stp cur" id="st1"><span class="n">1</span>Board</div>
+            <span class="sep"></span>
+            <div class="stp" id="st2"><span class="n">2</span>MCU close-up</div>
+            <span class="sp"></span>
+            <span class="att" id="att"></span>
+          </div>
+          <div class="live">
+            <canvas id="cv" width="960" height="720" hidden></canvas>
+            <div class="empty" id="liveEmpty"><div><b>No camera yet</b>The phone's live view appears here once it is connected.</div></div>
+          </div>
+          <div class="instr"><span class="t" id="instr">Waiting for the phone</span><span class="h" id="instrH"></span><span class="meter"><i id="meter"></i></span></div>
+          <div class="mets" id="mets"></div>
+          <div class="console">
+            <div class="ctabs" id="sTabs"><button class="on" data-t="activity">Activity</button><button data-t="manifest">Manifest</button></div>
+            <div class="cbody" id="sCon"></div>
+          </div>
+        </section>
+
+        <aside class="panel">
+          <div class="ptitle">Setup</div>
+          <div class="setup" id="setup"></div>
+          <div class="ptitle" id="cardTitle" hidden>MCU card</div>
+          <div class="cardimgs" id="cardimgs"></div>
+          <div class="ptitle">Photos<span class="cnt" id="ncap">0</span></div>
+          <div class="caps" id="caps"></div>
+          <div class="empty-r" id="capsEmpty">Photos the phone takes appear here.</div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ========================================================== PHOTOS -->
+    <section class="view" id="v-photos" hidden>
+      <div class="phead">
+        <h1><svg><use href="#i-photos"/></svg>Photos</h1>
+        <div class="opts">
+          <label class="field"><span>OCR engine</span><select id="o-backend"></select></label>
+          <label class="field"><span>Refine</span><select id="o-refine"><option value="auto">auto</option><option value="always">always</option><option value="off">off</option></select></label>
+          <label class="field"><span>Upscaler</span><select id="o-upscaler"></select></label>
+          <label class="field"><span>Chip marking</span><select id="o-chip"><option value="classic">classic</option><option value="faint">faint</option><option value="both">both</option></select></label>
+          <label class="field" id="o-clicks-l" hidden><span>Clicks</span><select id="o-clicks"><option value="boxes">drawn boxes</option><option value="photo">whole photo</option><option value="off">off</option></select></label>
+          <label class="chk"><input type="checkbox" id="o-quad">Auto perspective</label>
+        </div>
+        <span class="sp"></span>
+        <button class="btn" id="b-rerun" disabled>Re-run</button>
+        <button class="btn quiet" id="b-rerun-all" disabled>Re-run all</button>
+        <button class="btn fill" id="b-add">Add photos</button>
+        <input type="file" id="file" accept="image/*,.heic,.heif" multiple hidden>
+      </div>
+      <div class="bench">
+        <aside class="panel">
+          <div class="ptitle">This session<span class="cnt" id="qcnt">0</span></div>
+          <div id="qlist"></div>
+          <div class="empty-r" id="qempty">No photos yet.</div>
+        </aside>
+        <section class="viewer">
+          <div class="vtabs">
+            <div class="vtab" id="vtab" hidden><span id="tabname"></span><button id="tabx" title="Close">×</button></div>
+            <div class="tools" id="tools" hidden>
+              <button class="tb on" id="v-orig">Original</button>
+              <button class="tb" id="v-pre" title="The image the OCR saw">Processed</button>
+              <span class="tsep"></span>
+              <button class="tb on" id="v-boxes"><svg><use href="#i-eye"/></svg>Overlays</button>
+              <button class="tb" id="v-pick" title="Click the 4 board corners to correct the perspective"><svg><use href="#i-corners"/></svg>4 corners</button>
+              <button class="tb" id="v-clearq" hidden>Clear</button>
+              <button class="tb" id="v-draw" hidden title="Drag a box around each Click board"><svg><use href="#i-box"/></svg>Click boxes</button>
+              <button class="tb" id="v-clearb" hidden>Clear</button>
+              <span class="hint" id="pickhint"></span>
+            </div>
+          </div>
+          <div class="legend" id="legend" hidden><span><i style="background:var(--green)"></i>Board name</span><span><i style="background:var(--cyan)"></i>Layout area</span><span><i style="background:var(--violet)"></i>MCU card</span><span><i style="background:var(--orange)"></i>MCU marking</span><span><i style="background:#d16ad6"></i>Refined crop</span><span id="lg-click" hidden><i style="background:var(--blue)"></i>Click</span></div>
+          <div class="stage" id="stage"></div>
+          <div class="console">
+            <div class="ctabs" id="bTabs"><button class="on" data-t="issues">Issues</button><button data-t="photo">Photo &amp; timing</button><button data-t="json">Raw JSON</button></div>
+            <div class="cbody" id="bCon"></div>
+          </div>
+        </section>
+        <aside class="panel">
+          <div class="ptitle">Recognition</div>
+          <div id="rbody"><div class="empty-r">Results appear here.</div></div>
+        </aside>
+      </div>
+    </section>
+  </main>
+</div>
+<footer class="status">
+  <span><span class="sdot" id="stDot"></span><span id="stPhone">Phone not connected</span></span>
+  <span id="stStep">Step 1 of 2</span>
+  <span class="cnts" id="stCnts"></span>
+  <span class="sp"></span>
+  <span id="stEngine"></span>
+  <span>Active setup: <b id="stSetup">—</b></span>
+</footer>
+<div id="dragcover">Drop to add photos</div>
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const ico = (id, cls = "") => `<svg class="${cls}"><use href="#i-${id}"/></svg>`;
+const pct = v => Math.round((v || 0) * 100) + "%";
+function toast(msg){ const t = $("#toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove("show"), 2600); }
+
+const APP = {info:null, view:"scan"};
+
+// ================================================================== views
+function setView(v){
+  APP.view = v;
+  $$(".rail button").forEach(b => b.classList.toggle("on", b.dataset.v === v));
+  $("#v-scan").hidden = v !== "scan"; $("#v-photos").hidden = v !== "photos";
+  try{ localStorage.setItem("vision.view", v); }catch(_){}
+  renderStatus();
+}
+$$(".rail button").forEach(b => b.onclick = () => setView(b.dataset.v));
+
+async function loadInfo(){
+  try{
+    APP.info = await (await fetch("/api/info")).json();
+  }catch(_){ toast("The app server is not reachable"); return; }
+  const info = APP.info;
+  $("#titlebar").textContent = `Vision — Board Recognition  v${info.version}`;
+  showPairing(info);
+  if (info.scan) SC.apply(info.scan);
+  B.init(info.bench);
+  renderStatus();
+}
+
+// ================================================================== SCAN
+const SC = {ws:null, st:null, last:null, log:[], caps:[], payload:{}, choice:{}, tab:"activity", qrForced:false};
+const cv = $("#cv"), ctx = cv.getContext("2d");
+
+function showPairing(info){
+  $("#qr").innerHTML = info.qr && info.qr[0] ? info.qr[0] : "";
+  $("#qr").hidden = !(info.qr && info.qr[0]);
+  $("#url").textContent = (info.phone_urls || [])[0] || "No network address found. Start the app with --host-ip.";
+  $("#certStep").hidden = !info.secure;
+}
+function wsConnect(){
+  const ws = new WebSocket(`ws://${location.host}/ws`);
+  ws.binaryType = "arraybuffer";
+  SC.ws = ws;
+  ws.onmessage = e => typeof e.data === "string" ? onScanMsg(JSON.parse(e.data)) : onPreview(e.data);
+  ws.onclose = () => { $("#stDot").className = "sdot err"; $("#stPhone").textContent = "App server stopped"; setTimeout(wsConnect, 1200); };
+  ws.onopen = () => renderStatus();
+}
+const wsSend = o => SC.ws && SC.ws.readyState === 1 && SC.ws.send(JSON.stringify(o));
+
+function onScanMsg(m){
+  if (m.type === "state") SC.apply(m.state);
+  else if (m.type === "info"){ APP.info = m.info; showPairing(m.info); }
+  else if (m.type === "photo") addCapture(m.capture);
+  else if (m.type === "result") onResult(m);
+  else if (m.type === "log") log("i", m.text);
+  else if (m.type === "transfer") log("i", `Receiving photo (${(m.size / 1e6).toFixed(1)} MB)`);
+}
+SC.apply = function(s){
+  const prev = SC.st; SC.st = s;
+  // phone panel
+  $("#pairPanel").classList.toggle("connected", !!s.phone);
+  const pi = s.phone_info || {};
+  $("#connT").textContent = s.phone ? "Phone connected" : "Waiting for the phone";
+  $("#connD").textContent = s.phone ? `Camera ${pi.photo_w || "?"} × ${pi.photo_h || "?"}${pi.image_capture ? "" : " (video frames)"}` : "Scan the code to connect.";
+  $("#pair").hidden = !!s.phone && !SC.qrForced;
+  $("#pairShow").hidden = !s.phone || SC.qrForced;
+  if (!s.phone){ $("#cv").hidden = true; $("#liveEmpty").hidden = false; SC.last = null; }
+  // stepper
+  const st1 = $("#st1"), st2 = $("#st2");
+  st1.className = "stp " + (s.mode === "board" && !s.done ? "cur" : s.has_board ? "done" : "");
+  st2.className = "stp " + (s.mode === "mcu" && !s.done ? "cur" : s.has_mcu && s.done ? "done" : "");
+  st1.querySelector(".n").innerHTML = st1.classList.contains("done") ? ico("check") : "1";
+  st2.querySelector(".n").innerHTML = st2.classList.contains("done") ? ico("check") : "2";
+  $("#att").textContent = s.attempts ? `Retake ${s.attempts} of 2` : "";
+  $("#sTake").disabled = !s.phone || s.busy;
+  $("#sRescan").disabled = !s.phone || s.busy || (!s.has_board && s.mode === "board");
+  if (s.busy) setInstr(s.mode === "board" ? "Checking the photo…" : "Recognising the board and the MCU…", "");
+  else if (s.done) setInstr("Scan complete", "Review the setup on the right, or start a new scan.", true);
+  else if (!s.phone) setInstr("Waiting for the phone", "");
+  else if (!SC.last) setInstr(s.message, "");
+  if (!s.captures.length && prev && prev.captures.length){ SC.caps = []; renderCaps(); }
+  renderSetup(s.manifest);
+  renderScanConsole();
+  renderStatus();
+};
+function setInstr(t, h, good){ const e = $("#instr"); e.textContent = t; e.classList.toggle("good", !!good); $("#instrH").textContent = h || ""; }
+
+function onPreview(buf){
+  const dv = new DataView(buf), hl = dv.getUint32(1);
+  const head = JSON.parse(new TextDecoder().decode(new Uint8Array(buf, 5, hl)));
+  const url = URL.createObjectURL(new Blob([new Uint8Array(buf, 5 + hl)], {type:"image/jpeg"}));
+  const im = new Image();
+  im.onload = () => { SC.last = {im, head}; drawPreview(); URL.revokeObjectURL(url); };
+  im.src = url;
+  const r = head.report, s = SC.st || {};
+  if (!s.busy && !s.done){
+    if (r.passing) setInstr("Hold still", "Taking the photo automatically", true);
+    else setInstr(r.instruction, (r.hints || [])[0] || "");
+  }
+  $("#meter").style.width = Math.round(100 * (head.progress || 0)) + "%";
+  $("#mets").innerHTML = r.metrics.filter(m => m.level !== "na").map(m =>
+    `<span class="met ${m.level}" title="${esc(m.text)}"><i></i>${esc(m.label)}<em>${esc(m.text)}</em></span>`).join("");
+}
+function drawPreview(){
+  if (!SC.last) return;
+  const {im, head} = SC.last, r = head.report;
+  $("#cv").hidden = false; $("#liveEmpty").hidden = true;
+  if (cv.width !== im.width || cv.height !== im.height){ cv.width = im.width; cv.height = im.height; }
+  ctx.drawImage(im, 0, 0);
+  const W = cv.width, H = cv.height;
+  const poly = (q, color, w, dash) => {
+    if (!q) return; ctx.beginPath(); q.forEach(([x, y], i) => i ? ctx.lineTo(x*W, y*H) : ctx.moveTo(x*W, y*H)); ctx.closePath();
+    ctx.setLineDash(dash || []); ctx.strokeStyle = color; ctx.lineWidth = w; ctx.stroke(); ctx.setLineDash([]);
+  };
+  poly(r.board_quad, r.passing ? "#f7b500" : "rgba(255,255,255,.7)", 2);
+  poly(r.card_quad, "#b07cf0", 1.5, [6, 4]);
+  poly(r.chip_quad, "#f39c32", 2);
+  if (r.chip_px_photo && r.chip_quad){
+    ctx.font = "600 13px Segoe UI, sans-serif"; ctx.fillStyle = "#f39c32";
+    ctx.fillText(`MCU ≈ ${r.chip_px_photo} px`, r.chip_quad[0][0]*W, r.chip_quad[0][1]*H - 6);
+  }
+}
+function addCapture(c){
+  SC.caps.unshift(c); renderCaps();
+  const ch = c.check;
+  log(ch.ok ? "ok" : "w", `${c.mode === "board" ? "Board" : "MCU close-up"} photo ${c.w}×${c.h}: ${ch.ok ? "quality OK" : ch.reasons.join("; ")}`, c.name);
+}
+function renderCaps(){
+  $("#ncap").textContent = SC.caps.length;
+  $("#capsEmpty").hidden = SC.caps.length > 0;
+  $("#caps").innerHTML = SC.caps.slice(0, 8).map(c => `<div class="cap" title="${esc(c.name)}"><img src="${c.thumb}" alt=""><div><span>${c.mode === "board" ? "Board" : "MCU"}</span><span class="${c.check.ok ? "ok" : "bad"}">${c.check.ok ? "OK" : "Retake"}</span></div></div>`).join("");
+}
+function onResult(m){
+  if (!m.payload){            // new scan / new board photo
+    SC.payload = {}; SC.choice = {};
+    if (!m.keep_captures){ SC.caps = []; renderCaps(); log("i", "New scan started"); }
+    $("#cardimgs").innerHTML = ""; $("#cardTitle").hidden = true;
+    renderSetup(null); return;
+  }
+  SC.payload[m.mode] = m.payload;
+  const c = m.payload.card;
+  if (c){
+    $("#cardTitle").hidden = false;
+    $("#cardimgs").innerHTML = (c.img ? `<img src="${c.img}" alt="MCU card" style="max-width:100%">` : "") + (c.chip_img ? `<img src="${c.chip_img}" alt="MCU" style="max-width:48%">` : "");
+  }
+  const r = m.payload.result;
+  const got = m.mode === "board" ? r.manifest && r.manifest.board : r.manifest && (r.manifest.mcu || r.manifest.mcu_card);
+  log(got ? "ok" : "w", `${m.mode === "board" ? "Board photo" : "MCU close-up"} read in ${(r.timings_ms.total / 1000).toFixed(1)} s${got ? ": " + got.name : ", nothing decided"}`);
+  renderSetup(m.manifest);
+}
+
+// ---------------------------------------------------------- setup card
+function renderSetup(man){
+  const el = $("#setup");
+  SC.man = man;
+  const need = f => ((man && man.needs_user) || []).find(n => n.field === f);
+  const row = (icon, cls, k, field) => {
+    const v = man && man[field], n = need(field);
+    if (v) return `<div class="srow">${ico(icon, cls)}<span class="k">${k}</span><span class="v" title="${esc(v.name)}">${esc(v.name)}</span><span class="c">${pct(v.confidence)}</span></div>`;
+    if (SC.st && !SC.st.done && SC.st.mode === "mcu" && (field === "mcu" || field === "mcu_card"))
+      return `<div class="srow">${ico(icon, cls)}<span class="k">${k}</span><span class="v muted">After step 2</span><span></span></div>`;
+    const ch = SC.choice[field];
+    if (n && (n.options || []).length){
+      return `<div class="srow">${ico(icon, cls)}<span class="k">${k}</span><select data-f="${field}"><option value="">Choose…</option>${n.options.slice(0, 8).map(o => `<option ${ch === o.name ? "selected" : ""}>${esc(o.name)}</option>`).join("")}</select><span></span>${n.reason ? `<span class="why">${esc(n.reason)}</span>` : ""}</div>`;
+    }
+    return `<div class="srow">${ico(icon, cls)}<span class="k">${k}</span><span class="v ${man ? "open" : "muted"}">${man ? "Not found" : "—"}</span><span></span></div>`;
+  };
+  const lay = man && man.mcu_card_layout;
+  const clicks = (man && man.clicks || []).filter(c => c.outcome === "accept");
+  const complete = !!(man && (man.board || SC.choice.board) && (man.mcu || SC.choice.mcu));
+  el.className = "setup" + (complete ? " complete" : "");
+  const waiting = !man && SC.st && SC.st.has_board && !SC.st.done;
+  const title = man && man.board ? man.board.name : SC.choice.board ||
+    (SC.st && SC.st.busy && SC.st.has_mcu ? "Recognising…" : waiting ? "Waiting for the MCU photo" : "New setup");
+  el.innerHTML = `<div class="hd"><div class="nm">${esc(title)}</div><svg><use href="#i-setup"/></svg></div>
+    <div class="rows">
+      ${row("board", "c-board", "Board", "board")}
+      ${row("chip", "c-mcu", "MCU", "mcu")}
+      ${row("card", "c-card", "MCU card", "mcu_card")}
+      ${lay && !(man && man.mcu_card) ? `<div class="srow">${ico("layout", "c-lay")}<span class="k">Layout</span><span class="v">${esc(lay.title)}</span><span class="c">${lay.cards} cards</span></div>` : ""}
+      <div class="srow">${ico("click", "c-click")}<span class="k">Clicks</span><span class="v ${clicks.length ? "" : "muted"}">${clicks.length ? esc(clicks.map(c => c.name || c.pid).join(", ")) : man ? "None found" : "—"}</span><span></span></div>
+    </div>
+    <div class="ft"><button id="fCopy" ${man ? "" : "disabled"}>Copy JSON</button><button id="fSave" ${man ? "" : "disabled"}>Save</button><button id="fMcu" ${SC.st && SC.st.has_board && SC.st.phone ? "" : "disabled"}>Retake MCU</button></div>`;
+  el.querySelectorAll("select[data-f]").forEach(s => s.onchange = () => { SC.choice[s.dataset.f] = s.value || undefined; renderSetup(SC.man); renderStatus(); });
+  $("#fCopy").onclick = () => navigator.clipboard.writeText(JSON.stringify(finalManifest(), null, 2)).then(() => toast("Setup copied as JSON"));
+  $("#fSave").onclick = () => {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([JSON.stringify(finalManifest(), null, 2)], {type:"application/json"}));
+    a.download = "setup.json"; a.click(); URL.revokeObjectURL(a.href);
+  };
+  $("#fMcu").onclick = () => wsSend({type:"mode", mode:"mcu"});
+  renderStatus();
+}
+function finalManifest(){
+  const m = JSON.parse(JSON.stringify(SC.man || {}));
+  for (const [f, v] of Object.entries(SC.choice)) if (v && !m[f]) m[f] = {name:v, confidence:null, chosen_by:"user"};
+  if (m.needs_user) m.needs_user = m.needs_user.filter(n => !m[n.field]);
+  return m;
+}
+
+// ---------------------------------------------------------- scan console
+function log(kind, text, src){
+  SC.log.unshift({kind, text, src:src || "", t:new Date().toLocaleTimeString()});
+  SC.log.length = Math.min(SC.log.length, 200);
+  if (SC.tab === "activity") renderScanConsole();
+}
+function renderScanConsole(){
+  $$("#sTabs button").forEach(b => b.classList.toggle("on", b.dataset.t === SC.tab));
+  const el = $("#sCon");
+  if (SC.tab === "manifest"){
+    el.innerHTML = SC.man ? `<pre class="json">${esc(JSON.stringify(finalManifest(), null, 2))}</pre>` : `<div class="empty-r">Nothing recognised yet.</div>`;
+    return;
+  }
+  el.innerHTML = SC.log.length ? SC.log.map(l => `<div class="line ${l.kind}">${ico({i:"info", w:"warn", e:"err", ok:"ok"}[l.kind])}<span>${esc(l.text)}</span><span class="src">${esc(l.t)}</span></div>`).join("")
+    : `<div class="empty-r">Activity appears here.</div>`;
+}
+$$("#sTabs button").forEach(b => b.onclick = () => { SC.tab = b.dataset.t; renderScanConsole(); });
+$("#sTake").onclick = () => wsSend({type:"shutter"});
+$("#sRescan").onclick = () => wsSend({type:"mode", mode:"board"});
+$("#sNew").onclick = () => wsSend({type:"restart"});
+$("#newtok").onclick = () => wsSend({type:"new_token"});
+$("#showQr").onclick = () => { SC.qrForced = true; SC.apply(SC.st); };
+
+// ================================================================== status bar
+function renderStatus(){
+  const s = SC.st || {};
+  const ok = SC.ws && SC.ws.readyState === 1;
+  if (ok){
+    $("#stDot").className = "sdot " + (s.busy ? "busy" : s.phone ? "on" : "");
+    $("#stPhone").textContent = s.busy ? "Working…" : s.phone ? "Phone connected" : "Phone not connected";
+  }
+  $("#stStep").textContent = s.done ? "Scan complete" : `Step ${s.step || 1} of 2 · ${s.mode === "mcu" ? "MCU close-up" : "Board"}`;
+  $("#stStep").hidden = APP.view !== "scan";
+  const m = SC.man ? finalManifest() : null;
+  const parts = m ? [m.board && m.board.name, m.mcu && m.mcu.name].filter(Boolean) : [];
+  $("#stSetup").textContent = parts.length ? parts.join(" · ") : "—";
+  const b = APP.info && APP.info.bench;
+  $("#stEngine").textContent = b ? `OCR ${b.backends[0] || "none"}` : APP.info && !APP.info.recognition ? "Capture only" : "";
+  if (APP.view === "photos"){
+    const it = B.current(), is = B.issues(it);
+    const n = k => is.filter(x => x[0] === k).length;
+    $("#stCnts").innerHTML = `<span class="e">${n("e")}</span><span class="w">${n("w")}</span><span class="o">${n("i")}</span>`;
+  } else $("#stCnts").innerHTML = "";
+}
+
+// ================================================================== PHOTOS (bench)
+const B = {items:[], sel:null, view:"orig", boxes:true, picking:false, pts:[], busy:false, drawing:false, drag:null, tab:"issues", closed:{}, seq:0, info:null};
+B.init = function(info){
+  B.info = info;
+  if (!info){ $("#stage").innerHTML = `<div class="drop"><b>Recognition is off</b>The app was started with --no-recognize.</div>`; $("#b-add").disabled = true; return; }
+  const d = info.defaults || {};
+  $("#o-backend").innerHTML = `<option value="auto">auto (${esc(info.backends[0] || "none")})</option>` + info.backends.map(b => `<option>${esc(b)}</option>`).join("");
+  $("#o-backend").value = d.backend && [...$("#o-backend").options].some(o => o.value === d.backend) ? d.backend : "auto";
+  $("#o-upscaler").innerHTML = info.upscalers.map(u => `<option>${esc(u)}</option>`).join("");
+  if (d.upscaler) $("#o-upscaler").value = d.upscaler;
+  if (d.chip_mode) $("#o-chip").value = d.chip_mode;
+  if (!info.backends.length) toast("No OCR engine installed — see README");
+  if (info.clicks){ $("#o-clicks-l").hidden = false; $("#lg-click").hidden = false; }
+  B.renderAll();
+};
+B.opts = () => ({backend:$("#o-backend").value, refine:$("#o-refine").value, upscaler:$("#o-upscaler").value, chip_mode:$("#o-chip").value,
+                 auto_perspective:$("#o-quad").checked ? "1" : "0", clicks:$("#o-clicks").value});
+B.current = () => B.items.find(i => i.key === B.sel);
+
+function addFiles(files){
+  if (!B.info) return;
+  const list = [...files].filter(f => f.type.startsWith("image/") || /\.(heic|heif|jpe?g|png|bmp|tiff?|webp)$/i.test(f.name));
+  if (!list.length){ toast("No image files in that drop"); return; }
+  for (const f of list){
+    const it = {key:++B.seq, file:f, name:f.name || `pasted-${B.seq}.png`, status:"queued", data:null, error:null, quad:null, cboxes:[], thumb:URL.createObjectURL(f)};
+    B.items.push(it);
+    if (B.sel == null) B.sel = it.key;
+  }
+  if (APP.view !== "photos") setView("photos");
+  B.renderQueue(); B.renderAll(); pump();
+}
+async function pump(){
+  if (B.busy) return;
+  const it = B.items.find(i => i.status === "queued");
+  if (!it) return;
+  B.busy = true; it.status = "running"; B.renderQueue(); if (it.key === B.sel) B.renderAll();
+  try{
+    const o = {...B.opts()};
+    if (it.quad) o.quad = it.quad.flat().join(",");
+    if (it.cboxes.length) o.click_boxes = it.cboxes.map(b => b.map(Math.round).join(",")).join(";");
+    let r;
+    if (it.data && it.data.id) r = await fetch("/api/rerun", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({id:it.data.id, options:o})});
+    if (!r || r.status === 410) r = await fetch("/api/recognize?" + new URLSearchParams(o), {method:"POST", headers:{"X-Filename":encodeURIComponent(it.name)}, body:it.file});
+    const j = await r.json();
+    if (!r.ok || j.error){ it.status = "error"; it.error = j.error || r.statusText; }
+    else { it.status = "done"; it.data = j; it.error = null; }
+  }catch(e){ it.status = "error"; it.error = "The app server did not answer."; }
+  B.busy = false; B.renderQueue(); if (it.key === B.sel) B.renderAll();
+  pump();
+}
+const rerun = it => { if (!it) return; it.status = "queued"; B.renderQueue(); B.renderAll(); pump(); };
+
+function summary(d){
+  const m = d.result.manifest;
+  const k = (m.clicks || []).length ? ` · ${m.clicks.filter(x => x.outcome === "accept").length}/${m.clicks.length} Clicks` : "";
+  return `${m.board ? m.board.name : "Board ?"} · ${m.mcu ? m.mcu.name : "MCU ?"}${k}`;
+}
+B.renderQueue = function(){
+  $("#qempty").hidden = B.items.length > 0;
+  $("#qcnt").textContent = B.items.length;
+  $("#b-rerun-all").disabled = !B.items.some(i => i.data);
+  $("#qlist").innerHTML = B.items.map(it => {
+    let st;
+    if (it.status === "running") st = `<span class="spin"></span>Recognising…`;
+    else if (it.status === "queued") st = `<span class="sdot"></span>Queued`;
+    else if (it.status === "error") st = `<span class="sdot err"></span>${esc(it.error)}`;
+    else { const n = it.data.result.manifest.needs_user.length; st = `<span class="sdot ${n ? "busy" : "on"}"></span>${esc(summary(it.data))}`; }
+    return `<div class="qi ${it.key === B.sel ? "sel" : ""}" data-k="${it.key}"><img src="${it.thumb}" alt=""><div style="min-width:0"><div class="qn">${esc(it.name)}</div><div class="qs">${st}</div></div></div>`;
+  }).join("");
+  $$(".qi").forEach(el => el.onclick = () => { B.sel = +el.dataset.k; B.picking = false; B.pts = []; B.renderQueue(); B.renderAll(); });
+};
+
+const dropHTML = `<div class="drop">${ico("add")}<b>Drop photos of a board here</b>Or paste with Ctrl+V. Everything runs on this computer.<br><button class="btn fill" id="dropAdd">Add photos</button></div>`;
+B.renderViewer = function(){
+  const it = B.current();
+  $("#vtab").hidden = !it;
+  if (it) $("#tabname").textContent = it.name;
+  const has = !!(it && it.data);
+  $("#tools").hidden = !has; $("#legend").hidden = !has;
+  $("#b-rerun").disabled = !has || B.busy;
+  if (!it){ $("#stage").innerHTML = B.info ? dropHTML : $("#stage").innerHTML; const a = $("#dropAdd"); if (a) a.onclick = () => $("#file").click(); return; }
+  if (!it.data){ $("#stage").innerHTML = `<div class="frame"><img src="${it.thumb}" style="opacity:.4" alt=""></div>`; return; }
+  const d = it.data, pre = B.view === "pre" && !B.picking, fr = pre ? d.processed : d.original;
+  $("#v-orig").classList.toggle("on", !pre); $("#v-pre").classList.toggle("on", pre);
+  $("#v-boxes").classList.toggle("on", B.boxes); $("#v-pick").classList.toggle("on", B.picking);
+  $("#v-clearq").hidden = !it.quad;
+  const clicksOn = B.info && B.info.clicks && $("#o-clicks").value === "boxes";
+  $("#v-draw").hidden = !clicksOn; $("#v-draw").classList.toggle("on", B.drawing);
+  $("#v-clearb").hidden = !(clicksOn && it.cboxes.length);
+  $("#pickhint").textContent = B.picking ? `Click corner ${B.pts.length + 1} of 4` : B.drawing ? "Drag a box around one Click" : it.quad ? "Perspective corrected" : "";
+  const lw = Math.max(fr.w, fr.h) / 450;
+  const col = {board:"#3fb950", mcu:"#f39c32", crop:"#d16ad6", click:"#4b8df8", roi:"#33c3d9", card:"#b07cf0"};
+  let sh = "";
+  if (B.boxes && !B.picking){
+    for (const o of d.overlays){
+      const p = pre ? o.pre : o.orig;
+      sh += `<polygon points="${p.map(q => q.join(",")).join(" ")}" fill="none" stroke="${col[o.kind]}" stroke-width="${lw * (o.kind === "crop" ? 1 : 1.5)}" ${o.kind === "crop" || o.kind === "roi" ? `stroke-dasharray="${lw * 4} ${lw * 3}"` : ""}/>`;
+      if (["crop", "click", "roi", "card"].includes(o.kind)){
+        const x = Math.min(...p.map(q => q[0])), y = Math.min(...p.map(q => q[1]));
+        sh += `<text x="${x}" y="${y - lw * 2}" fill="${col[o.kind]}" stroke="#000" stroke-width="${lw * .6}" paint-order="stroke" font-size="${lw * 9}" font-family="Segoe UI,sans-serif" font-weight="600">${esc(o.label)}</text>`;
+      }
+    }
+  }
+  if (!pre){
+    const done = new Set((d.result.clicks || []).map(c => JSON.stringify((c.box || []).map(Math.round))));
+    const pend = it.cboxes.filter(b => !done.has(JSON.stringify(b.map(Math.round))));
+    if (B.drag) pend.push(B.drag);
+    for (const [x, y, w, h] of pend) sh += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="rgba(75,141,248,.1)" stroke="${col.click}" stroke-width="${lw * 1.5}" stroke-dasharray="${lw * 5} ${lw * 3}"/>`;
+  }
+  const pts = B.picking ? B.pts : (it.quad && !pre ? it.quad : []);
+  if (pts.length){
+    sh += `<polygon points="${pts.map(q => q.join(",")).join(" ")}" fill="rgba(247,181,0,.1)" stroke="#f7b500" stroke-width="${lw * 1.4}"/>`;
+    sh += pts.map(q => `<circle cx="${q[0]}" cy="${q[1]}" r="${lw * 4}" fill="#f7b500"/>`).join("");
+  }
+  $("#stage").innerHTML = `<div class="frame ${B.picking || B.drawing ? "pick" : ""}" id="frame"><img src="${fr.src}" alt=""><svg viewBox="0 0 ${fr.w} ${fr.h}" preserveAspectRatio="none">${sh}</svg></div>`;
+  const f = $("#frame");
+  const at = ev => { const r = f.getBoundingClientRect(); return [(ev.clientX - r.left) / r.width * d.original.w, (ev.clientY - r.top) / r.height * d.original.h]; };
+  if (B.drawing){
+    let start = null;
+    f.onpointerdown = ev => { ev.preventDefault(); f.setPointerCapture(ev.pointerId); start = at(ev); };
+    f.onpointermove = ev => { if (!start) return; const p = at(ev);
+      B.drag = [Math.min(start[0], p[0]), Math.min(start[1], p[1]), Math.abs(p[0] - start[0]), Math.abs(p[1] - start[1])];
+      const svg = f.querySelector("svg"); let r = svg.querySelector("#dragbox");
+      if (!r){ r = document.createElementNS("http://www.w3.org/2000/svg", "rect"); r.id = "dragbox"; r.setAttribute("fill", "rgba(75,141,248,.12)"); r.setAttribute("stroke", col.click); r.setAttribute("stroke-width", lw * 1.5); svg.appendChild(r); }
+      r.setAttribute("x", B.drag[0]); r.setAttribute("y", B.drag[1]); r.setAttribute("width", B.drag[2]); r.setAttribute("height", B.drag[3]); };
+    f.onpointerup = () => { const b = B.drag; start = null; B.drag = null;
+      if (b && b[2] > 8 && b[3] > 8){ it.cboxes.push(b.map(Math.round)); rerun(it); } else B.renderViewer(); };
+  }
+  if (B.picking){
+    f.onclick = ev => {
+      B.pts.push(at(ev));
+      if (B.pts.length === 4){ it.quad = B.pts.map(p => p.map(Math.round)); B.picking = false; B.pts = []; rerun(it); }
+      else B.renderViewer();
+    };
+  }
+};
+
+B.issues = function(it){
+  if (!it) return [["i", "Add photos of a development board to start.", ""]];
+  if (it.status === "error") return [["e", it.error, "server"]];
+  if (!it.data) return [["i", it.status === "running" ? "Recognising…" : "Waiting in the queue.", ""]];
+  const r = it.data.result, out = [];
+  for (const w of r.quality.warnings) out.push(["w", w, "photo"]);
+  const step = (rec, src) => { if (!rec || rec.reason === "skipped") return;
+    out.push([rec.decision ? "ok" : "w", (rec.decision ? rec.decision.name + " — " : "") + rec.reason, src]); };
+  step(r.board, "board");
+  if (r.layout) out.push(["i", `Layout placed by ${r.layout.method}: ${r.layout.inliers}/${r.layout.anchors_matched} labels, rms ${r.layout.rms_px} px. MCU read from ${r.layout.mcu_source === "roi" ? "the MCU-card area" : r.layout.mcu_source}.`, "layout"]);
+  else if (r.manifest.board) out.push(["w", "No stored layout for this board (or it could not be placed): the whole photo was read for the MCU.", "layout"]);
+  if (r.card && r.card.located){ const c = r.card.located;
+    out.push([r.card.used ? "i" : "w", `MCU card located by ${c.method} (${c.size_px[0]}×${c.size_px[1]} px, zoom ×${c.zoom}); ${r.card.used ? "its text was read on its own" : "its crop gave no answer"}.`, "card"]); }
+  step(r.mcu, "MCU");
+  if (r.mcu_card && (r.mcu_card.decision || r.mcu_card.group)) step(r.mcu_card, "MCU card");
+  for (const c of (r.clicks || [])) out.push([c.outcome === "accept" ? "ok" : c.outcome === "ask" ? "w" : "e", `${c.slot ? c.slot + ": " : ""}${c.decision ? c.decision.name + " — " : ""}${c.reason}`, "Click"]);
+  return out;
+};
+B.renderConsole = function(){
+  $$("#bTabs button").forEach(b => b.classList.toggle("on", b.dataset.t === B.tab));
+  const it = B.current(), el = $("#bCon");
+  if (B.tab === "issues"){
+    el.innerHTML = B.issues(it).map(([k, t, s]) => `<div class="line ${k}">${ico({i:"info", w:"warn", e:"err", ok:"ok"}[k])}<span>${esc(t)}</span><span class="src">${esc(s)}</span></div>`).join("");
+    renderStatus(); return;
+  }
+  if (!it || !it.data){ el.innerHTML = `<div class="empty-r">Nothing to show yet.</div>`; return; }
+  const r = it.data.result, q = r.quality, t = r.timings_ms;
+  if (B.tab === "photo"){
+    el.innerHTML = `<dl class="kv"><dt>Size</dt><dd>${q.width} × ${q.height}</dd><dt>Sharpness</dt><dd>${q.blur_var}</dd><dt>Brightness</dt><dd>${q.brightness}</dd>
+      <dt>Glare</dt><dd>${(q.glare_frac * 100).toFixed(1)} %</dd>
+      <dt>Time</dt><dd>${t.total} ms (pre ${t.preprocess} · board ${t.board} · layout ${t.layout ?? "–"} · MCU ${t.mcu}${t.clicks ? ` · clicks ${t.clicks}` : ""})</dd>
+      <dt>Engine</dt><dd>${esc(t.backend)}</dd><dt>MCU passes</dt><dd>${esc((r.mcu.timings_ms.passes || []).join(" → ")) || "–"}</dd>
+      <dt>Preprocessing</dt><dd>${esc(r.preprocess.join(" · "))}</dd></dl>`;
+  } else {
+    el.innerHTML = `<div style="padding:6px 14px 0"><button class="btn quiet" id="copyjson">Copy</button></div><pre class="json">${esc(JSON.stringify(r, null, 2))}</pre>`;
+    $("#copyjson").onclick = () => navigator.clipboard.writeText(JSON.stringify(r, null, 2)).then(() => toast("JSON copied"));
+  }
+};
+
+function sect(id, title, body, count = ""){
+  return `<div class="sect ${B.closed[id] ? "closed" : ""}" data-s="${id}">${ico("chev", "chev")}${title}<span class="cnt">${count}</span></div><div class="sb">${body}</div>`;
+}
+function recBody(rec){
+  if (!rec) return "";
+  if (rec.reason === "skipped") return `<div class="node"><span class="nm muted">Skipped</span></div>`;
+  const head = rec.decision
+    ? `<div class="node top"><span class="nm">${esc(rec.decision.name)}</span><span class="tag ok">Detected</span></div>`
+    : `<div class="node top"><span class="nm dim">Not sure</span><span class="tag ask">Ask user</span></div>`;
+  const cands = rec.candidates.map((c, i) => `<div class="node" style="padding-top:1px;padding-bottom:0"><span class="nm ${i === 0 && rec.decision ? "" : "dim"}">${esc(c.name)}${c.detail && c.detail.read ? ` <span class="rd">“${esc(c.detail.read)}”</span>` : ""}</span><span class="sc">${c.score.toFixed(2)}</span></div><div class="bar ${i === 0 && rec.decision ? "top" : ""}"><i style="width:${Math.max(0, Math.round(c.score * 100))}%"></i></div>`).join("");
+  const raws = rec.raw_reads && rec.raw_reads.length ? `<div class="why" style="padding-top:4px">Unmatched reads</div><div class="chips">${rec.raw_reads.map(r => `<span class="chip">${esc(r)}</span>`).join("")}</div>` : "";
+  const grp = rec.group ? `<div class="node"><span class="nm">Layout: ${esc(rec.group.title)}</span><span class="tag">${rec.group.cards} card${rec.group.cards === 1 ? "" : "s"}</span></div>` : "";
+  return head + grp + `<div class="why">${esc(rec.reason)}</div>` + cands + raws;
+}
+function clicksBody(r){
+  const cs = r.clicks || [];
+  if (B.info.click_error) return `<div class="why">${esc(B.info.click_error)}</div>`;
+  if (!cs.length) return `<div class="why">${$("#o-clicks").value === "boxes" ? "Use “Click boxes” on the photo to mark each Click board." : "Clicks are off."}</div>`;
+  const tag = {accept:`<span class="tag ok">Accepted</span>`, ask:`<span class="tag ask">Ask user</span>`, unknown:`<span class="tag bad">Unknown</span>`};
+  return cs.map((c, i) => `<div class="node top"><span class="nm">#${i + 1}${c.slot ? ` · ${esc(c.slot)}` : ""}${c.decision ? ` — ${esc(c.decision.name)}` : ""}</span>${tag[c.outcome] || ""}</div>
+    <div class="why">${esc(c.reason)}${c.ocr && c.ocr.text ? ` · OCR “${esc(c.ocr.text)}”` : ""} · ${c.timings_ms.total} ms</div>
+    ${c.candidates.map((x, j) => `<div class="node" style="padding-top:1px;padding-bottom:0"><span class="nm dim">${esc(x.name)} <span class="rd">${esc(x.pid || "")}</span></span><span class="sc">${x.score.toFixed(2)}</span></div><div class="bar ${j === 0 && c.outcome === "accept" ? "top" : ""}"><i style="width:${Math.max(0, Math.round(x.score * 100))}%"></i></div>`).join("")}`).join("");
+}
+B.renderResults = function(){
+  const it = B.current(), el = $("#rbody");
+  if (!it){ el.innerHTML = `<div class="empty-r">Results appear here.</div>`; return; }
+  if (it.status === "error"){ el.innerHTML = `<div class="empty-r" style="color:var(--red)">${esc(it.error)}</div>`; return; }
+  if (!it.data){ el.innerHTML = `<div class="empty-r"><span class="spin"></span>${it.status === "running" ? "Recognising…" : "Waiting in the queue…"}</div>`; return; }
+  const d = it.data, r = d.result;
+  const rois = (d.rois || []).length ? `<div class="rois">${d.rois.map(x => `<div class="roi" title="${esc(x.name)} · ${x.size[0]}×${x.size[1]} px · ${Math.round(x.visible * 100)}% in photo"><img src="${x.img}" alt="${esc(x.name)}"><div><span>${esc(x.name.replace("mikroBUS", "BUS"))}</span><span>${x.visible < 0.95 ? Math.round(x.visible * 100) + "%" : ""}</span></div></div>`).join("")}</div>` : `<div class="why">No stored layout placed for this photo.</div>`;
+  const lay = r.layout ? `<div class="node"><span class="nm">${esc(r.layout.method)}</span><span class="tag">${r.layout.inliers}/${r.layout.anchors_matched} labels</span></div>` : "";
+  const crops = d.crops.map(c => `<div class="crop"><div class="ct">#${c.index} · ${esc(c.source)} · glyph ≈ ${c.glyph_px} px</div>
+      ${c.source_img ? `<img src="${c.source_img}" alt="source crop">` : ""}${c.enhanced ? `<img src="${c.enhanced}" alt="enhanced crop">` : ""}
+      <div class="best">${c.best ? esc(c.best) : '<span class="muted">Nothing read</span>'}</div>
+      ${c.reads.length ? `<details><summary>${c.reads.length} reads</summary><div class="chips" style="padding-left:0">${c.reads.map(x => `<span class="chip" title="${esc(x.variant)} · ${x.rotation}° · conf ${x.conf}">${esc(x.text)}</span>`).join("")}</div></details>` : ""}</div>`).join("");
+  const cardSec = d.card ? `<div class="node"><span class="nm">${esc(d.card.method)} · ${d.card.native_size[0]}×${d.card.native_size[1]} px → ×${d.card.zoom}</span><span class="sc">${d.card.score.toFixed(2)}</span></div>
+      <div class="crop"><img src="${d.card.img}" alt="MCU card">${d.card.chip_img ? `<img src="${d.card.chip_img}" alt="MCU close-up">` : ""}
+      <div class="ct">${Object.entries(d.card.passes).map(([k, v]) => `${esc(k)}: ${esc(String(v))}`).join(" · ")}</div>
+      ${d.card.text.length ? `<details><summary>${d.card.text.length} text lines read</summary><div class="chips" style="padding-left:0">${d.card.text.map(t => `<span class="chip">${esc(t)}</span>`).join("")}</div></details>` : '<div class="best"><span class="muted">Nothing read</span></div>'}</div>` : "";
+  const kinds = ["board", "mcu", "mcu_card", "click"];
+  const acc = (r.manifest.clicks || []).find(c => c.outcome === "accept");
+  const guess = r.manifest.board ? ["board", r.manifest.board.name] : r.manifest.mcu ? ["mcu", r.manifest.mcu.name] : acc ? ["click", acc.pid] : ["board", ""];
+  const save = `<div class="form">
+      <span>Kind</span><select id="l-kind">${kinds.map(k => `<option ${k === guess[0] ? "selected" : ""}>${k}</option>`).join("")}</select>
+      <span>Correct label</span><input type="text" id="l-label" list="l-list" value="${esc(guess[1])}" placeholder="Name, part number or none"><datalist id="l-list"></datalist>
+      <span>Distance (cm)</span><input type="number" id="l-dist" min="0" step="1" placeholder="Optional">
+      <div class="full"><button class="btn fill" id="l-save">Save to dataset</button><span class="muted" id="l-msg">${esc(B.info ? B.info.photos_dir : "photos")}/labels.csv</span></div></div>`;
+  el.innerHTML = sect("board", "Board", recBody(r.board)) + sect("mcu", "MCU", recBody(r.mcu)) +
+    (r.mcu_card && (r.mcu_card.decision || r.mcu_card.candidates.length) ? sect("card", "MCU card", recBody(r.mcu_card)) : "") +
+    (d.card ? sect("cardcrop", "MCU card crop", cardSec) : "") +
+    sect("layout", "Layout areas", lay + rois, (d.rois || []).length || "") +
+    (B.info && B.info.clicks ? sect("clicks", "Clicks", clicksBody(r), (r.clicks || []).length || "") : "") +
+    (d.crops.length ? sect("crops", "Refined crops", crops, d.crops.length) : "") +
+    sect("save", "Save to dataset", save);
+  el.querySelectorAll(".sect").forEach(s => s.onclick = () => { B.closed[s.dataset.s] = !B.closed[s.dataset.s]; s.classList.toggle("closed"); });
+  const fill = () => { const k = $("#l-kind").value; $("#l-list").innerHTML = ((B.info && B.info.catalog[k]) || []).concat(["none"]).map(n => `<option value="${esc(n)}">`).join(""); };
+  fill(); $("#l-kind").onchange = fill;
+  $("#l-save").onclick = async () => {
+    const body = {id:d.id, kind:$("#l-kind").value, label:$("#l-label").value, distance_cm:$("#l-dist").value,
+                  box:$("#l-kind").value === "click" && it.cboxes.length ? it.cboxes[0] : ""};
+    try{
+      const res = await fetch("/api/label", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body)});
+      const j = await res.json();
+      if (j.error) toast(j.error); else { $("#l-msg").textContent = `Saved · ${j.rows} labelled photos`; toast("Saved " + j.saved.split(/[\\/]/).pop()); }
+    }catch(_){ toast("The app server did not answer."); }
+  };
+};
+B.renderAll = () => { B.renderViewer(); B.renderResults(); B.renderConsole(); };
+
+// ---------------------------------------------------------- bench wiring
+$("#b-add").onclick = () => $("#file").click();
+$("#file").onchange = e => { addFiles(e.target.files); e.target.value = ""; };
+$("#tabx").onclick = () => { const it = B.current(); if (!it) return; const i = B.items.indexOf(it); B.items.splice(i, 1);
+  B.sel = B.items.length ? B.items[Math.min(i, B.items.length - 1)].key : null; B.renderQueue(); B.renderAll(); };
+$$("#bTabs button").forEach(b => b.onclick = () => { B.tab = b.dataset.t; B.renderConsole(); });
+let dragDepth = 0;
+addEventListener("dragenter", e => { if ([...e.dataTransfer.types].includes("Files")){ dragDepth++; $("#dragcover").classList.add("show"); } });
+addEventListener("dragleave", () => { dragDepth = Math.max(0, dragDepth - 1); if (!dragDepth) $("#dragcover").classList.remove("show"); });
+addEventListener("dragover", e => e.preventDefault());
+addEventListener("drop", e => { e.preventDefault(); dragDepth = 0; $("#dragcover").classList.remove("show"); if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files); });
+addEventListener("paste", e => { const f = [...e.clipboardData.files]; if (f.length) addFiles(f); });
+$("#v-orig").onclick = () => { B.view = "orig"; B.renderViewer(); };
+$("#v-pre").onclick = () => { B.view = "pre"; B.picking = false; B.renderViewer(); };
+$("#v-boxes").onclick = () => { B.boxes = !B.boxes; B.renderViewer(); };
+$("#v-pick").onclick = () => { B.picking = !B.picking; B.drawing = false; B.pts = []; B.view = "orig"; B.renderViewer(); };
+$("#v-draw").onclick = () => { B.drawing = !B.drawing; B.picking = false; B.view = "orig"; B.renderViewer(); };
+$("#v-clearb").onclick = () => { const it = B.current(); if (it){ it.cboxes = []; rerun(it); } };
+$("#v-clearq").onclick = () => { const it = B.current(); if (it){ it.quad = null; rerun(it); } };
+$("#o-clicks").onchange = () => { B.drawing = false; B.renderViewer(); };
+$("#b-rerun").onclick = () => rerun(B.current());
+$("#b-rerun-all").onclick = () => { B.items.filter(i => i.data || i.status === "error").forEach(i => i.status = "queued"); B.renderQueue(); B.renderAll(); pump(); };
+addEventListener("keydown", e => {
+  if (APP.view !== "photos" || e.target.matches("input,select,textarea")) return;
+  const i = B.items.findIndex(x => x.key === B.sel);
+  if ((e.key === "ArrowDown" || e.key === "j") && i < B.items.length - 1){ B.sel = B.items[i + 1].key; B.renderQueue(); B.renderAll(); }
+  if ((e.key === "ArrowUp" || e.key === "k") && i > 0){ B.sel = B.items[i - 1].key; B.renderQueue(); B.renderAll(); }
+  if (e.key === "Escape" && (B.picking || B.drawing)){ B.picking = false; B.drawing = false; B.pts = []; B.renderViewer(); }
+});
+
+// ================================================================== start
+try{ const v = localStorage.getItem("vision.view"); if (v === "photos") setView("photos"); }catch(_){}
+renderSetup(null); renderScanConsole(); renderCaps();
+loadInfo(); wsConnect();
+</script>
+</body>
+</html>

@@ -1,0 +1,281 @@
+{
+ "file": "20261105_124116_board_01.jpg",
+ "bytes": 2086530,
+ "sha256": "ba28c4aef98d306034c14821e3be55c71d728aeef8d49605bc5d9c6de2104f79",
+ "mode": "board",
+ "transfer": {
+  "width": 2160,
+  "height": 3840,
+  "settings": {
+   "imageWidth": 4032,
+   "imageHeight": 3024
+  },
+  "source": "video-frame",
+  "mime": "image/jpeg",
+  "sha256": "ba28c4aef98d306034c14821e3be55c71d728aeef8d49605bc5d9c6de2104f79"
+ },
+ "photo_check": {
+  "ok": true,
+  "reasons": [],
+  "width": 2160,
+  "height": 3840,
+  "board_quad": [
+   [
+    294.0,
+    804.0
+   ],
+   [
+    1476.0,
+    756.0
+   ],
+   [
+    1494.0,
+    2274.0
+   ],
+   [
+    294.0,
+    2268.0
+   ]
+  ],
+  "board_score": 0.943,
+  "card_quad": null,
+  "chip_px": null,
+  "chip_blur": null,
+  "chip_glare": null,
+  "chip_contrast": null,
+  "frame_blur": 0.191,
+  "needs_closeup": true,
+  "ms": 58
+ },
+ "last_preview": {
+  "meta": {
+   "seq": 75,
+   "guide": [
+    0.06,
+    0.06,
+    0.88,
+    0.88
+   ],
+   "video_w": 2160,
+   "video_h": 3840,
+   "photo_w": 4032,
+   "photo_h": 3024,
+   "crop_rect": null,
+   "crop_scale": 1,
+   "gyro": 3.072967374811751,
+   "t_ms": 1793878874780
+  },
+  "report": {
+   "metrics": [
+    {
+     "name": "board",
+     "label": "Board",
+     "level": "good",
+     "text": "found (dark)",
+     "value": 0.9478,
+     "blocking": true
+    },
+    {
+     "name": "framing",
+     "label": "Framing",
+     "level": "bad",
+     "text": "fills 28% of the frame",
+     "value": 0.276,
+     "blocking": true
+    },
+    {
+     "name": "center",
+     "label": "Centred",
+     "level": "bad",
+     "text": "offset 15%",
+     "value": 0.1542,
+     "blocking": true
+    },
+    {
+     "name": "rotation",
+     "label": "Rotation",
+     "level": "good",
+     "text": "-3\u00b0",
+     "value": -2.8913,
+     "blocking": true
+    },
+    {
+     "name": "perspective",
+     "label": "Perspective",
+     "level": "good",
+     "text": "~5\u00b0 tilt",
+     "value": 0.0404,
+     "blocking": true
+    },
+    {
+     "name": "exposure",
+     "label": "Exposure",
+     "level": "good",
+     "text": "p98 210",
+     "value": 210.0,
+     "blocking": true
+    },
+    {
+     "name": "glare",
+     "label": "Glare (board)",
+     "level": "good",
+     "text": "0.0%",
+     "value": 0.0005,
+     "blocking": false
+    },
+    {
+     "name": "noise",
+     "label": "Noise",
+     "level": "good",
+     "text": "\u03c3 2.1",
+     "value": 2.0503,
+     "blocking": false
+    },
+    {
+     "name": "motion",
+     "label": "Steadiness",
+     "level": "good",
+     "text": "1.1 %/s, gyro 3\u00b0/s",
+     "value": 0.0113,
+     "blocking": true
+    },
+    {
+     "name": "sharp_frame",
+     "label": "Sharpness (view)",
+     "level": "good",
+     "text": "0.13",
+     "value": 0.1317,
+     "blocking": false
+    },
+    {
+     "name": "chip",
+     "label": "MCU found",
+     "level": "na",
+     "text": "\u2014",
+     "value": null,
+     "blocking": false
+    }
+   ],
+   "instruction": "Move closer to the board",
+   "hints": [
+    "Move the phone up"
+   ],
+   "board_quad": [
+    [
+     0.1333,
+     0.2109
+    ],
+    [
+     0.6833,
+     0.1953
+    ],
+    [
+     0.6917,
+     0.5906
+    ],
+    [
+     0.1389,
+     0.5906
+    ]
+   ],
+   "card_quad": null,
+   "chip_quad": null,
+   "crop_request": null,
+   "focus_point": null,
+   "chip_px_photo": null,
+   "score": 0.5,
+   "passing": false,
+   "ms": 134.8
+  }
+ },
+ "phone": {
+  "video_w": 2160,
+  "video_h": 3840,
+  "photo_w": 4032,
+  "photo_h": 3024,
+  "image_capture": true,
+  "ua": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5.2 Mobile/15E148 Safari/604.1",
+  "torch": true,
+  "focus": ""
+ },
+ "recognition": {
+  "board": {
+   "key": "uni-ds-v8",
+   "name": "UNI-DS v8",
+   "pid": null,
+   "confidence": 0.97
+  },
+  "mcu": null,
+  "mcu_card": null,
+  "mcu_card_layout": null,
+  "clicks": [],
+  "needs_user": [
+   {
+    "field": "mcu",
+    "reason": "best MCU part number match 0.43 < 0.90",
+    "options": [
+     {
+      "key": "CEC1302",
+      "name": "CEC1302",
+      "pid": null,
+      "score": 0.429,
+      "detail": {
+       "read": "3130292827262524PA31",
+       "vendor": "Microchip",
+       "ocr_conf": 0.96,
+       "glyph_px": 7.8,
+       "box": [
+        [
+         707,
+         1118
+        ],
+        [
+         707,
+         1060
+        ],
+        [
+         715,
+         1060
+        ],
+        [
+         715,
+         1118
+        ]
+       ]
+      }
+     },
+     {
+      "key": "MK64FX512VDC12",
+      "name": "MK64FX512VDC12",
+      "pid": null,
+      "score": 0.255,
+      "detail": {
+       "read": "12VDC12VDC",
+       "vendor": "NXP",
+       "ocr_conf": 0.986,
+       "glyph_px": 11.5,
+       "box": [
+        [
+         404,
+         1121
+        ],
+        [
+         404,
+         1094
+        ],
+        [
+         415,
+         1094
+        ],
+        [
+         415,
+         1121
+        ]
+       ]
+      }
+     }
+    ]
+   }
+  ]
+ }
+}

@@ -1,0 +1,239 @@
+{
+ "file": "20261105_150652_mcu_03.jpg",
+ "bytes": 2409950,
+ "sha256": "87fb2b2bf06d0e42647212aaa28d6d7a92e80d07d74978e08584828a26f003a8",
+ "mode": "mcu",
+ "transfer": {
+  "width": 2160,
+  "height": 3840,
+  "settings": {},
+  "source": "video-frame",
+  "mime": "image/jpeg",
+  "sha256": "87fb2b2bf06d0e42647212aaa28d6d7a92e80d07d74978e08584828a26f003a8"
+ },
+ "photo_check": {
+  "ok": true,
+  "reasons": [],
+  "width": 2160,
+  "height": 3840,
+  "board_quad": null,
+  "board_score": 0.0,
+  "card_quad": [
+   [
+    422.4,
+    1255.2
+   ],
+   [
+    1809.6,
+    1255.2
+   ],
+   [
+    1809.6,
+    2652.0
+   ],
+   [
+    422.4,
+    2652.0
+   ]
+  ],
+  "chip_px": 428.0,
+  "chip_blur": 0.157,
+  "chip_glare": 0.0,
+  "chip_contrast": 11.0,
+  "frame_blur": 0.228,
+  "needs_closeup": false,
+  "ms": 116
+ },
+ "last_preview": {
+  "meta": {
+   "seq": 524,
+   "guide": [
+    0.19,
+    0.325625,
+    0.62,
+    0.34875
+   ],
+   "video_w": 2160,
+   "video_h": 3840,
+   "photo_w": 2160,
+   "photo_h": 3840,
+   "crop_rect": [
+    0.12268518518518519,
+    0.28671875,
+    0.7712962962962963,
+    0.4361979166666667
+   ],
+   "crop_scale": 0.6113432835820896,
+   "gyro": 2.4743837254592287,
+   "t_ms": 1793887610979
+  },
+  "report": {
+   "metrics": [
+    {
+     "name": "exposure",
+     "label": "Exposure",
+     "level": "good",
+     "text": "p98 241",
+     "value": 241.0,
+     "blocking": true
+    },
+    {
+     "name": "glare",
+     "label": "Glare (board)",
+     "level": "good",
+     "text": "0.9%",
+     "value": 0.0086,
+     "blocking": false
+    },
+    {
+     "name": "noise",
+     "label": "Noise",
+     "level": "good",
+     "text": "\u03c3 3.3",
+     "value": 3.3063,
+     "blocking": false
+    },
+    {
+     "name": "motion",
+     "label": "Steadiness",
+     "level": "good",
+     "text": "0.8 %/s, gyro 2\u00b0/s",
+     "value": 0.0083,
+     "blocking": true
+    },
+    {
+     "name": "sharp_frame",
+     "label": "Sharpness (view)",
+     "level": "good",
+     "text": "0.15",
+     "value": 0.1486,
+     "blocking": false
+    },
+    {
+     "name": "chip_px",
+     "label": "MCU size in photo",
+     "level": "good",
+     "text": "429 px (need 250)",
+     "value": 428.5367,
+     "blocking": true
+    },
+    {
+     "name": "focus",
+     "label": "MCU focus",
+     "level": "good",
+     "text": "0.15",
+     "value": 0.1485,
+     "blocking": true
+    },
+    {
+     "name": "chip_glare",
+     "label": "Glare on MCU",
+     "level": "good",
+     "text": "0.0%",
+     "value": 0.0,
+     "blocking": true
+    },
+    {
+     "name": "marking",
+     "label": "Marking contrast",
+     "level": "warn",
+     "text": "11",
+     "value": 11.0,
+     "blocking": false
+    }
+   ],
+   "instruction": "Hold still",
+   "hints": [
+    "Marking is faint \u2014 light from the side makes laser marking visible"
+   ],
+   "board_quad": null,
+   "card_quad": [
+    [
+     0.1889,
+     0.3219
+    ],
+    [
+     0.8296,
+     0.3219
+    ],
+    [
+     0.8296,
+     0.6854
+    ],
+    [
+     0.1889,
+     0.6854
+    ]
+   ],
+   "chip_quad": [
+    [
+     0.3753,
+     0.5057
+    ],
+    [
+     0.5172,
+     0.4258
+    ],
+    [
+     0.6565,
+     0.5042
+    ],
+    [
+     0.5146,
+     0.584
+    ]
+   ],
+   "crop_request": [
+    0.1248,
+    0.2855,
+    0.7689,
+    0.4363
+   ],
+   "focus_point": [
+    0.5159,
+    0.5049
+   ],
+   "chip_px_photo": 429,
+   "score": 0.94,
+   "passing": true,
+   "ms": 54.8
+  }
+ },
+ "phone": {
+  "video_w": 2160,
+  "video_h": 3840,
+  "photo_w": 2160,
+  "photo_h": 3840,
+  "image_capture": false,
+  "ua": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5.2 Mobile/15E148 Safari/604.1",
+  "torch": true,
+  "focus": ""
+ },
+ "recognition": {
+  "board": {
+   "key": "uni-ds-v8",
+   "name": "UNI-DS v8",
+   "pid": null,
+   "confidence": 1.0
+  },
+  "mcu": {
+   "key": "STM32F373VC",
+   "name": "STM32F373VC",
+   "pid": null,
+   "confidence": 0.95
+  },
+  "mcu_card": {
+   "key": "mcu-card-22-for-stm32-stm32f373vc",
+   "name": "MCU CARD 22 for STM32 STM32F373VC",
+   "pid": "MIKROE-3531",
+   "confidence": 1.0
+  },
+  "mcu_card_layout": {
+   "key": "mcu-card-22-for-stm32",
+   "title": "MCU CARD 22 for STM32",
+   "cards": 1
+  },
+  "clicks": [],
+  "needs_user": []
+ }
+}

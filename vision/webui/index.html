@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Board Recognition</title>
+<style>
+/* Styled after NECTO Studio 7.5 (dark): near-black chrome, flat panels with
+   hairline separators, icon rail on the left, explorer tree on the right,
+   Issues / Output panel at the bottom, MikroE yellow for the active state. */
+:root{
+  --chrome:#141414; --bg:#1b1b1b; --editor:#1e1e1e; --panel:#1f1f1f; --panel-2:#252525; --hover:#2a2a2a; --sel:#2d2d2d;
+  --line:#2b2b2b; --line-2:#3a3a3a;
+  --ink:#d6d6d6; --ink-2:#a0a0a0; --ink-3:#6f6f6f;
+  --yellow:#f5c400; --orange:#f0a028; --blue:#4a8cff; --blue-bg:#1b2a45; --green:#41c463; --green-bg:#1a3222;
+  --red:#e5534b; --red-bg:#3a1d1b; --amber:#e8a93a; --amber-bg:#3a2d14;
+  --board:#41c463; --mcu:#f0a028; --crop:#d16ad6; --click:#4a8cff; --roi:#2ec7e6;
+  --mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  --sans:"Inter","Segoe UI",system-ui,-apple-system,Roboto,Ubuntu,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font:13px/1.45 var(--sans);display:flex;flex-direction:column;overflow:hidden}
+button,select,input{font:inherit;color:inherit}
+[hidden]{display:none !important}
+::-webkit-scrollbar{width:10px;height:10px} ::-webkit-scrollbar-thumb{background:#333;border:3px solid transparent;background-clip:padding-box;border-radius:6px} ::-webkit-scrollbar-track{background:transparent}
+
+/* ---------------------------------------------------------------- chrome */
+.titlebar{height:30px;display:flex;align-items:center;justify-content:center;background:var(--chrome);font-weight:600;font-size:13px;letter-spacing:.1px;position:relative;flex:none}
+.titlebar span{color:var(--ink-3);font-weight:500;margin-left:6px}
+.menubar{display:flex;align-items:center;gap:2px;padding:0 10px;height:38px;background:var(--bg);border-bottom:1px solid var(--line);flex:none;overflow-x:auto}
+.menubar .mi{display:flex;align-items:center;gap:6px;padding:4px 10px;border-radius:4px;color:var(--ink);white-space:nowrap}
+.menubar .mi:hover{background:var(--hover)}
+.menubar .mi u{text-decoration-color:var(--ink-3);text-underline-offset:3px}
+.menubar .sep{width:1px;height:18px;background:var(--line-2);margin:0 6px}
+.menubar .spacer{flex:1}
+select,input[type=text],input[type=number]{background:var(--panel-2);border:1px solid var(--line-2);border-radius:4px;padding:3px 6px;min-height:26px;color:var(--ink);outline:none}
+select:focus,input:focus{border-color:var(--blue)}
+input[type=checkbox]{accent-color:var(--yellow)}
+.btn{border:1px solid var(--line-2);background:var(--panel-2);border-radius:4px;padding:3px 12px;min-height:26px;cursor:pointer;white-space:nowrap;color:var(--ink)}
+.btn:hover{background:var(--hover);border-color:#4a4a4a}
+.btn.primary{background:var(--yellow);border-color:var(--yellow);color:#161616;font-weight:600}
+.btn.primary:hover{background:#ffd21f}
+.btn:disabled{opacity:.4;cursor:default}
+.btn.on{border-color:var(--yellow);color:var(--yellow)}
+.btn.sm{min-height:22px;padding:1px 8px;font-size:12px}
+
+/* ---------------------------------------------------------------- layout */
+.workspace{flex:1;display:grid;grid-template-columns:56px auto minmax(0,1fr) 380px;min-height:0}
+.rail{background:var(--bg);border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;padding:8px 0;gap:6px}
+.rail button{width:56px;height:52px;border:0;background:transparent;color:var(--ink-2);cursor:pointer;display:grid;place-items:center;position:relative}
+.rail button svg{width:24px;height:24px}
+.rail button:hover{color:var(--ink)}
+.rail button.on{color:var(--yellow)}
+.rail button.on::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:3px;border-radius:0 3px 3px 0;background:var(--yellow)}
+.rail button:disabled{opacity:.35;cursor:default}
+.rail .grow{flex:1}
+
+#queue{width:240px;border-right:1px solid var(--line);background:var(--panel);overflow:auto}
+#queue.collapsed{display:none}
+.ph{display:flex;align-items:center;justify-content:space-between;height:40px;padding:0 10px 0 12px;border-bottom:1px solid var(--line);color:var(--blue);font-size:13px;white-space:nowrap;gap:8px}
+.sect{display:flex;align-items:center;gap:6px;padding:7px 12px;color:var(--ink);font-size:13px;cursor:pointer;user-select:none}
+.sect:hover{background:var(--hover)}
+.chev{width:12px;height:12px;flex:none;color:var(--ink-2);transition:transform .12s}
+.sect.closed .chev{transform:rotate(-90deg)}
+.sect.closed + .sbody{display:none}
+.sect .cnt{margin-left:auto;color:var(--ink-3);font-size:12px}
+.qitem{display:grid;grid-template-columns:40px 1fr;gap:10px;padding:6px 12px 6px 24px;cursor:pointer;align-items:center}
+.qitem:hover{background:var(--hover)}
+.qitem.sel{background:var(--sel)}
+.qitem img{width:40px;height:40px;object-fit:cover;border-radius:3px;background:var(--line)}
+.qname{font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qsum{font-size:11.5px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;vertical-align:1px;background:var(--ink-3)}
+.dot.ok{background:var(--green)} .dot.ask{background:var(--amber)} .dot.err{background:var(--red)}
+.spin{display:inline-block;width:10px;height:10px;border:2px solid var(--line-2);border-top-color:var(--yellow);border-radius:50%;animation:sp .8s linear infinite;margin-right:5px;vertical-align:-1px}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* ---------------------------------------------------------------- centre */
+#center{display:grid;grid-template-rows:auto minmax(0,1fr) 210px;min-width:0;min-height:0;background:var(--editor)}
+.tabs{display:flex;align-items:stretch;height:40px;border-bottom:1px solid var(--line);background:var(--bg);min-width:0}
+.tab{display:flex;align-items:center;gap:10px;padding:0 14px;color:var(--orange);border-bottom:2px solid var(--orange);max-width:320px;white-space:nowrap;overflow:hidden}
+.tab span{overflow:hidden;text-overflow:ellipsis}
+.tab button{border:0;background:transparent;color:var(--ink-2);cursor:pointer;padding:0;line-height:1;font-size:15px}
+.tab button:hover{color:var(--ink)}
+.tab.empty{color:var(--ink-3);border-bottom-color:transparent}
+.vbar{margin-left:auto;display:flex;gap:4px;align-items:center;padding:0 8px;flex-wrap:nowrap;overflow-x:auto}
+.ib{border:0;background:transparent;color:var(--ink-2);height:28px;padding:0 8px;border-radius:4px;cursor:pointer;white-space:nowrap;font-size:12px;display:flex;align-items:center;gap:5px}
+.ib:hover{background:var(--hover);color:var(--ink)}
+.ib.on{color:var(--yellow)}
+.ib svg{width:16px;height:16px}
+.hint{font-size:12px;color:var(--yellow);padding:0 6px;white-space:nowrap}
+.legend{display:flex;gap:12px;font-size:11.5px;color:var(--ink-2);padding:6px 14px;border-bottom:1px solid var(--line);background:var(--editor)}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.viewer{display:flex;flex-direction:column;min-height:0}
+.stage{flex:1;position:relative;display:flex;align-items:center;justify-content:center;padding:14px;min-height:0;overflow:auto}
+.frame{position:relative;max-width:100%;max-height:100%;line-height:0}
+.frame img{max-width:100%;max-height:calc(100vh - 380px);min-height:120px;display:block;border-radius:2px}
+.frame svg{position:absolute;inset:0;width:100%;height:100%}
+.frame.drawing,.frame.picking{cursor:crosshair;user-select:none}
+.drop{border:1px dashed var(--line-2);border-radius:8px;padding:44px 36px;text-align:center;color:var(--ink-2);max-width:500px;cursor:pointer;background:var(--panel)}
+.drop:hover{border-color:var(--yellow)}
+.drop b{display:block;font-size:16px;color:var(--ink);margin-bottom:6px;font-weight:600}
+.drop small{display:block;margin-top:14px;color:var(--ink-3)}
+.drop svg{width:40px;height:40px;color:var(--yellow);margin-bottom:12px}
+#dragcover{position:fixed;inset:0;background:rgba(245,196,0,.10);border:2px dashed var(--yellow);display:none;align-items:center;justify-content:center;z-index:50;font-size:20px;font-weight:600;color:var(--ink);backdrop-filter:blur(2px)}
+#dragcover.show{display:flex}
+
+/* bottom panel = NECTO "Issues | Compile Output | Application Output" */
+.bottom{border-top:1px solid var(--line);display:flex;flex-direction:column;min-height:0;background:var(--editor)}
+.btabs{display:flex;gap:2px;padding:0 8px;height:36px;align-items:stretch;border-bottom:1px solid var(--line)}
+.btabs button{border:0;background:transparent;color:var(--ink);padding:0 10px;cursor:pointer;border-bottom:2px solid transparent}
+.btabs button.on{color:var(--orange);border-bottom-color:var(--orange)}
+.bfilter{display:flex;gap:6px;padding:8px 12px 4px;align-items:center}
+.bfilter .fi{width:22px;height:22px;display:grid;place-items:center;border:1px solid var(--line-2);border-radius:3px;color:var(--ink-2)}
+.bfilter .fi.e{color:var(--red);border-color:#5a2a27} .bfilter .fi.w{color:var(--amber)} .bfilter .fi.i{color:var(--blue)}
+.bfilter .fi svg{width:14px;height:14px}
+.bbody{flex:1;overflow:auto;padding:2px 0 8px}
+.issue{display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:start;padding:7px 16px;font-size:13px}
+.issue:hover{background:var(--hover)}
+.issue svg{width:16px;height:16px;margin-top:1px}
+.issue .src{color:var(--ink-3);font-size:11.5px;font-family:var(--mono)}
+.issue.i svg{color:var(--blue)} .issue.w svg{color:var(--amber)} .issue.e svg{color:var(--red)} .issue.ok svg{color:var(--green)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;font-size:12.5px;padding:8px 16px}
+.kv dt{color:var(--ink-2)} .kv dd{margin:0;font-family:var(--mono);font-size:12px}
+pre.json{font:11.5px/1.45 var(--mono);white-space:pre-wrap;word-break:break-all;margin:0;padding:8px 16px;color:#c8c8c8}
+
+/* ---------------------------------------------------------------- right explorer */
+#results{border-left:1px solid var(--line);background:var(--panel);overflow:auto;min-width:0}
+.ptabs{display:flex;gap:4px;margin-left:auto}
+.ptabs i{width:30px;height:30px;display:grid;place-items:center;color:var(--ink);border-bottom:2px solid transparent}
+.ptabs i.on{border-bottom-color:var(--blue)}
+.ptabs svg{width:18px;height:18px}
+.filter{margin:6px 10px 4px;padding:5px 8px;border:1px solid var(--line);border-radius:3px;color:var(--ink-3);font-size:12.5px}
+.sbody{padding:0 0 6px}
+.node{display:flex;align-items:center;gap:8px;padding:5px 12px 5px 30px;font-size:13px;min-width:0}
+.node .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.node .sc{margin-left:auto;font-family:var(--mono);font-size:12px;color:var(--ink-2)}
+.node.top .nm{color:var(--ink);font-weight:600}
+.node.alt .nm{color:var(--ink-2)}
+.ylw{color:var(--yellow)}
+.badge{font-size:11px;padding:1px 6px;border-radius:3px;white-space:nowrap;flex:none}
+.badge.ok{background:var(--green-bg);color:var(--green);border:1px solid #2b5a38}
+.badge.ask{background:var(--amber-bg);color:var(--amber);border:1px solid #5a4620}
+.badge.bad{background:var(--red-bg);color:var(--red);border:1px solid #5a2a27}
+.badge.blue{background:var(--blue-bg);color:var(--blue);border:1px solid #2f4e86}
+.badge.skip{background:var(--panel-2);color:var(--ink-2);border:1px solid var(--line-2)}
+.why{padding:0 14px 6px 30px;color:var(--ink-2);font-size:12px}
+.bar{height:3px;background:var(--line);border-radius:2px;margin:2px 14px 4px 30px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ink-3)}
+.bar.top i{background:var(--yellow)}
+.rd{font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+.chips{display:flex;flex-wrap:wrap;gap:4px;padding:2px 14px 6px 30px}
+.chip{font-size:11px;padding:1px 6px;border-radius:3px;background:var(--panel-2);border:1px solid var(--line-2);font-family:var(--mono);color:var(--ink-2)}
+.rois{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:4px 12px 8px 30px}
+.roi{background:var(--editor);border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.roi img{width:100%;height:84px;object-fit:contain;display:block;background:#111}
+.roi div{font-size:11px;padding:3px 6px;color:var(--ink-2);display:flex;justify-content:space-between;gap:4px}
+.crop{padding:6px 14px 8px 30px}
+.crop .ct{font-size:12px;color:var(--ink-2);margin-bottom:5px}
+.crop img{max-width:100%;display:block;border-radius:2px;border:1px solid var(--line);background:#fff;margin-bottom:4px}
+.crop .best{font-family:var(--mono);font-size:12.5px;color:var(--yellow)}
+details summary{cursor:pointer;color:var(--ink-2);font-size:12px;margin-top:4px}
+.click{padding:4px 0 6px}
+.click + .click{border-top:1px solid var(--line)}
+.form{display:grid;grid-template-columns:96px 1fr;gap:7px;align-items:center;font-size:12.5px;padding:4px 14px 10px 30px}
+.form .full{grid-column:1/-1}
+.muted{color:var(--ink-3);font-size:12px}
+.empty-r{padding:18px 16px;color:var(--ink-3);font-size:13px}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#2d2d2d;border:1px solid var(--line-2);color:var(--ink);padding:8px 14px;border-radius:4px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:60}
+.toast.show{opacity:1}
+
+@media (max-width:1100px){
+  body{overflow:auto}
+  html,body{height:auto;min-height:100%}
+  .workspace{grid-template-columns:1fr;flex:none}
+  .rail{flex-direction:row;justify-content:flex-start;padding:0 6px;border-right:0;border-bottom:1px solid var(--line);overflow-x:auto}
+  .rail button{height:44px;width:48px}
+  .rail button.on::before{left:10px;right:10px;top:auto;bottom:0;width:auto;height:3px;border-radius:3px 3px 0 0}
+  .rail .grow{display:none}
+  #queue{width:auto;max-height:240px;border-right:0;border-bottom:1px solid var(--line)}
+  #center{grid-template-rows:auto auto auto}
+  .stage{min-height:300px}
+  .frame img{max-height:70vh}
+  .bottom{max-height:320px}
+  #results{border-left:0;border-top:1px solid var(--line)}
+  .legend{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="i-chev" viewBox="0 0 12 12"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-info" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 7.2v3.8M8 5v.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-warn" viewBox="0 0 16 16"><path d="M8 2.2l6.2 11H1.8z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M8 6.5v3.2M8 11.4v.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-err" viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 5v4M8 11v.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-ok" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M5.2 8.2l2 2 3.6-4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-board" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M7 6V4m4 2V4m4 2V4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-photos" viewBox="0 0 24 24"><rect x="3" y="5" width="15" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M6 21h13a2 2 0 002-2V8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M5 15l3.5-3.5 3 3 2-2L17 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    <symbol id="i-add" viewBox="0 0 24 24"><path d="M12 16V5m0 0l-4 4m4-4l4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v3a2 2 0 002 2h12a2 2 0 002-2v-3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+    <symbol id="i-playall" viewBox="0 0 24 24"><path d="M5 5v14l9-7z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M13 5v14l8-7z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    <symbol id="i-tree" viewBox="0 0 24 24"><rect x="3" y="3" width="6" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="15" y="9" width="6" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="15" y="17" width="5" height="5" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M6 9v10h9M6 12h9" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol id="i-chip" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M9 3v3m3-3v3m3-3v3M9 18v3m3-3v3m3-3v3M3 9h3m-3 3h3m-3 3h3M18 9h3m-3 3h3m-3 3h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></symbol>
+    <symbol id="i-json" viewBox="0 0 24 24"><path d="M8 4c-2 0-2 1.5-2 3s0 3-2 5c2 2 2 3.5 2 5s0 3 2 3M16 4c2 0 2 1.5 2 3s0 3 2 5c-2 2-2 3.5-2 5s0 3-2 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-corners" viewBox="0 0 16 16"><path d="M2 5V2h3M11 2h3v3M14 11v3h-3M5 14H2v-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></symbol>
+    <symbol id="i-box" viewBox="0 0 16 16"><rect x="2.5" y="2.5" width="11" height="11" rx="1" fill="none" stroke="currentColor" stroke-width="1.3" stroke-dasharray="2.5 1.8"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 16 16"><path d="M1.5 8s2.4-4.5 6.5-4.5S14.5 8 14.5 8 12.1 12.5 8 12.5 1.5 8 1.5 8z" fill="none" stroke="currentColor" stroke-width="1.3"/><circle cx="8" cy="8" r="2" fill="none" stroke="currentColor" stroke-width="1.3"/></symbol>
+  </defs>
+</svg>
+
+<div class="titlebar">Board Recognition<span id="ver">· NECTO plugin</span></div>
+<nav class="menubar" aria-label="Settings">
+  <label class="mi"><span><u>O</u>CR</span><select id="o-backend"></select></label>
+  <label class="mi"><span><u>R</u>efine</span><select id="o-refine"><option value="auto">auto</option><option value="always">always</option><option value="off">off</option></select></label>
+  <label class="mi"><span><u>U</u>pscaler</span><select id="o-upscaler"></select></label>
+  <label class="mi" id="o-clicks-l" hidden title="Click boards: DINOv2 retrieval over the gallery"><span><u>C</u>licks</span><select id="o-clicks"><option value="boxes">drawn boxes</option><option value="photo">whole photo = 1 Click</option><option value="off">off</option></select></label>
+  <span class="sep"></span>
+  <label class="mi"><input type="checkbox" id="o-quad"> Auto perspective</label>
+  <span class="spacer"></span>
+  <button class="btn" id="b-rerun" disabled title="Run the selected photo again with these settings">Re-run</button>
+  <button class="btn primary" id="b-add" style="margin-left:6px">Add photos</button>
+  <input type="file" id="file" accept="image/*,.heic,.heif" multiple hidden>
+</nav>
+
+<div class="workspace">
+  <nav class="rail" aria-label="Views">
+    <button class="on" id="r-photos" title="Photos"><svg><use href="#i-photos"/></svg></button>
+    <button id="r-add" title="Add photos"><svg><use href="#i-add"/></svg></button>
+    <button id="r-run" title="Re-run selected" disabled><svg><use href="#i-play"/></svg></button>
+    <button id="b-rerun-all" title="Re-run all" disabled><svg><use href="#i-playall"/></svg></button>
+    <span class="grow"></span>
+    <button id="r-json" title="Raw JSON"><svg><use href="#i-json"/></svg></button>
+  </nav>
+
+  <aside id="queue">
+    <div class="ph">Photos <span class="muted" id="qcount"></span></div>
+    <div class="sect" id="qsect"><svg class="chev"><use href="#i-chev"/></svg>This session<span class="cnt" id="qcnt">0</span></div>
+    <div class="sbody"><div id="qlist"></div><p class="muted" style="padding:2px 24px" id="qempty">Nothing yet.</p></div>
+  </aside>
+
+  <section id="center">
+    <div class="tabs">
+      <div class="tab empty" id="tab"><span id="tabname">No photo</span></div>
+      <div class="vbar" id="vbar" hidden>
+        <button class="ib on" id="v-orig" title="Original photo">Original</button>
+        <button class="ib" id="v-pre" title="Processed image the OCR saw">Processed</button>
+        <button class="ib on" id="v-boxes" title="Show boxes"><svg><use href="#i-eye"/></svg>Boxes</button>
+        <button class="ib" id="v-pick" title="Click the 4 corners of the board, then it re-runs with perspective correction"><svg><use href="#i-corners"/></svg>4 corners</button>
+        <button class="ib" id="v-clearq" hidden>Clear perspective</button>
+        <button class="ib" id="v-draw" hidden title="Drag a box around each Click board; it re-runs after each box"><svg><use href="#i-box"/></svg>Click boxes</button>
+        <button class="ib" id="v-clearb" hidden>Clear boxes</button>
+        <span class="hint" id="pickhint"></span>
+      </div>
+    </div>
+    <div class="viewer">
+      <div class="legend" id="legend" hidden><span><i style="background:var(--board)"></i>board name</span><span><i style="background:var(--roi)"></i>layout area</span><span><i style="background:#ff5fd2"></i>MCU card (located)</span><span><i style="background:var(--mcu)"></i>MCU marking</span><span><i style="background:var(--crop)"></i>refined crop</span><span id="lg-click" hidden><i style="background:var(--click)"></i>Click</span></div>
+      <div class="stage" id="stage">
+        <div class="drop" id="drop">
+          <svg viewBox="0 0 24 24"><use href="#i-add"/></svg>
+          <b>Drop photos of a development board</b>
+          Several at once is fine. Or click to choose, or paste with Ctrl+V.
+          <small>Runs locally on this computer. Nothing is uploaded anywhere.</small>
+        </div>
+      </div>
+    </div>
+    <div class="bottom">
+      <div class="btabs"><button class="on" data-t="issues">Issues</button><button data-t="photo">Photo &amp; timing</button><button data-t="json">Raw JSON</button></div>
+      <div id="bpanel" class="bbody"></div>
+    </div>
+  </section>
+
+  <aside id="results">
+    <div class="ph">Recognition explorer
+      <div class="ptabs"><i class="on" title="Result"><svg><use href="#i-tree"/></svg></i><i title="MCU"><svg><use href="#i-chip"/></svg></i><i title="Board"><svg><use href="#i-board"/></svg></i></div>
+    </div>
+    <div id="rbody"><div class="empty-r">Results appear here.</div></div>
+  </aside>
+</div>
+<div id="dragcover">Drop to recognise</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const S = {info:null, items:[], sel:null, view:"orig", boxes:true, picking:false, pts:[], busy:false, drawing:false, drag:null, btab:"issues", closed:{}};
+let seq = 0;
+const ico = (id, cls="") => `<svg class="${cls}"><use href="#i-${id}"/></svg>`;
+
+function toast(msg){ const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2600); }
+
+function opts(){
+  return {backend:$("#o-backend").value, refine:$("#o-refine").value, upscaler:$("#o-upscaler").value,
+          auto_perspective:$("#o-quad").checked?"1":"0", clicks:$("#o-clicks").value};
+}
+
+async function init(){
+  try{
+    const r = await fetch("/api/info"); S.info = await r.json();
+    $("#ver").textContent = "· NECTO plugin v" + S.info.version;
+    const be = $("#o-backend");
+    be.innerHTML = `<option value="auto">auto (${esc(S.info.backends[0]||"none")})</option>` + S.info.backends.map(b=>`<option>${esc(b)}</option>`).join("");
+    $("#o-upscaler").innerHTML = S.info.upscalers.map(u=>`<option>${esc(u)}</option>`).join("");
+    if(!S.info.backends.length) toast("No OCR engine installed — see README");
+    if(S.info.clicks){ $("#o-clicks-l").hidden=false; $("#lg-click").hidden=false; }
+  }catch(e){ toast("Server not reachable"); }
+  renderBottom();
+}
+
+// ------------------------------------------------------------------ input
+function addFiles(files){
+  const list = [...files].filter(f => f.type.startsWith("image/") || /\.(heic|heif|jpe?g|png|bmp|tiff?|webp)$/i.test(f.name));
+  if(!list.length){ toast("No image files in that drop"); return; }
+  for(const f of list){
+    const it = {key:++seq, file:f, name:f.name || `pasted-${seq}.png`, status:"queued", data:null, error:null, quad:null, cboxes:[],
+                thumb: URL.createObjectURL(f)};
+    S.items.push(it);
+    if(S.sel==null) S.sel = it.key;
+  }
+  renderQueue(); renderAll(); pump();
+}
+
+async function pump(){
+  if(S.busy) return;
+  const it = S.items.find(i => i.status==="queued");
+  if(!it) return;
+  S.busy = true; it.status = "running"; renderQueue(); if(it.key===S.sel) renderAll();
+  try{
+    let r;
+    const o = {...opts()};
+    if(it.quad) o.quad = it.quad.flat().join(",");
+    if(it.cboxes.length) o.click_boxes = it.cboxes.map(b=>b.map(Math.round).join(",")).join(";");
+    if(it.data && it.data.id){
+      r = await fetch("/api/rerun", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({id:it.data.id, options:o})});
+    }else{
+      r = await fetch("/api/recognize?" + new URLSearchParams(o), {method:"POST", headers:{"X-Filename":encodeURIComponent(it.name)}, body:it.file});
+    }
+    const j = await r.json();
+    if(!r.ok || j.error){ it.status="error"; it.error=j.error||r.statusText; }
+    else { it.status="done"; it.data=j; it.error=null; }
+  }catch(e){ it.status="error"; it.error=String(e); }
+  S.busy = false; renderQueue(); if(it.key===S.sel) renderAll();
+  pump();
+}
+
+function rerun(it){ if(!it) return; it.status="queued"; renderQueue(); renderAll(); pump(); }
+
+// ------------------------------------------------------------------ queue
+function summary(d){
+  const m = d.result.manifest;
+  const b = m.board ? m.board.name : "board ?";
+  const c = m.mcu ? m.mcu.name : "MCU ?";
+  const k = (m.clicks||[]).length ? ` · ${m.clicks.filter(x=>x.outcome==="accept").length}/${m.clicks.length} Clicks` : "";
+  return `${b} · ${c}${k}`;
+}
+function renderQueue(){
+  $("#qempty").hidden = S.items.length>0;
+  $("#qcnt").textContent = S.items.length;
+  $("#b-rerun-all").disabled = !S.items.some(i=>i.data);
+  $("#qlist").innerHTML = S.items.map(it=>{
+    let st;
+    if(it.status==="running") st = `<span class="spin"></span>working…`;
+    else if(it.status==="queued") st = `<span class="dot"></span>queued`;
+    else if(it.status==="error") st = `<span class="dot err"></span>${esc(it.error)}`;
+    else { const n=it.data.result.manifest.needs_user.length; st = `<span class="dot ${n?"ask":"ok"}"></span>${esc(summary(it.data))}`; }
+    return `<div class="qitem ${it.key===S.sel?"sel":""}" data-k="${it.key}"><img src="${it.thumb}" alt=""><div><div class="qname">${esc(it.name)}</div><div class="qsum">${st}</div></div></div>`;
+  }).join("");
+  document.querySelectorAll(".qitem").forEach(el=>el.onclick=()=>{ S.sel=+el.dataset.k; S.picking=false; S.pts=[]; renderQueue(); renderAll(); });
+}
+
+// ------------------------------------------------------------------ viewer
+function current(){ return S.items.find(i=>i.key===S.sel); }
+
+function renderTab(){
+  const it = current();
+  $("#tab").classList.toggle("empty", !it);
+  $("#tabname").textContent = it ? it.name : "No photo";
+  const old = $("#tab button"); if(old) old.remove();
+  if(it){
+    const x = document.createElement("button"); x.textContent = "×"; x.title = "Close photo";
+    x.onclick = () => { const i = S.items.indexOf(it); S.items.splice(i,1);
+      S.sel = S.items.length ? S.items[Math.min(i, S.items.length-1)].key : null; renderQueue(); renderAll(); };
+    $("#tab").appendChild(x);
+  }
+}
+
+function renderViewer(){
+  const it = current();
+  renderTab();
+  const has = !!(it && it.data);
+  $("#vbar").hidden = !has; $("#legend").hidden = !has;
+  $("#b-rerun").disabled = $("#r-run").disabled = !has || S.busy;
+  if(!it){ $("#stage").innerHTML = ""; $("#stage").appendChild(dropEl); return; }
+  if(!it.data){
+    $("#stage").innerHTML = `<div class="frame"><img src="${it.thumb}" style="opacity:.45"></div>`;
+    return;
+  }
+  const d = it.data, pre = S.view==="pre" && !S.picking;
+  const fr = pre ? d.processed : d.original;
+  $("#v-orig").classList.toggle("on", !pre); $("#v-pre").classList.toggle("on", pre);
+  $("#v-boxes").classList.toggle("on", S.boxes);
+  $("#v-pick").classList.toggle("on", S.picking);
+  $("#v-clearq").hidden = !it.quad;
+  const clicksOn = S.info && S.info.clicks && $("#o-clicks").value==="boxes";
+  $("#v-draw").hidden = !clicksOn; $("#v-draw").classList.toggle("on", S.drawing);
+  $("#v-clearb").hidden = !(clicksOn && it.cboxes.length);
+  $("#pickhint").textContent = S.picking ? `click corner ${S.pts.length+1} of 4` : S.drawing ? "drag a box around one Click" : (it.quad ? "perspective corrected" : "");
+  const lw = Math.max(fr.w, fr.h) / 450;
+  const col = {board:"#41c463", mcu:"#f0a028", crop:"#d16ad6", click:"#4a8cff", roi:"#2ec7e6", card:"#ff5fd2"};
+  let shapes = "";
+  if(S.boxes && !S.picking){
+    for(const o of d.overlays){
+      const p = pre ? o.pre : o.orig;
+      shapes += `<polygon points="${p.map(q=>q.join(",")).join(" ")}" fill="none" stroke="${col[o.kind]}" stroke-width="${lw*(o.kind==="crop"?1:1.6)}" ${o.kind==="crop"||o.kind==="roi"?`stroke-dasharray="${lw*4} ${lw*3}"`:""}/>`;
+      if(o.kind==="crop"||o.kind==="click"||o.kind==="roi"||o.kind==="card"){ const x=Math.min(...p.map(q=>q[0])), y=Math.min(...p.map(q=>q[1]));
+        shapes += `<text x="${x}" y="${y - lw*2}" fill="${col[o.kind]}" stroke="#000" stroke-width="${lw*.6}" paint-order="stroke" font-size="${lw*9}" font-family="Inter,Segoe UI,sans-serif" font-weight="700">${esc(o.label)}</text>`; }
+    }
+  }
+  if(!pre){
+    const done = new Set((d.result.clicks||[]).map(c=>JSON.stringify((c.box||[]).map(Math.round))));
+    const pend = it.cboxes.filter(b=>!done.has(JSON.stringify(b.map(Math.round))));
+    if(S.drag) pend.push(S.drag);
+    for(const [x,y,w,h] of pend) shapes += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="rgba(74,140,255,.10)" stroke="${col.click}" stroke-width="${lw*1.6}" stroke-dasharray="${lw*5} ${lw*3}"/>`;
+  }
+  const pts = S.picking ? S.pts : (it.quad && !pre ? it.quad : []);
+  if(pts.length){
+    shapes += `<polygon points="${pts.map(q=>q.join(",")).join(" ")}" fill="rgba(245,196,0,.12)" stroke="#f5c400" stroke-width="${lw*1.5}"/>`;
+    shapes += pts.map(q=>`<circle cx="${q[0]}" cy="${q[1]}" r="${lw*4}" fill="#f5c400"/>`).join("");
+  }
+  $("#stage").innerHTML = `<div class="frame ${S.picking?"picking":""} ${S.drawing?"drawing":""}" id="frame"><img src="${fr.src}" alt=""><svg viewBox="0 0 ${fr.w} ${fr.h}" preserveAspectRatio="none">${shapes}</svg></div>`;
+  if(S.drawing){
+    const fr2 = $("#frame");
+    const at = ev => { const r = fr2.getBoundingClientRect(); return [(ev.clientX-r.left)/r.width*d.original.w, (ev.clientY-r.top)/r.height*d.original.h]; };
+    let start = null;
+    fr2.onpointerdown = ev => { ev.preventDefault(); fr2.setPointerCapture(ev.pointerId); start = at(ev); };
+    fr2.onpointermove = ev => { if(!start) return; const p = at(ev);
+      S.drag = [Math.min(start[0],p[0]), Math.min(start[1],p[1]), Math.abs(p[0]-start[0]), Math.abs(p[1]-start[1])];
+      const svg = fr2.querySelector("svg"); let r = svg.querySelector("#dragbox");
+      if(!r){ r = document.createElementNS("http://www.w3.org/2000/svg","rect"); r.id="dragbox"; r.setAttribute("fill","rgba(74,140,255,.12)"); r.setAttribute("stroke",col.click); r.setAttribute("stroke-width", lw*1.6); svg.appendChild(r); }
+      r.setAttribute("x",S.drag[0]); r.setAttribute("y",S.drag[1]); r.setAttribute("width",S.drag[2]); r.setAttribute("height",S.drag[3]); };
+    fr2.onpointerup = () => { const b = S.drag; start = null; S.drag = null;
+      if(b && b[2] > 8 && b[3] > 8){ it.cboxes.push(b.map(Math.round)); rerun(it); } else renderViewer(); };
+  }
+  if(S.picking){
+    $("#frame").onclick = ev => {
+      const r = ev.currentTarget.getBoundingClientRect();
+      S.pts.push([(ev.clientX-r.left)/r.width*d.original.w, (ev.clientY-r.top)/r.height*d.original.h]);
+      if(S.pts.length===4){ it.quad = S.pts.map(p=>p.map(Math.round)); S.picking=false; S.pts=[]; rerun(it); }
+      else renderViewer();
+    };
+  }
+}
+
+// ------------------------------------------------------------------ bottom panel
+function issuesOf(it){
+  if(!it) return [["i","Drop photos of a development board to start.",""]];
+  if(it.status==="error") return [["e", it.error, "server"]];
+  if(!it.data) return [["i", it.status==="running" ? "Recognising… Please wait." : "Waiting in queue.", ""]];
+  const r = it.data.result, out = [];
+  for(const w of r.quality.warnings) out.push(["w", w, "photo"]);
+  const step = (rec, src) => { if(!rec || rec.reason==="skipped") return;
+    out.push([rec.decision ? "ok" : "w", (rec.decision ? rec.decision.name + " — " : "") + rec.reason, src]); };
+  step(r.board, "stage 1 · board");
+  if(r.layout) out.push(["i", `Layout placed by ${r.layout.method}: ${r.layout.inliers}/${r.layout.anchors_matched} board labels, rms ${r.layout.rms_px}px. MCU read from ${r.layout.mcu_source === "roi" ? "the MCU-card area only" : r.layout.mcu_source}.`, "stage 1b · layout"]);
+  else if(r.manifest.board) out.push(["w", "No stored layout for this board (or it could not be placed): the whole photo was read for the MCU.", "stage 1b · layout"]);
+  if(r.card && r.card.located){ const c=r.card.located;
+    out.push([r.card.used?"i":"w", `MCU card located by ${c.method} (${c.size_px[0]}×${c.size_px[1]} px, zoom ×${c.zoom}); ${r.card.used?"its text was read on its own":"its crop gave no answer, older path used"}.`, "stage 3b · card"]); }
+  else if(r.manifest.board && !r.layout) out.push(["w", "MCU card not found on the photo (no yellow card frame / title).", "stage 3b · card"]);
+  step(r.mcu, "stage 1b · MCU");
+  if(r.mcu_card && (r.mcu_card.decision || r.mcu_card.group)) step(r.mcu_card, "stage 1b · card");
+  for(const c of (r.clicks||[])) out.push([c.outcome==="accept"?"ok":c.outcome==="ask"?"w":"e", `${c.slot?c.slot+": ":""}${c.decision?c.decision.name+" — ":""}${c.reason}`, "stage 2 · Click"]);
+  return out;
+}
+function renderBottom(){
+  document.querySelectorAll(".btabs button").forEach(b=>b.classList.toggle("on", b.dataset.t===S.btab));
+  const it = current(), el = $("#bpanel");
+  if(S.btab==="issues"){
+    const is = issuesOf(it);
+    const n = k => is.filter(x=>x[0]===k).length;
+    el.innerHTML = `<div class="bfilter"><span class="fi e" title="errors">${ico("err")}</span><span class="fi w" title="warnings ${n("w")}">${ico("warn")}</span><span class="fi i" title="info">${ico("info")}</span><span class="muted" style="margin-left:6px">${n("e")} errors · ${n("w")} warnings</span></div>` +
+      is.map(([k,t,s])=>`<div class="issue ${k}">${ico({i:"info",w:"warn",e:"err",ok:"ok"}[k])}<span>${esc(t)}</span><span class="src">${esc(s)}</span></div>`).join("");
+    return;
+  }
+  if(!it || !it.data){ el.innerHTML = `<div class="empty-r">Nothing to show yet.</div>`; return; }
+  const r = it.data.result, q = r.quality, t = r.timings_ms;
+  if(S.btab==="photo"){
+    el.innerHTML = `<dl class="kv">
+        <dt>size</dt><dd>${q.width}×${q.height}</dd>
+        <dt>sharpness</dt><dd>${q.blur_var}</dd>
+        <dt>brightness</dt><dd>${q.brightness}</dd>
+        <dt>glare</dt><dd>${(q.glare_frac*100).toFixed(1)}%</dd>
+        <dt>time</dt><dd>${t.total} ms (pre ${t.preprocess} · board ${t.board} · layout ${t.layout ?? "–"} · mcu ${t.mcu}${t.clicks?` · clicks ${t.clicks}`:""})</dd>
+        <dt>engine</dt><dd>${esc(t.backend)}</dd>
+        <dt>MCU passes</dt><dd>${esc((r.mcu.timings_ms.passes||[]).join(" → ")) || "–"}</dd>
+        <dt>preprocessing</dt><dd>${esc(r.preprocess.join(" · "))}</dd>
+      </dl>`;
+  } else {
+    el.innerHTML = `<div style="padding:6px 16px 0"><button class="btn sm" id="copyjson">Copy</button></div><pre class="json">${esc(JSON.stringify(r,null,2))}</pre>`;
+    $("#copyjson").onclick = () => navigator.clipboard.writeText(JSON.stringify(r,null,2)).then(()=>toast("JSON copied"));
+  }
+}
+
+// ------------------------------------------------------------------ right explorer
+function sect(id, title, body, count=""){
+  return `<div class="sect ${S.closed[id]?"closed":""}" data-s="${id}">${ico("chev","chev")}<span class="ylw">${title}</span><span class="cnt">${count}</span></div><div class="sbody">${body}</div>`;
+}
+function recBody(rec){
+  if(!rec) return "";
+  if(rec.reason==="skipped") return `<div class="node"><span class="nm muted">skipped</span><span class="badge skip">off</span></div>`;
+  const head = rec.decision
+    ? `<div class="node top"><span class="nm">${esc(rec.decision.name)}</span><span class="badge ok">Detected</span><span class="badge blue">${rec.decision.score.toFixed(2)}</span></div>`
+    : `<div class="node top"><span class="nm" style="color:var(--ink-2)">Not sure</span><span class="badge ask">Ask user</span></div>`;
+  const cands = rec.candidates.map((c,i)=>`<div class="node ${i===0&&rec.decision?"top":"alt"}" style="padding-top:2px;padding-bottom:0"><span class="nm" style="font-weight:400">${esc(c.name)}${c.detail&&c.detail.read?` <span class="rd">“${esc(c.detail.read)}”</span>`:""}</span><span class="sc">${c.score.toFixed(2)}</span></div><div class="bar ${i===0&&rec.decision?"top":""}"><i style="width:${Math.max(0,Math.round(c.score*100))}%"></i></div>`).join("");
+  const raws = rec.raw_reads && rec.raw_reads.length ? `<div class="why" style="padding-top:4px">Unmatched reads</div><div class="chips">${rec.raw_reads.map(r=>`<span class="chip">${esc(r)}</span>`).join("")}</div>` : "";
+  const grp = rec.group ? `<div class="node"><span class="nm" style="font-weight:400">Layout: ${esc(rec.group.title)}</span><span class="badge blue">${rec.group.cards} card${rec.group.cards===1?"":"s"}</span></div>` : "";
+  return head + grp + `<div class="why">${esc(rec.reason)}</div>` + cands + raws;
+}
+function clicksBody(r){
+  const cs = r.clicks || [];
+  if(S.info.click_error) return `<div class="node"><span class="badge bad">off</span></div><div class="why">${esc(S.info.click_error)}</div>`;
+  if(!cs.length) return `<div class="why">${$("#o-clicks").value==="boxes" ? "Use “Click boxes” on the photo to mark each Click board. Automatic per-socket recognition (stage 2, DINOv2) comes next." : "Clicks are off."}</div>`;
+  const pill = {accept:`<span class="badge ok">Accepted</span>`, ask:`<span class="badge ask">Ask user</span>`, unknown:`<span class="badge bad">Unknown</span>`};
+  return cs.map((c,i)=>`<div class="click"><div class="node top"><span class="nm">#${i+1}${c.slot?` · ${esc(c.slot)}`:""}${c.decision?` — ${esc(c.decision.name)}`:""}</span>${pill[c.outcome]||""}</div>
+      <div class="why">${esc(c.reason)}${c.ocr&&c.ocr.text?` · OCR “${esc(c.ocr.text)}”`:""} · ${c.timings_ms.total} ms</div>
+      ${c.candidates.map((x,j)=>`<div class="node alt" style="padding-top:1px;padding-bottom:0"><span class="nm">${esc(x.name)} <span class="rd">${esc(x.pid||"")}</span></span><span class="sc">${x.score.toFixed(2)}</span></div><div class="bar ${j===0&&c.outcome==="accept"?"top":""}"><i style="width:${Math.max(0,Math.round(x.score*100))}%"></i></div>`).join("")}</div>`).join("");
+}
+function renderResults(){
+  const it = current(), el = $("#rbody");
+  if(!it){ el.innerHTML = `<div class="empty-r">Results appear here.</div>`; return; }
+  if(it.status==="error"){ el.innerHTML = `<div class="empty-r" style="color:var(--red)">${esc(it.error)}</div>`; return; }
+  if(!it.data){ el.innerHTML = `<div class="empty-r"><span class="spin"></span>${it.status==="running"?"Recognising…":"Waiting in queue…"}</div>`; return; }
+  const d = it.data, r = d.result;
+  const rois = (d.rois||[]).length ? `<div class="rois">${d.rois.map(x=>`<div class="roi" title="${esc(x.name)} · ${x.size[0]}×${x.size[1]} px · ${Math.round(x.visible*100)}% in photo"><img src="${x.img}" alt="${esc(x.name)}"><div><span>${esc(x.name.replace("mikroBUS","BUS"))}</span><span>${x.visible<0.95?Math.round(x.visible*100)+"%":""}</span></div></div>`).join("")}</div>`
+    : `<div class="why">No stored layout placed for this photo.</div>`;
+  const lay = r.layout ? `<div class="node"><span class="nm">${esc(r.layout.method)}</span><span class="badge blue">${r.layout.inliers}/${r.layout.anchors_matched} labels</span></div>` : "";
+  const crops = d.crops.map(c=>`<div class="crop"><div class="ct">#${c.index} · ${esc(c.source)} · glyph ≈${c.glyph_px}px</div>
+        ${c.source_img?`<img src="${c.source_img}" alt="source crop">`:""}${c.enhanced?`<img src="${c.enhanced}" alt="enhanced crop">`:""}
+        <div class="best">${c.best?esc(c.best):'<span class="muted">nothing read</span>'}</div>
+        ${c.reads.length?`<details><summary>${c.reads.length} reads</summary><div class="chips" style="padding-left:0">${c.reads.map(x=>`<span class="chip" title="${esc(x.variant)} · ${x.rotation}° · conf ${x.conf}">${esc(x.text)}</span>`).join("")}</div></details>`:""}</div>`).join("");
+  const cardSec = d.card ? `<div class="node"><span class="nm">${esc(d.card.method)} · ${d.card.native_size[0]}×${d.card.native_size[1]} px → ×${d.card.zoom}</span><span class="badge blue">${d.card.score.toFixed(2)}</span></div>
+        <div class="crop"><img src="${d.card.img}" alt="located MCU card">${d.card.chip_img?`<img src="${d.card.chip_img}" alt="chip close-up">`:""}
+        <div class="ct">${Object.entries(d.card.passes).map(([k,v])=>`${esc(k)}: ${esc(String(v))}`).join(" · ")}</div>
+        ${d.card.text.length?`<details><summary>${d.card.text.length} text lines read</summary><div class="chips" style="padding-left:0">${d.card.text.map(t=>`<span class="chip">${esc(t)}</span>`).join("")}</div></details>`:'<div class="best"><span class="muted">nothing read</span></div>'}</div>` : "";
+  const kinds = ["board","mcu","mcu_card","click"];
+  const acc = (r.manifest.clicks||[]).find(c=>c.outcome==="accept");
+  const guess = r.manifest.board ? ["board", r.manifest.board.name] : r.manifest.mcu ? ["mcu", r.manifest.mcu.name] : acc ? ["click", acc.pid] : ["board",""];
+  const save = `<div class="form">
+        <span>kind</span><select id="l-kind">${kinds.map(k=>`<option ${k===guess[0]?"selected":""}>${k}</option>`).join("")}</select>
+        <span>correct label</span><input type="text" id="l-label" list="l-list" value="${esc(guess[1])}" placeholder="name, part or none">
+        <datalist id="l-list"></datalist>
+        <span>distance cm</span><input type="number" id="l-dist" min="0" step="1" placeholder="optional">
+        <div class="full" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><button class="btn primary" id="l-save">Save photo + label</button><span class="muted" id="l-msg">→ ${esc(S.info?S.info.photos_dir:"photos")}/labels.csv</span></div>
+      </div>`;
+  el.innerHTML = `<div class="filter">${esc(d.name)}</div>` +
+    sect("board", "Board", recBody(r.board)) +
+    sect("mcu", "MCU", recBody(r.mcu)) +
+    (r.mcu_card && (r.mcu_card.decision || r.mcu_card.candidates.length) ? sect("card", "MCU card", recBody(r.mcu_card)) : "") +
+    (d.card ? sect("cardcrop", "MCU card crop", cardSec) : "") +
+    sect("layout", "Layout areas", lay + rois, (d.rois||[]).length || "") +
+    (S.info && S.info.clicks ? sect("clicks", "Clicks", clicksBody(r), (r.clicks||[]).length || "") : "") +
+    (d.crops.length ? sect("crops", "Refined crops", crops, d.crops.length) : "") +
+    sect("save", "Save to dataset", save);
+  el.querySelectorAll(".sect").forEach(s=>s.onclick=()=>{ S.closed[s.dataset.s]=!S.closed[s.dataset.s]; s.classList.toggle("closed"); });
+  const fillList = () => { const k=$("#l-kind").value; $("#l-list").innerHTML = ((S.info&&S.info.catalog[k])||[]).concat(["none"]).map(n=>`<option value="${esc(n)}">`).join(""); };
+  fillList(); $("#l-kind").onchange = fillList;
+  $("#l-save").onclick = async () => {
+    const body = {id:d.id, kind:$("#l-kind").value, label:$("#l-label").value, distance_cm:$("#l-dist").value,
+                  box: $("#l-kind").value==="click" && it.cboxes.length ? it.cboxes[0] : ""};
+    const res = await fetch("/api/label",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
+    const j = await res.json();
+    if(j.error) toast(j.error); else { $("#l-msg").textContent = `saved · ${j.rows} labelled photos`; toast("Saved " + j.saved.split(/[\\/]/).pop()); }
+  };
+}
+
+function renderAll(){ renderViewer(); renderResults(); renderBottom(); }
+
+// ------------------------------------------------------------------ wiring
+const dropEl = $("#drop");
+dropEl.onclick = () => $("#file").click();
+$("#b-add").onclick = $("#r-add").onclick = () => $("#file").click();
+$("#file").onchange = e => { addFiles(e.target.files); e.target.value=""; };
+$("#r-photos").onclick = () => { const q=$("#queue"); q.classList.toggle("collapsed"); $("#r-photos").classList.toggle("on", !q.classList.contains("collapsed")); };
+$("#r-json").onclick = () => { S.btab="json"; renderBottom(); };
+$("#qsect").onclick = () => $("#qsect").classList.toggle("closed");
+document.querySelectorAll(".btabs button").forEach(b=>b.onclick=()=>{ S.btab=b.dataset.t; renderBottom(); });
+let dragDepth = 0;
+window.addEventListener("dragenter", e => { if([...e.dataTransfer.types].includes("Files")){ dragDepth++; $("#dragcover").classList.add("show"); } });
+window.addEventListener("dragleave", () => { dragDepth=Math.max(0,dragDepth-1); if(!dragDepth) $("#dragcover").classList.remove("show"); });
+window.addEventListener("dragover", e => e.preventDefault());
+window.addEventListener("drop", e => { e.preventDefault(); dragDepth=0; $("#dragcover").classList.remove("show"); if(e.dataTransfer.files.length) addFiles(e.dataTransfer.files); });
+window.addEventListener("paste", e => { const f=[...e.clipboardData.files]; if(f.length) addFiles(f); });
+$("#v-orig").onclick = () => { S.view="orig"; renderViewer(); };
+$("#v-pre").onclick = () => { S.view="pre"; S.picking=false; renderViewer(); };
+$("#v-boxes").onclick = () => { S.boxes=!S.boxes; renderViewer(); };
+$("#v-pick").onclick = () => { S.picking=!S.picking; S.drawing=false; S.pts=[]; S.view="orig"; renderViewer(); };
+$("#v-draw").onclick = () => { S.drawing=!S.drawing; S.picking=false; S.view="orig"; renderViewer(); };
+$("#v-clearb").onclick = () => { const it=current(); if(it){ it.cboxes=[]; rerun(it); } };
+$("#o-clicks").onchange = () => { S.drawing=false; renderViewer(); };
+$("#v-clearq").onclick = () => { const it=current(); if(it){ it.quad=null; rerun(it); } };
+$("#b-rerun").onclick = $("#r-run").onclick = () => rerun(current());
+$("#b-rerun-all").onclick = () => {
+  S.items.filter(i => i.data || i.status==="error").forEach(i => { i.status = "queued"; });
+  renderQueue(); renderAll(); pump();
+};
+window.addEventListener("keydown", e => {
+  if(e.target.matches("input,select,textarea")) return;
+  const i = S.items.findIndex(x=>x.key===S.sel);
+  if(e.key==="ArrowDown"||e.key==="j"){ if(i<S.items.length-1){ S.sel=S.items[i+1].key; renderQueue(); renderAll(); } }
+  if(e.key==="ArrowUp"||e.key==="k"){ if(i>0){ S.sel=S.items[i-1].key; renderQueue(); renderAll(); } }
+  if(e.key==="Escape"&&(S.picking||S.drawing)){ S.picking=false; S.drawing=false; S.pts=[]; renderViewer(); }
+});
+init();
+</script>
+</body>
+</html>

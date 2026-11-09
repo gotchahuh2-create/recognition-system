@@ -1,0 +1,320 @@
+{
+ "file": "20261105_153743_mcu_02.jpg",
+ "bytes": 2307142,
+ "sha256": "23cc29d06973d9f47a4878b44f76bc933abf372f1d60d49c3f8b37823907e92f",
+ "mode": "mcu",
+ "transfer": {
+  "width": 2160,
+  "height": 3840,
+  "settings": {},
+  "source": "video-frame",
+  "mime": "image/jpeg",
+  "sha256": "23cc29d06973d9f47a4878b44f76bc933abf372f1d60d49c3f8b37823907e92f"
+ },
+ "photo_check": {
+  "ok": true,
+  "reasons": [],
+  "width": 2160,
+  "height": 3840,
+  "board_quad": null,
+  "board_score": 0.0,
+  "card_quad": [
+   [
+    360.0,
+    1264.8
+   ],
+   [
+    1845.6,
+    1264.8
+   ],
+   [
+    1845.6,
+    2752.8
+   ],
+   [
+    360.0,
+    2752.8
+   ]
+  ],
+  "chip_px": 463.0,
+  "chip_blur": 0.257,
+  "chip_glare": 0.0,
+  "chip_contrast": 28.0,
+  "frame_blur": 0.286,
+  "needs_closeup": false,
+  "ms": 110
+ },
+ "last_preview": {
+  "meta": {
+   "seq": 103,
+   "guide": [
+    0.19,
+    0.325625,
+    0.62,
+    0.34875
+   ],
+   "video_w": 2160,
+   "video_h": 3840,
+   "photo_w": 2160,
+   "photo_h": 3840,
+   "crop_rect": [
+    0.10138888888888889,
+    0.2921875,
+    0.8064814814814815,
+    0.4549479166666667
+   ],
+   "crop_scale": 0.5861476817401259,
+   "gyro": 5.519588330405737,
+   "t_ms": 1793889462480
+  },
+  "report": {
+   "metrics": [
+    {
+     "name": "exposure",
+     "label": "Exposure",
+     "level": "good",
+     "text": "p98 236",
+     "value": 236.0,
+     "blocking": true
+    },
+    {
+     "name": "glare",
+     "label": "Glare (board)",
+     "level": "good",
+     "text": "1.4%",
+     "value": 0.0143,
+     "blocking": false
+    },
+    {
+     "name": "noise",
+     "label": "Noise",
+     "level": "good",
+     "text": "\u03c3 3.0",
+     "value": 3.0391,
+     "blocking": false
+    },
+    {
+     "name": "motion",
+     "label": "Steadiness",
+     "level": "warn",
+     "text": "4.8 %/s, gyro 6\u00b0/s",
+     "value": 0.0479,
+     "blocking": true
+    },
+    {
+     "name": "sharp_frame",
+     "label": "Sharpness (view)",
+     "level": "good",
+     "text": "0.15",
+     "value": 0.1524,
+     "blocking": false
+    },
+    {
+     "name": "chip_px",
+     "label": "MCU size in photo",
+     "level": "good",
+     "text": "454 px (need 250)",
+     "value": 454.2801,
+     "blocking": true
+    },
+    {
+     "name": "focus",
+     "label": "MCU focus",
+     "level": "good",
+     "text": "0.22",
+     "value": 0.22,
+     "blocking": true
+    },
+    {
+     "name": "chip_glare",
+     "label": "Glare on MCU",
+     "level": "good",
+     "text": "0.0%",
+     "value": 0.0,
+     "blocking": true
+    },
+    {
+     "name": "marking",
+     "label": "Marking contrast",
+     "level": "good",
+     "text": "29",
+     "value": 29.0,
+     "blocking": false
+    }
+   ],
+   "instruction": "Hold still",
+   "hints": [],
+   "board_quad": null,
+   "card_quad": [
+    [
+     0.1759,
+     0.3385
+    ],
+    [
+     0.8519,
+     0.3385
+    ],
+    [
+     0.8519,
+     0.7198
+    ],
+    [
+     0.1759,
+     0.7198
+    ]
+   ],
+   "chip_quad": [
+    [
+     0.3631,
+     0.5281
+    ],
+    [
+     0.5179,
+     0.4463
+    ],
+    [
+     0.6611,
+     0.532
+    ],
+    [
+     0.5063,
+     0.6137
+    ]
+   ],
+   "crop_request": [
+    0.1083,
+    0.3004,
+    0.8111,
+    0.4575
+   ],
+   "focus_point": [
+    0.5121,
+    0.53
+   ],
+   "chip_px_photo": 454,
+   "score": 0.94,
+   "passing": true,
+   "ms": 56.4
+  }
+ },
+ "phone": {
+  "video_w": 2160,
+  "video_h": 3840,
+  "photo_w": 2160,
+  "photo_h": 3840,
+  "image_capture": false,
+  "ua": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5.2 Mobile/15E148 Safari/604.1",
+  "torch": true,
+  "focus": ""
+ },
+ "recognition": {
+  "board": {
+   "key": "uni-ds-v8",
+   "name": "UNI-DS v8",
+   "pid": null,
+   "confidence": 0.97
+  },
+  "mcu": null,
+  "mcu_card": null,
+  "mcu_card_layout": null,
+  "clicks": [],
+  "needs_user": [
+   {
+    "field": "mcu",
+    "reason": "best MCU part number match 0.30 < 0.90",
+    "options": [
+     {
+      "key": "STM32H743ZI",
+      "name": "STM32H743ZI",
+      "pid": null,
+      "score": 0.3,
+      "detail": {
+       "read": "16BITPORTFORSTM32",
+       "vendor": "ST",
+       "ocr_conf": 0.954,
+       "glyph_px": 46.0,
+       "box": [
+        [
+         586,
+         1403
+        ],
+        [
+         586,
+         1383
+        ],
+        [
+         725,
+         1385
+        ],
+        [
+         725,
+         1406
+        ]
+       ]
+      }
+     },
+     {
+      "key": "STM32H753ZI",
+      "name": "STM32H753ZI",
+      "pid": null,
+      "score": 0.3,
+      "detail": {
+       "read": "16BITPORTFORSTM32",
+       "vendor": "STM",
+       "ocr_conf": 0.954,
+       "glyph_px": 46.0,
+       "box": [
+        [
+         586,
+         1403
+        ],
+        [
+         586,
+         1383
+        ],
+        [
+         725,
+         1385
+        ],
+        [
+         725,
+         1406
+        ]
+       ]
+      }
+     },
+     {
+      "key": "STM32F723ZE",
+      "name": "STM32F723ZE",
+      "pid": null,
+      "score": 0.3,
+      "detail": {
+       "read": "16BITPORTFORSTM32",
+       "vendor": "STM",
+       "ocr_conf": 0.954,
+       "glyph_px": 46.0,
+       "box": [
+        [
+         586,
+         1403
+        ],
+        [
+         586,
+         1383
+        ],
+        [
+         725,
+         1385
+        ],
+        [
+         725,
+         1406
+        ]
+       ]
+      }
+     }
+    ]
+   }
+  ]
+ }
+}

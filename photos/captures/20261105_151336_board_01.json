@@ -1,0 +1,305 @@
+{
+ "file": "20261105_151336_board_01.jpg",
+ "bytes": 3283025,
+ "sha256": "570815401dba80ee9b798d44e2ae79e68fd9fefffe2c5617e56d9a56eb908b22",
+ "mode": "board",
+ "transfer": {
+  "width": 2160,
+  "height": 3840,
+  "settings": {},
+  "source": "video-frame",
+  "mime": "image/jpeg",
+  "sha256": "570815401dba80ee9b798d44e2ae79e68fd9fefffe2c5617e56d9a56eb908b22"
+ },
+ "photo_check": {
+  "ok": true,
+  "reasons": [],
+  "width": 2160,
+  "height": 3840,
+  "board_quad": [
+   [
+    234.0,
+    990.0
+   ],
+   [
+    1938.0,
+    924.0
+   ],
+   [
+    2052.0,
+    3000.0
+   ],
+   [
+    366.0,
+    3150.0
+   ]
+  ],
+  "board_score": 0.962,
+  "card_quad": [
+   [
+    393.3,
+    1835.7
+   ],
+   [
+    861.9,
+    1812.0
+   ],
+   [
+    885.3,
+    2273.0
+   ],
+   [
+    416.7,
+    2296.8
+   ]
+  ],
+  "chip_px": 149.0,
+  "chip_blur": 0.167,
+  "chip_glare": 0.0,
+  "chip_contrast": 17.0,
+  "frame_blur": 0.184,
+  "needs_closeup": true,
+  "ms": 80
+ },
+ "last_preview": {
+  "meta": {
+   "seq": 9,
+   "guide": [
+    0.06,
+    0.06,
+    0.88,
+    0.88
+   ],
+   "video_w": 2160,
+   "video_h": 3840,
+   "photo_w": 2160,
+   "photo_h": 3840,
+   "crop_rect": [
+    0.1597222222222222,
+    0.45364583333333336,
+    0.2708333333333333,
+    0.15052083333333333
+   ],
+   "crop_scale": 1,
+   "gyro": 3.6536200662292835,
+   "t_ms": 1793888015499
+  },
+  "report": {
+   "metrics": [
+    {
+     "name": "board",
+     "label": "Board",
+     "level": "good",
+     "text": "found (yellow)",
+     "value": 0.9336,
+     "blocking": true
+    },
+    {
+     "name": "framing",
+     "label": "Framing",
+     "level": "warn",
+     "text": "fills 56% of the frame",
+     "value": 0.5642,
+     "blocking": true
+    },
+    {
+     "name": "center",
+     "label": "Centred",
+     "level": "good",
+     "text": "offset 5%",
+     "value": 0.0491,
+     "blocking": true
+    },
+    {
+     "name": "rotation",
+     "label": "Rotation",
+     "level": "good",
+     "text": "-2\u00b0",
+     "value": -2.0096,
+     "blocking": true
+    },
+    {
+     "name": "perspective",
+     "label": "Perspective",
+     "level": "warn",
+     "text": "~6\u00b0 tilt",
+     "value": 0.0487,
+     "blocking": true
+    },
+    {
+     "name": "exposure",
+     "label": "Exposure",
+     "level": "good",
+     "text": "p98 214",
+     "value": 214.0,
+     "blocking": true
+    },
+    {
+     "name": "glare",
+     "label": "Glare (board)",
+     "level": "good",
+     "text": "0.1%",
+     "value": 0.0009,
+     "blocking": false
+    },
+    {
+     "name": "noise",
+     "label": "Noise",
+     "level": "good",
+     "text": "\u03c3 3.7",
+     "value": 3.6528,
+     "blocking": false
+    },
+    {
+     "name": "motion",
+     "label": "Steadiness",
+     "level": "good",
+     "text": "1.8 %/s, gyro 4\u00b0/s",
+     "value": 0.0176,
+     "blocking": true
+    },
+    {
+     "name": "sharp_frame",
+     "label": "Sharpness (view)",
+     "level": "good",
+     "text": "0.15",
+     "value": 0.1538,
+     "blocking": false
+    },
+    {
+     "name": "chip_px",
+     "label": "MCU size in photo",
+     "level": "bad",
+     "text": "149 px (need 250)",
+     "value": 148.846,
+     "blocking": false
+    },
+    {
+     "name": "focus",
+     "label": "MCU focus",
+     "level": "good",
+     "text": "0.18",
+     "value": 0.183,
+     "blocking": true
+    },
+    {
+     "name": "chip_glare",
+     "label": "Glare on MCU",
+     "level": "good",
+     "text": "0.0%",
+     "value": 0.0,
+     "blocking": true
+    },
+    {
+     "name": "marking",
+     "label": "Marking contrast",
+     "level": "good",
+     "text": "17",
+     "value": 17.0,
+     "blocking": false
+    }
+   ],
+   "instruction": "Hold still",
+   "hints": [
+    "MCU will be 149 px \u2014 a close-up of the MCU will follow"
+   ],
+   "board_quad": [
+    [
+     0.1111,
+     0.2516
+    ],
+    [
+     0.9028,
+     0.2359
+    ],
+    [
+     0.9556,
+     0.7781
+    ],
+    [
+     0.1806,
+     0.8203
+    ]
+   ],
+   "card_quad": [
+    [
+     0.1842,
+     0.4746
+    ],
+    [
+     0.4019,
+     0.4686
+    ],
+    [
+     0.4123,
+     0.5886
+    ],
+    [
+     0.1947,
+     0.5946
+    ]
+   ],
+   "chip_quad": [
+    [
+     0.2479,
+     0.533
+    ],
+    [
+     0.2945,
+     0.5041
+    ],
+    [
+     0.3456,
+     0.5302
+    ],
+    [
+     0.299,
+     0.559
+    ]
+   ],
+   "crop_request": [
+    0.1614,
+    0.456,
+    0.2737,
+    0.1512
+   ],
+   "focus_point": [
+    0.2968,
+    0.5316
+   ],
+   "chip_px_photo": 149,
+   "score": 0.8,
+   "passing": true,
+   "ms": 55.0
+  }
+ },
+ "phone": {
+  "video_w": 2160,
+  "video_h": 3840,
+  "photo_w": 2160,
+  "photo_h": 3840,
+  "image_capture": false,
+  "ua": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5.2 Mobile/15E148 Safari/604.1",
+  "torch": true,
+  "focus": ""
+ },
+ "recognition": {
+  "board": {
+   "key": "uni-ds-v8",
+   "name": "UNI-DS v8",
+   "pid": null,
+   "confidence": 0.97
+  },
+  "mcu": null,
+  "mcu_card": null,
+  "mcu_card_layout": null,
+  "clicks": [],
+  "needs_user": [
+   {
+    "field": "mcu",
+    "reason": "skipped",
+    "options": []
+   }
+  ]
+ }
+}

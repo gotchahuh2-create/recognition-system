@@ -1,0 +1,11 @@
+filename,board,mcu,mcu_card,mcu_card_layout,verified,comment
+20261105_124116_board_01.jpg,uni-ds-v8,,,,no,"board shot; correct the values, then set verified=yes"
+20261105_144642_board_01.jpg,uni-ds-v8,,,,no,"board shot; correct the values, then set verified=yes"
+20261105_144827_board_01.jpg,uni-ds-v8,STM32F373VC,mcu-card-22-for-stm32-stm32f373vc,mcu-card-22-for-stm32,no,"board shot; correct the values, then set verified=yes"
+20261105_150507_board_01.jpg,uni-ds-v8,,,,no,"board shot; correct the values, then set verified=yes"
+20261105_150516_mcu_02.jpg,uni-ds-v8,STM32F373VC,mcu-card-22-for-stm32-stm32f373vc,mcu-card-22-for-stm32,no,"mcu shot; correct the values, then set verified=yes"
+20261105_150652_mcu_03.jpg,uni-ds-v8,STM32F373VC,mcu-card-22-for-stm32-stm32f373vc,mcu-card-22-for-stm32,no,"mcu shot; correct the values, then set verified=yes"
+20261105_151336_board_01.jpg,uni-ds-v8,,,,no,"board shot; correct the values, then set verified=yes"
+20261105_151343_mcu_02.jpg,uni-ds-v8,STM32F429ZI,,easymx-pro-v7-stm32,no,"mcu shot; correct the values, then set verified=yes"
+20261105_153735_board_01.jpg,uni-ds-v8,STM32F373VC,mcu-card-22-for-stm32-stm32f373vc,mcu-card-22-for-stm32,no,"board shot; correct the values, then set verified=yes"
+20261105_153743_mcu_02.jpg,uni-ds-v8,,,,no,"mcu shot; correct the values, then set verified=yes"

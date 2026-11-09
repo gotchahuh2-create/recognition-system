@@ -1,0 +1,22 @@
+numpy>=1.24
+opencv-python-headless>=4.8
+pillow>=10.0
+pytest>=7
+# app + phone camera (python -m vision.app): standard library only; the `openssl` command
+# makes its local https certificate
+# optional speed-up for fuzzy matching
+rapidfuzz>=3.0
+# OCR: install ONE of these (all Apache-2.0), or the Tesseract binary
+# paddleocr paddlepaddle
+# rapidocr_onnxruntime
+# optional: HEIC photos from iPhones
+# pillow-heif
+# optional: super-resolution crop enlarger (replaces opencv-python-headless!)
+# opencv-contrib-python-headless>=4.8      then: python scripts/get_sr_models.py
+# --- Click recognition (vision/clicks) runtime: ONE ONNX Runtime package
+onnxruntime>=1.17          # or onnxruntime-directml (Windows GPU) / onnxruntime-gpu (CUDA)
+# optional: FAISS exact index (NumPy is used otherwise, same results)
+# faiss-cpu
+# optional: gallery/meta.parquet (meta.csv is written otherwise)
+# pyarrow
+# export / experiments on the dev machine: requirements-dev.txt

@@ -1,0 +1,17 @@
+key,name,aliases,pid,family
+fusion-arm-v8,Fusion for ARM v8,FUSION FOR ARM|Fusion ARM v8,,Fusion
+fusion-pic-v8,Fusion for PIC v8,FUSION FOR PIC|Fusion PIC v8,,Fusion
+fusion-pic32-v8,Fusion for PIC32 v8,FUSION FOR PIC32,,Fusion
+fusion-stm32-v8,Fusion for STM32 v8,FUSION FOR STM32,,Fusion
+fusion-kinetis-v8,Fusion for KINETIS v8,FUSION FOR KINETIS,,Fusion
+fusion-tiva-v8,Fusion for TIVA v8,FUSION FOR TIVA,,Fusion
+uni-ds-v8,UNI-DS v8,UNI DS v8|UNIDS v8,,UNI-DS
+easypic-v8,EasyPIC v8,EASYPIC v8|Easy PIC v8,,EasyPIC
+easypic-pro-v8,EasyPIC PRO v8,EASYPIC PRO v8,,EasyPIC
+easypic-v7,EasyPIC v7,EASYPIC v7,,EasyPIC
+easyavr-v8,EasyAVR v8,EASYAVR v8,,EasyAVR
+easymx-pro-v7-stm32,EasyMx PRO v7 for STM32 ARM,EasyMx PRO v7 STM32,,EasyMx
+clicker-4-stm32,Clicker 4 for STM32,CLICKER 4 STM32,,Clicker
+clicker-2-stm32,Clicker 2 for STM32,CLICKER 2 STM32,,Clicker
+clicker-2-pic32mz,Clicker 2 for PIC32MZ,CLICKER 2 PIC32MZ,,Clicker
+uni-clicker,UNI Clicker,UNI-CLICKER,,Clicker

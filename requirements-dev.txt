@@ -1,0 +1,10 @@
+# Dev machine only: download, export and experiment with DINOv2.
+# The shipped app needs requirements.txt (onnxruntime), not these (~2 GB).
+-r requirements.txt
+torch
+transformers>=4.48        # Dinov2WithRegisters (added in 4.48)
+huggingface_hub
+onnx
+# onnxsim                 # optional graph simplifier
+faiss-cpu
+pyarrow
